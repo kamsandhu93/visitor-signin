@@ -67,3 +67,8 @@ target/
 
 
 Docker/docker-data/
+
+#virtualenv
+bin/
+local/
+share/
