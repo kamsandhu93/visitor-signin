@@ -1,5 +1,10 @@
 # visitor-signin
 
+## Local deployment
+The flask_app directory needs to be marked as sources root
+
+A copy of the sqllite databse needs to be placed in the flask_app/instance directory
+
 
 ## Prerequisites
  - Install [Docker](https://docs.docker.com/install/)
