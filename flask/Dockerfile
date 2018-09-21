@@ -1,12 +1,10 @@
 FROM python:2.7-alpine
 MAINTAINER NHS Digital
 
-
 ENV WRKDIR /visitor-app
 ENV TMPDIR /visitor-app-temp
 ENV FLASK_PORT 5000
 ENV BRANCH master
-
 
 RUN apk update && apk upgrade \
  && apk add git \
