@@ -21,7 +21,7 @@ COPY main.py ${WRKDIR}
 COPY requirements.txt ${WRKDIR}
 COPY templates ${WRKDIR}/templates
 WORKDIR ${WRKDIR}
-RUN rm -rf ${TMPDIR}
+#RUN rm -rf ${TMPDIR}
 RUN pip install -r requirements.txt
 
 EXPOSE ${FLASK_PORT}
