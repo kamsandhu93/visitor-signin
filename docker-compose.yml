@@ -1,0 +1,14 @@
+version: '3'
+services:
+    visitor-flask:
+        build: ./flask/
+        ports:
+            - 5000:5000
+        volumes:
+            - /opt/visitor-db:/visitor-app/database
+    visitor-database:
+        build: ./database/
+        ports:
+            - 5001:5001
+        volumes:
+            - /opt/visitor-db:/visitor-db

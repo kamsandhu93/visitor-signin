@@ -1,7 +1,5 @@
-from visitor_app import app
 import logging
-import os
-
+from flask_app.visitor_app import app
 
 
 if __name__ == "__main__":
@@ -18,8 +16,8 @@ if __name__ == "__main__":
     app.logger.addHandler(console_handler)
 
     app.logger.setLevel(logging.DEBUG)
-    print(app.root_path)
 
     app.logger.info("Starting visitor service")
     app.run()
 
+    app.run(host='0.0.0.0')

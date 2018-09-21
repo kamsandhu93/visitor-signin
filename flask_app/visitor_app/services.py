@@ -1,4 +1,4 @@
-from visitor_app import app
+from flask_app.visitor_app import app
 import sqlite3
 import os
 import datetime
