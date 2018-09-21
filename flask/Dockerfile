@@ -5,6 +5,7 @@ MAINTAINER NHS Digital
 ENV WRKDIR /visitor-app
 ENV TMPDIR /visitor-app-temp
 ENV FLASK_PORT 5000
+ENV BRANCH tw-docker
 
 
 RUN apk update && apk upgrade \
@@ -15,6 +16,7 @@ RUN apk update && apk upgrade \
 RUN mkdir ${WRKDIR}
 RUN git clone https://github.com/kamsandhu93/visitor-signin.git ${TMPDIR}
 WORKDIR ${TMPDIR}
+RUN git checkout ${BRANCH}
 COPY main.py ${WRKDIR}
 COPY requirements.txt ${WRKDIR}
 WORKDIR ${WRKDIR}
