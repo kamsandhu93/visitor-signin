@@ -8,6 +8,11 @@ def view():
     return render_template("index.html")
 
 
+@app.route("/status")
+def status_handler():
+    return "OK"
+
+
 @app.route("/login", methods=["POST"])
 def login_handler():
     try:
@@ -45,3 +50,4 @@ def validate_login_form_values(request_form):
 
 def validate_pass_id(pass_id):
     pass
+
