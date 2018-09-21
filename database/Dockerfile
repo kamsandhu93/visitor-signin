@@ -19,5 +19,8 @@ RUN pip install -r requirements.txt
 WORKDIR ${WRKDIR}
 RUN rm -rf ${TMPDIR}
 
+HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
+    CMD curl --fail http://localhost:${WEB_PORT} || exit 1
+
 EXPOSE ${WEB_PORT}
 CMD ["sqlite_web", "-H 0.0.0.0", "-p 5001", "/visitor-db/visitor_db.db"]
