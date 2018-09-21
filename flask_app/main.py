@@ -1,5 +1,5 @@
 import logging
-from flask_app.visitor_app import app
+from visitor_app import app
 
 
 if __name__ == "__main__":

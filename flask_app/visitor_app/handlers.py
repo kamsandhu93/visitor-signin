@@ -1,6 +1,6 @@
 from flask import render_template, request
-from flask_app.visitor_app import app
-from flask_app.visitor_app import services
+from visitor_app import app
+from visitor_app import services
 
 
 @app.route("/")
