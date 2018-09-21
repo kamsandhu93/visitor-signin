@@ -13,11 +13,11 @@ RUN apk update && apk upgrade \
 
 RUN mkdir ${WRKDIR}
 RUN git clone https://github.com/kamsandhu93/visitor-signin.git ${TMPDIR}
-WORKDIR ${TMPDIR}
+WORKDIR ${TMPDIR}/database
 RUN git checkout ${BRANCH}
 RUN pip install -r requirements.txt
 WORKDIR ${WRKDIR}
 RUN rm -rf ${TMPDIR}
 
 EXPOSE ${WEB_PORT}
-CMD ["sqlite_web", "-p", "5001", ${WRKDIR}]
+CMD ["sqlite_web", "-H 0.0.0.0", "-p 5001", "/visitor-db/visitor_db.db"]

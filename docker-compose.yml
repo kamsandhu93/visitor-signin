@@ -6,7 +6,7 @@ services:
             - 5000:5000
         volumes:
             - /opt/visitor-db:/visitor-app/database
-    visitor-db:
+    visitor-database:
         build: ./database/
         ports:
             - 5001:5001
