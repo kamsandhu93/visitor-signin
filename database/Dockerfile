@@ -4,7 +4,7 @@ MAINTAINER NHS Digital
 ENV WRKDIR /visitor-db
 ENV TMPDIR /visitor-db-temp
 ENV WEB_PORT 5001
-ENV BRANCH tw-docker
+ENV BRANCH master
 
 RUN apk update && apk upgrade \
   && apk add git \

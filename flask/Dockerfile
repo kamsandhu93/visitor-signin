@@ -5,7 +5,7 @@ MAINTAINER NHS Digital
 ENV WRKDIR /visitor-app
 ENV TMPDIR /visitor-app-temp
 ENV FLASK_PORT 5000
-ENV BRANCH tw-docker
+ENV BRANCH master
 
 
 RUN apk update && apk upgrade \
