@@ -19,6 +19,7 @@ WORKDIR ${TMPDIR}
 RUN git checkout ${BRANCH}
 COPY main.py ${WRKDIR}
 COPY requirements.txt ${WRKDIR}
+COPY templates ${WRKDIR}
 WORKDIR ${WRKDIR}
 RUN rm -rf ${TMPDIR}
 RUN pip install -r requirements.txt
