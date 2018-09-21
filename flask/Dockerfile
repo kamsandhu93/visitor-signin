@@ -20,8 +20,9 @@ RUN git checkout ${BRANCH}
 COPY main.py ${WRKDIR}
 COPY requirements.txt ${WRKDIR}
 COPY templates ${WRKDIR}/templates
+COPY ../visitor_db.db ${WRKDIR}/database
 WORKDIR ${WRKDIR}
-#RUN rm -rf ${TMPDIR}
+RUN rm -rf ${TMPDIR}
 RUN pip install -r requirements.txt
 
 EXPOSE ${FLASK_PORT}

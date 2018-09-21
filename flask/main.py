@@ -4,7 +4,7 @@ import datetime
 
 
 app = Flask(__name__)
-DB = "visitor_db.db"
+DB = "database/visitor_db.db"
 
 @app.route("/")
 def view():
