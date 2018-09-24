@@ -5,8 +5,8 @@ branch="master"
 
 function createDir () {
     if [ ! -d "$1" ]; then
-        echo "Created: $1"
         mkdir $1
+        echo "Created: $1"
     fi
 }
 
@@ -50,29 +50,32 @@ do
     esac
 done
 
+if [ -z "$token" ]; then
+    echo "Did not supply dropbox token"
+    exit 1
+fi
+
+export DROPBOX_TOKEN="$token"
+export DB_FILE="$dbName"
+export BRANCH="$branch"
+
 cmd="docker-compose up"
 
 #build command to run
 if [ "$forceBuild" = true ]; then
-    cmd+=" --build"
+    docker-compose build --no-cache
+    cmd="docker-compose up --force-recreate"
 fi
 
 if [ ! "$debug" = true ]; then
     cmd+=" -d"
 fi
 
-if [ -z "$token" ]; then
-    echo "Did not supply dropbox token"
-    exit 1
-fi
+
 
 for directory in ${directories[*]}
 do
     createDir "$directory"
 done
-
-export DROPBOX_TOKEN="$token"
-export DB_FILE="$dbName"
-export BRANCH="$branch"
 
 $cmd
