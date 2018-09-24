@@ -7,7 +7,10 @@ services:
         volumes:
             - /opt/visitor-db:/visitor-app/database
     visitor-database:
-        build: ./database/
+        build:
+            context: ./database/
+            args:
+                API_TOKEN: "${TOKEN}"
         ports:
             - 5001:5001
         volumes:

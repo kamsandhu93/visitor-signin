@@ -1,0 +1,55 @@
+#import dropbox
+import sys
+import argparse
+
+#from dropbox.exceptions import ApiError, AuthError
+#from dropbox.files import WriteMode
+
+def argParser(args):
+    """
+    Parse arguments
+    """
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-t", "--token",
+        type=string, required=True,
+        help="Dropbox api token"
+    )
+
+    arguments = parser.parse_args(args)
+    return arguments.token
+
+
+def main():
+    """
+    Main
+    """
+
+    token = argParser(sys.argv[1:])
+
+    dbPath = "/visitor-db/visitor_db.db"
+    backupPath = "/"
+
+    print token
+    """
+    dbx = dropbox.Dropbox(token)
+
+    with open (dbPath, "rb") as dbFile:
+        print "Backingup {0} to dropbox {1}".format(dbPath, backupPath)
+        try:
+            dbx.files_upload(dbFile.read(), backupPath, mode=WriteMode("overwrite"))
+        except ApiError as err:
+            if (err.error.is_path() and
+                        err.error.get_path().reason.is_insufficient_space()):
+                    sys.exit("ERROR: Cannot back up; insufficient space.")
+            elif err.user_message_text:
+                print(err.user_message_text)
+                sys.exit()
+            else:
+                print(err)
+                sys.exit()
+    """
+
+if __name__ == "__main__":
+    main()
