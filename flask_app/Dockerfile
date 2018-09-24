@@ -1,11 +1,12 @@
 FROM python:2.7-alpine
 MAINTAINER NHS Digital
 
+ARG BRANCH
+ARG DB_FILE
+
 ARG WORK_DIR=/visitor-app
 ARG TEMP_DIR=/visitor-app-temp
-ARG DB_FILE=visitor_db.db
 ENV DB_PATH=$WORK_DIR/database/$DB_FILE
-ARG BRANCH
 ARG APP_PORT=5000
 ARG APP_HOST=0.0.0.0
 

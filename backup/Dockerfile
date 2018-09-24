@@ -1,13 +1,15 @@
 FROM python:2.7-alpine
 MAINTAINER NHS Digital
 
-ARG WORK_DIR=/visitor-back
-ARG TEMP_DIR=/visitor-back-temp
-ARG DB_FILE=visitor_db.db
-ARG DB_PATH=$WORK_DIR/database/$DB_FILE
-ARG LOG_PATH=$WORK_DIR/log
 ARG BRANCH
 ARG API_TOKEN
+ARG DB_FILE
+
+ARG WORK_DIR=/visitor-back
+ARG TEMP_DIR=/visitor-back-temp
+ARG DB_PATH=$WORK_DIR/database/$DB_FILE
+ARG LOG_PATH=$WORK_DIR/log
+
 
 RUN apk update && apk upgrade \
  && apk add git \

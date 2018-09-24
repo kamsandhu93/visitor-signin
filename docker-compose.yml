@@ -4,7 +4,8 @@ services:
         build:
             context: ./flask_app/
             args:
-                BRANCH: "tw-docker"
+                BRANCH: "${BRANCH}"
+                DB_FILE: "${DB_FILE}"
         ports:
             - 5000:5000
         volumes:
@@ -14,7 +15,8 @@ services:
         build:
             context: ./database/
             args:
-                BRANCH: "tw-docker"
+                BRANCH: "${BRANCH}"
+                DB_FILE: "${DB_FILE}"
         ports:
             - 5001:5001
         volumes:
@@ -23,8 +25,9 @@ services:
         build:
             context: './backup/'
             args:
-                BRANCH: "tw-docker"
+                BRANCH: "${BRANCH}"
                 API_TOKEN: "${DROPBOX_TOKEN}"
+                DB_FILE: "${DB_FILE}"
         volumes:
             - /opt/visitor-db/database:/visitor-back/database
             - /opt/visitor-db/log/backup:/visitor-back/log

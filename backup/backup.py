@@ -90,7 +90,7 @@ def main():
     arguments = argParser(sys.argv[1:])
 
     dbPath = arguments.path
-    backupName = "/visitor_db.db"
+    backupName = "/{0}".format(os.path.split(arguments.path)[1])
 
     startLogging(os.path.join(arguments.log, "backup.log"))
 
