@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 #import dropbox
 import sys
 import argparse
@@ -15,7 +16,7 @@ def startLogging(logFilePath):
 
     fileHandler = logging.FileHandler(logFilePath, encoding = "utf-8")
     fileHandler.setFormatter(loggingFormat)
-    
+
     consoleHandler = logging.StreamHandler()
     consoleHandler.setFormatter(loggingFormat)
 
