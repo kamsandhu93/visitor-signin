@@ -1,7 +1,7 @@
 #!/bin/bash
 directories=("/opt/visitor-db/" "/opt/visitor-db/database/" "/opt/visitor-db/log/" "/opt/visitor-db/log/flask" "/opt/visitor-db/log/backup/")
 dbName="visitor_db.db"
-branch="tw-docker"
+branch="master"
 
 function createDir () {
     if [ ! -d "$1" ]; then

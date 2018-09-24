@@ -15,7 +15,7 @@ A copy of the sqllite databse needs to be placed in the flask_app/instance direc
  git clone https://github.com/kamsandhu93/visitor-signin.git
  cd visitor-signin
  chmod +x ./deploy.sh
- ./deploy.sh [OPTIONAL_COMMANDS]
+ ./deploy.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
  ```
 
 ### Optional commands
@@ -24,4 +24,8 @@ A copy of the sqllite databse needs to be placed in the flask_app/instance direc
     Start both containers in debug mode
 -b, --build
     Force rebuild of both containers even when there are no changes
+-db, --database
+    Name of database file (default: visitor_db.db)
+-br, --branch
+    Select which branch to use (default: master)
 ```

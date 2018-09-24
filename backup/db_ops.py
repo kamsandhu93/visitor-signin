@@ -8,21 +8,6 @@ import os
 from dropbox.exceptions import ApiError, AuthError
 from dropbox.files import WriteMode
 
-def checkFile(value):
-    """
-    Check file exists and is not directory
-    """
-    if not os.path.isabs(value):
-        raise argparse.ArgumentTypeError("{0} is not an absolute path".format(value))
-
-    if not os.path.exists(value):
-        raise argparse.ArgumentTypeError("{0} does not exist".format(value))
-
-    if not os.path.isfile(value):
-        raise argparse.ArgumentTypeError("{0} is not a file path".format(value))
-
-    return value
-
 def checkDirectory(value):
     """
     Check path is directory and exists
@@ -129,10 +114,16 @@ def restore(dbx, dbPath, backupName, force=None):
     """
     restore database
     """
-    if force:
-        dbx.files_download_to_file(dbPath, backupName)
-    elif not os.path.exists(dbPath):
-        dbx.files_download_to_file(dbPath, backupName)
+    try:
+        if force:
+            dbx.files_download_to_file(dbPath, backupName)
+            logging.info("Forced restore {0} from dropbox {1}".format(dbPath, backupName))
+        elif not os.path.exists(dbPath):
+            dbx.files_download_to_file(dbPath, backupName)
+            logging.info("Normal restore {0} from dropbox {1}".format(dbPath, backupName))
+    except ApiError as err:
+        logging.err(err)
+        sys.exit()
 
 
 def main():
