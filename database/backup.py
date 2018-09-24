@@ -28,7 +28,7 @@ def argParser(args):
 
     parser.add_argument(
         "-t", "--token",
-        type=string, required=True,
+        type=str, required=True,
         help="Dropbox api token"
     )
 
