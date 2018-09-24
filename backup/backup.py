@@ -146,7 +146,7 @@ def main():
 
     dbx = dropbox.Dropbox(arguments.token)
 
-    startLogging(os.path.join(arguments.log, "backup.log"), argument.operation)
+    startLogging(os.path.join(arguments.log, "backup.log"), arguments.operation)
 
     if arguments.operation == "backup":
         backup(dbx, dbPath, backupName)
