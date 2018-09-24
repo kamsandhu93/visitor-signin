@@ -28,7 +28,7 @@ class ArgParser(object):
 
         return value
 
-    def _checkDirectory(value):
+    def checkDirectory(value):
         """
         Check path is directory and exists
         """
@@ -67,13 +67,13 @@ class ArgParser(object):
 
         parser.add_argument(
             "-p", "--path",
-            type=self._checkDirectory, required=True,
+            type=self.checkDirectory, required=True,
             help="Database directory path"
         )
 
         parser.add_argument(
             "-l", "--log",
-            type=self._checkDirectory, required=True,
+            type=self.checkDirectory, required=True,
             help="Log directory path"
         )
 
