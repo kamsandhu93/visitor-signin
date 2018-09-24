@@ -5,13 +5,15 @@ services:
         ports:
             - 5000:5000
         volumes:
-            - /opt/visitor-db:/visitor-app/database
+            - /opt/visitor-db/database:/visitor-app/database
+            - /opt/visitor-db/log/flask:/visitor-app/log
     visitor-database:
         build:
             context: ./database/
             args:
-                API_TOKEN: "${TOKEN}"
+                API_TOKEN: "apitoken test"
         ports:
             - 5001:5001
         volumes:
-            - /opt/visitor-db:/visitor-db
+            - /opt/visitor-db/database:/visitor-db/database
+            - /opt/visitor-db/log/backup:/visitor-db/log

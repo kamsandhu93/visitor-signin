@@ -7,7 +7,7 @@ if __name__ == "__main__":
     formatter = logging.Formatter(log_format)
     logger = logging.getLogger()
 
-    file_handler = logging.FileHandler("visitor.log")
+    file_handler = logging.FileHandler("log/visitor.log")
     file_handler.setFormatter(formatter)
     app.logger.addHandler(file_handler)
 

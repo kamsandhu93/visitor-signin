@@ -1,9 +1,24 @@
 #import dropbox
 import sys
 import argparse
+import logging
 
 #from dropbox.exceptions import ApiError, AuthError
 #from dropbox.files import WriteMode
+
+def startLogging(logFilePath):
+    """
+    Logging configurations
+    """
+
+    loggingFormat = logging.Formatter("%(asctime)s | Backup | %(levelname)s | %(message)s")
+
+    fileHandler = logging.FileHandler(logFilePath, mode = "w", encoding = "utf-8")
+    consoleHandler = logging.StreamHandler()
+
+    logging.root.setLevel(logging.ERROR)
+    logging.root.addHandler(fileHandler)
+    logging.root.addHandler(consoleHandler)
 
 def argParser(args):
     """
@@ -30,6 +45,10 @@ def main():
 
     dbPath = "/visitor-db/visitor_db.db"
     backupPath = "/"
+
+    startLogging("log/backup.log")
+
+    logging.info(token)
 
     print token
     """

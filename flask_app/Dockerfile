@@ -1,13 +1,13 @@
 FROM python:2.7-alpine
 MAINTAINER NHS Digital
 
-ARG WORK_DIR /visitor-app
-ARG TEMP_DIR /visitor-app-temp
-ARG DB_FILE visitor_db.db
-ENV DB_PATH ${WORK_DIR}/database/${DB_FILE}
-ARG BRANCH tw-docker
-ARG APP_PORT 5000
-ARG APP_HOST 0.0.0.0
+ARG WORK_DIR=/visitor-app
+ARG TEMP_DIR=/visitor-app-temp
+ARG DB_FILE=visitor_db.db
+ENV DB_PATH=${WORK_DIR}/database/${DB_FILE}
+ARG BRANCH=tw-docker
+ARG APP_PORT=5000
+ARG APP_HOST=0.0.0.0
 
 RUN apk update && apk upgrade \
  && apk add git \
@@ -28,5 +28,5 @@ RUN rm -rf $TEMP_DIR
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
     CMD curl --fail http://$APP_HOST:$APP_PORT || exit 1
 
-EXPOSE ${APP_PORT}
+EXPOSE $APP_PORT
 CMD ["python", "main.py"]
