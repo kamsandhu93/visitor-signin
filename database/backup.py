@@ -13,8 +13,11 @@ def startLogging(logFilePath):
 
     loggingFormat = logging.Formatter("%(asctime)s | Backup | %(levelname)s | %(message)s")
 
-    fileHandler = logging.FileHandler(logFilePath, mode = "w", encoding = "utf-8")
+    fileHandler = logging.FileHandler(logFilePath, encoding = "utf-8")
+    fileHandler.setFormatter(loggingFormat)
+    
     consoleHandler = logging.StreamHandler()
+    consoleHandler.setFormatter(loggingFormat)
 
     logging.root.setLevel(logging.INFO)
     logging.root.addHandler(fileHandler)
@@ -49,8 +52,6 @@ def main():
     startLogging("log/backup.log")
 
     logging.info(token)
-
-    print token
     """
     dbx = dropbox.Dropbox(token)
 

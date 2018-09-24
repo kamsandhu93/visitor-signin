@@ -31,7 +31,7 @@ def logout_handler():
         validate_logout_form_keys(request.form)
         validate_pass_id(request.form["pass_id"])
         full_name = services.logout(request.form)
-        app.logger.info("User logged in")
+        app.logger.info("User logged out")
         return render_template("logedout.html", first_name=full_name[0], surname=full_name[1])
     except Exception as ex:
         app.logger.exception(ex)
@@ -50,4 +50,3 @@ def validate_login_form_values(request_form):
 
 def validate_pass_id(pass_id):
     pass
-

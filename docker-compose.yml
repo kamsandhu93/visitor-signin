@@ -11,7 +11,7 @@ services:
         build:
             context: ./database/
             args:
-                API_TOKEN: "apitoken test"
+                API_TOKEN: "apitoken"
         ports:
             - 5001:5001
         volumes:
