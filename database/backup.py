@@ -50,7 +50,7 @@ def main():
     dbPath = "/visitor-db/visitor_db.db"
     backupPath = "/"
 
-    startLogging("log/backup.log")
+    startLogging("/visitor-db/log/backup.log")
 
     logging.info(token)
     """
