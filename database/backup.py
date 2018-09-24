@@ -16,7 +16,7 @@ def startLogging(logFilePath):
     fileHandler = logging.FileHandler(logFilePath, mode = "w", encoding = "utf-8")
     consoleHandler = logging.StreamHandler()
 
-    logging.root.setLevel(logging.ERROR)
+    logging.root.setLevel(logging.INFO)
     logging.root.addHandler(fileHandler)
     logging.root.addHandler(consoleHandler)
 

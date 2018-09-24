@@ -11,6 +11,22 @@ if [ ! -d $db_dir ]; then
     mkdir $db_dir
 fi
 
+if [ ! -d "$db_dir/database" ]; then
+    mkdir "$db_dir/database"
+fi
+
+if [ ! -d "$db_dir/log" ]; then
+    mkdir "$db_dir/log"
+fi
+
+if [ ! -d "$db_dir/log/flask" ]; then
+    mkdir "$db_dir/log/flask"
+fi
+
+if [ ! -d "$db_dir/log/backup" ]; then
+    mkdir "$db_dir/log/backup"
+fi
+
 #parse command line options
 while [[ $# -gt 0 ]]
 do
