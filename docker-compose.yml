@@ -15,7 +15,6 @@ services:
             context: ./database/
             args:
                 BRANCH: "tw-docker"
-                API_TOKEN: "apitoken"
         ports:
             - 5001:5001
         volumes:
@@ -25,6 +24,7 @@ services:
             context: './backup/'
             args:
                 BRANCH: "tw-docker"
+                API_TOKEN: "apitoken"
         volumes:
             - /opt/visitor-db/database:/visitor-back/database
             - /opt/visitor-db/log/backup:/visitor-back/log

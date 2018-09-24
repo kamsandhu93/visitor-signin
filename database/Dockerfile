@@ -8,7 +8,6 @@ ARG DB_PATH=$WORK_DIR/database/$DB_FILE
 ARG BRANCH
 ARG APP_PORT=5001
 ARG APP_HOST=0.0.0.0
-ARG API_TOKEN
 
 RUN apk update && apk upgrade \
  && apk add git \

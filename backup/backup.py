@@ -42,6 +42,12 @@ def argParser(args):
         help="Database file path"
     )
 
+    parser.add_argument(
+        "-l", "--log",
+        type=str, required=True,
+        help="Log file path"
+    )
+
     arguments = parser.parse_args(args)
     return arguments
 
@@ -56,7 +62,7 @@ def main():
     dbPath = arguments.path
     backupPath = "/"
 
-    startLogging("/visitor-db/log/backup.log")
+    startLogging(arguments.log)
 
     logging.info(arguments.token)
     """
