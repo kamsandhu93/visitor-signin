@@ -1,14 +1,13 @@
 # visitor-signin
 
-## Local deployment
-The flask_app directory needs to be marked as sources root
-
-A copy of the sqllite databse needs to be placed in the flask_app/instance directory
-
-
 ## Prerequisites
  - Install [Docker](https://docs.docker.com/install/)
  - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
+ - A [Dropbox](https://www.dropbox.com) account
+ - Created a dropbox app and generated a dropbox api token in [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
+ - A copy of sqlite database in either:
+   - `/opt/visitor-db/database` or
+   - Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
 
 ## Deployment
  ```
