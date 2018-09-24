@@ -1,11 +1,12 @@
 #!/usr/bin/env python2
-#import dropbox
+import dropbox
 import sys
 import argparse
 import logging
+import os
 
-#from dropbox.exceptions import ApiError, AuthError
-#from dropbox.files import WriteMode
+from dropbox.exceptions import ApiError, AuthError
+from dropbox.files import WriteMode
 
 def startLogging(logFilePath):
     """
@@ -24,6 +25,36 @@ def startLogging(logFilePath):
     logging.root.addHandler(fileHandler)
     logging.root.addHandler(consoleHandler)
 
+def checkFile(value):
+    """
+    Check file exists and is not directory
+    """
+    if not os.path.isabs(value):
+        raise argparse.ArgumentTypeError("{0} is not an absolute path".format(value))
+
+    if not os.path.exists(value):
+        raise argparse.ArgumentTypeError("{0} does not exist".format(value))
+
+    if not os.path.isfile(value):
+        raise argparse.ArgumentTypeError("{0} is not a file path".format(value))
+
+    return value
+
+def checkDirectory(value):
+    """
+    Check path is directory and exists
+    """
+    if not os.path.isabs(value):
+        raise argparse.ArgumentTypeError("{0} is not an absolute path".format(value))
+
+    if not os.path.exists(value):
+        raise argparse.ArgumentTypeError("{0} does not exist".format(value))
+
+    if os.path.isfile(value):
+        raise argparse.ArgumentTypeError("{0} is not a directory".format(value))
+
+    return value
+
 def argParser(args):
     """
     Parse arguments
@@ -38,13 +69,13 @@ def argParser(args):
 
     parser.add_argument(
         "-p", "--path",
-        type=str, required=True,
+        type=checkFile, required=True,
         help="Database file path"
     )
 
     parser.add_argument(
         "-l", "--log",
-        type=str, required=True,
+        type=checkDirectory, required=True,
         help="Log file path"
     )
 
@@ -56,33 +87,30 @@ def main():
     """
     Main
     """
-
     arguments = argParser(sys.argv[1:])
 
     dbPath = arguments.path
-    backupPath = "/"
+    backupName = "/visitor_db.db"
 
-    startLogging(arguments.log)
-
-    logging.info(arguments.token)
-    """
-    dbx = dropbox.Dropbox(token)
+    startLogging("{0}/backup.log".format(arguments.log))
+    
+    dbx = dropbox.Dropbox(arguments.token)
 
     with open (dbPath, "rb") as dbFile:
-        print "Backingup {0} to dropbox {1}".format(dbPath, backupPath)
         try:
-            dbx.files_upload(dbFile.read(), backupPath, mode=WriteMode("overwrite"))
+            dbx.files_upload(dbFile.read(), backupName, mode=WriteMode("overwrite"))
+            logging.info("Backed up {0} to dropbox {1}".format(dbPath, backupName))
         except ApiError as err:
             if (err.error.is_path() and
-                        err.error.get_path().reason.is_insufficient_space()):
-                    sys.exit("ERROR: Cannot back up; insufficient space.")
+                    err.error.get_path().reason.is_insufficient_space()):
+                logging.error("Cannot back up; insufficient space.")
+                sys.exit()
             elif err.user_message_text:
-                print(err.user_message_text)
+                logging.error(err.user_message_text)
                 sys.exit()
             else:
-                print(err)
+                logging.err(err)
                 sys.exit()
-    """
 
 if __name__ == "__main__":
     main()

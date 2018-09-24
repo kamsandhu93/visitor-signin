@@ -25,6 +25,7 @@ services:
             args:
                 BRANCH: "tw-docker"
                 API_TOKEN: "apitoken"
+                BACKUP_SCHEDULE: "* * * * *"
         volumes:
             - /opt/visitor-db/database:/visitor-back/database
             - /opt/visitor-db/log/backup:/visitor-back/log
