@@ -36,4 +36,4 @@ HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
     CMD curl --fail http://$APP_HOST:$APP_PORT || exit 1
 
 EXPOSE $APP_PORT
-CMD ["startup.sh", "-h 0.0.0.0", "-p 5001", "-d /visitor-db/database/visitor_db.db"]
+CMD ["/visitor-db/startup.sh", "-h 0.0.0.0", "-p 5001", "-d /visitor-db/database/visitor_db.db"]
