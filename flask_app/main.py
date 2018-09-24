@@ -18,6 +18,4 @@ if __name__ == "__main__":
     app.logger.setLevel(logging.DEBUG)
 
     app.logger.info("Starting visitor service")
-    app.run()
-
     app.run(host='0.0.0.0')
