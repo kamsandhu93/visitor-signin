@@ -24,8 +24,7 @@ services:
             context: './backup/'
             args:
                 BRANCH: "tw-docker"
-                API_TOKEN: "apitoken"
-                BACKUP_SCHEDULE: "* * * * *"
+                API_TOKEN: "${DROPBOX_TOKEN}"
         volumes:
             - /opt/visitor-db/database:/visitor-back/database
             - /opt/visitor-db/log/backup:/visitor-back/log

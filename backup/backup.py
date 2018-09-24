@@ -92,8 +92,8 @@ def main():
     dbPath = arguments.path
     backupName = "/visitor_db.db"
 
-    startLogging("{0}/backup.log".format(arguments.log))
-    
+    startLogging(os.path.join(arguments.log, "backup.log"))
+
     dbx = dropbox.Dropbox(arguments.token)
 
     with open (dbPath, "rb") as dbFile:

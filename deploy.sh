@@ -1,30 +1,16 @@
 #!/bin/bash
+directories=("/opt/visitor-db/" "/opt/visitor-db/database/" "/opt/visitor-db/log/" "/opt/visitor-db/log/flask" "/opt/visitor-db/log/backup/")
 
-db_dir="/opt/visitor-db/"
+function createDir () {
+    if [ ! -d "$1" ]; then
+        echo "Created: $1"
+        mkdir $1
+    fi
+}
 
 # ensure running as root
 if [ "$(id -u)" != "0" ]; then
   exec sudo "$0" "$@"
-fi
-
-if [ ! -d $db_dir ]; then
-    mkdir $db_dir
-fi
-
-if [ ! -d "$db_dir/database" ]; then
-    mkdir "$db_dir/database"
-fi
-
-if [ ! -d "$db_dir/log" ]; then
-    mkdir "$db_dir/log"
-fi
-
-if [ ! -d "$db_dir/log/flask" ]; then
-    mkdir "$db_dir/log/flask"
-fi
-
-if [ ! -d "$db_dir/log/backup" ]; then
-    mkdir "$db_dir/log/backup"
 fi
 
 #parse command line options
@@ -67,5 +53,12 @@ if [ -z "$TOKEN" ]; then
     echo "Did not supply dropbox token"
     exit 1
 fi
+
+for directory in ${directories[*]}
+do
+    createDir "$directory"
+done
+
+export DROPBOX_TOKEN="$TOKEN"
 
 $cmd
