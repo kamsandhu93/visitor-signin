@@ -30,7 +30,7 @@ RUN chmod u+x $WORK_DIR/backup.py
 RUN echo "* * * * *" $WORK_DIR/backup.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH -f $DB_FILE -o "backup" > /etc/crontabs/root
 
 WORKDIR $WORK_DIR
-CMD backup.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH -f $DB_FILE -o "restore_force"
+RUN python backup.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH -f $DB_FILE -o "restore_force"
 RUN rm -rf $TEMP_DIR
 
 CMD ["crond", "-f"]

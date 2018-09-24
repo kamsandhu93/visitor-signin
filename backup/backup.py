@@ -8,89 +8,84 @@ import os
 from dropbox.exceptions import ApiError, AuthError
 from dropbox.files import WriteMode
 
-class ArgParser(object):
+def checkFile(value):
     """
-    Class to parse arguments
+    Check file exists and is not directory
     """
+    if not os.path.isabs(value):
+        raise argparse.ArgumentTypeError("{0} is not an absolute path".format(value))
 
-    def _checkFile(value):
-        """
-        Check file exists and is not directory
-        """
-        if not os.path.isabs(value):
-            raise argparse.ArgumentTypeError("{0} is not an absolute path".format(value))
+    if not os.path.exists(value):
+        raise argparse.ArgumentTypeError("{0} does not exist".format(value))
 
-        if not os.path.exists(value):
-            raise argparse.ArgumentTypeError("{0} does not exist".format(value))
+    if not os.path.isfile(value):
+        raise argparse.ArgumentTypeError("{0} is not a file path".format(value))
 
-        if not os.path.isfile(value):
-            raise argparse.ArgumentTypeError("{0} is not a file path".format(value))
+    return value
 
-        return value
+def checkDirectory(value):
+    """
+    Check path is directory and exists
+    """
+    if not os.path.isabs(value):
+        raise argparse.ArgumentTypeError("{0} is not an absolute path".format(value))
 
-    def checkDirectory(value):
-        """
-        Check path is directory and exists
-        """
-        if not os.path.isabs(value):
-            raise argparse.ArgumentTypeError("{0} is not an absolute path".format(value))
+    if not os.path.exists(value):
+        raise argparse.ArgumentTypeError("{0} does not exist".format(value))
 
-        if not os.path.exists(value):
-            raise argparse.ArgumentTypeError("{0} does not exist".format(value))
+    if os.path.isfile(value):
+        raise argparse.ArgumentTypeError("{0} is not a directory".format(value))
 
-        if os.path.isfile(value):
-            raise argparse.ArgumentTypeError("{0} is not a directory".format(value))
+    return value
 
-        return value
+def checkOperation(value):
+    """
+    Check input operation is valid
+    """
+    validOperations = ["backup", "restore", "restore_force"]
+    if value not in validOperations:
+        raise argparse.ArgumentTypeError("{0} is not in a valid operation".format(value))
 
-    def _checkOperation(value):
-        """
-        Check input operation is valid
-        """
-        validOperations = ["backup", "restore", "restore_force"]
-        if value not in validOperations:
-            raise argparse.ArgumentTypeError("{0} is not in a valid operation".format(value))
+    return value
 
-        return value
+def parseArgs(args):
+    """
+    Parse arguments
+    """
+    parser = argparse.ArgumentParser()
 
-    def parseArgs(self, args):
-        """
-        Parse arguments
-        """
-        parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-t", "--token",
+        type=str, required=True,
+        help="Dropbox api token"
+    )
 
-        parser.add_argument(
-            "-t", "--token",
-            type=str, required=True,
-            help="Dropbox api token"
-        )
+    parser.add_argument(
+        "-p", "--path",
+        type=checkDirectory, required=True,
+        help="Database directory path"
+    )
 
-        parser.add_argument(
-            "-p", "--path",
-            type=self.checkDirectory, required=True,
-            help="Database directory path"
-        )
+    parser.add_argument(
+        "-l", "--log",
+        type=checkDirectory, required=True,
+        help="Log directory path"
+    )
 
-        parser.add_argument(
-            "-l", "--log",
-            type=self.checkDirectory, required=True,
-            help="Log directory path"
-        )
+    parser.add_argument(
+        "-f", "--file",
+        type=str, required=True,
+        help="Database file name"
+    )
 
-        parser.add_argument(
-            "-f", "--file",
-            type=str, required=True,
-            help="Database file name"
-        )
+    parser.add_argument(
+        "-o", "--operation",
+        type=checkOperation, required=True,
+        help="Backup or restore database"
+    )
 
-        parser.add_argument(
-            "-o", "--operation",
-            type=self._checkOperation, required=True,
-            help="Backup or restore database"
-        )
-
-        arguments = parser.parse_args(args)
-        return arguments
+    arguments = parser.parse_args(args)
+    return arguments
 
 def startLogging(logFilePath, operation):
     """
@@ -144,8 +139,7 @@ def main():
     """
     Main
     """
-    argParser = ArgParser()
-    arguments = argParser.parseArgs(sys.argv[1:])
+    arguments = parseArgs(sys.argv[1:])
 
     dbPath = os.path.join(arguments.path, arguments.file)
     backupName = "/{0}".format(arguments.file)
