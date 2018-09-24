@@ -38,5 +38,8 @@ checkInput "$HOST" "Host not found"
 checkInput "$PORT" "Port not found"
 checkInput "$DB_FILE" "Database file not found"
 
-crond -b &&
+crond -b
+
+echo "starting sqlite_web with $HOSt $PORT $DB_FILE"
+
 sqlite_web -H "$HOST" -p "$PORT" "$DB_FILE"
