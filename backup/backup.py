@@ -36,8 +36,14 @@ def argParser(args):
         help="Dropbox api token"
     )
 
+    parser.add_argument(
+        "-p", "--path",
+        type=str, required=True,
+        help="Database file path"
+    )
+
     arguments = parser.parse_args(args)
-    return arguments.token
+    return arguments
 
 
 def main():
@@ -45,14 +51,14 @@ def main():
     Main
     """
 
-    token = argParser(sys.argv[1:])
+    arguments = argParser(sys.argv[1:])
 
-    dbPath = "/visitor-db/visitor_db.db"
+    dbPath = arguments.path
     backupPath = "/"
 
     startLogging("/visitor-db/log/backup.log")
 
-    logging.info(token)
+    logging.info(arguments.token)
     """
     dbx = dropbox.Dropbox(token)
 

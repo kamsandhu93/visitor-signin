@@ -1,7 +1,10 @@
 version: '3'
 services:
     visitor-flask:
-        build: ./flask_app/
+        build:
+            context: ./flask_app/
+            args:
+                BRANCH: "tw-docker"
         ports:
             - 5000:5000
         volumes:
@@ -11,9 +14,17 @@ services:
         build:
             context: ./database/
             args:
+                BRANCH: "tw-docker"
                 API_TOKEN: "apitoken"
         ports:
             - 5001:5001
         volumes:
             - /opt/visitor-db/database:/visitor-db/database
-            - /opt/visitor-db/log/backup:/visitor-db/log
+    visitor-backup:
+        build:
+            context: './backup/'
+            args:
+                BRANCH: "tw-docker"
+        volumes:
+            - /opt/visitor-db/database:/visitor-back/database
+            - /opt/visitor-db/log/backup:/visitor-back/log
