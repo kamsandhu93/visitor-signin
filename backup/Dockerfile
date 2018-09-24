@@ -27,9 +27,10 @@ RUN git checkout $BRANCH
 COPY backup.py $WORK_DIR
 RUN pip install -r requirements.txt
 RUN chmod u+x $WORK_DIR/backup.py
-RUN echo "* * * * *" $WORK_DIR/backup.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH > /etc/crontabs/root
+RUN echo "* * * * *" $WORK_DIR/backup.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH -f $DB_FILE -o "backup" > /etc/crontabs/root
 
 WORKDIR $WORK_DIR
+RUN $WORK_DIR/backup.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH -f $DB_FILE -o "restore"
 RUN rm -rf $TEMP_DIR
 
 CMD ["crond", "-f"]

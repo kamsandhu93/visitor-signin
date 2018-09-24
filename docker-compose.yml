@@ -1,5 +1,15 @@
 version: '3'
 services:
+    visitor-backup:
+        build:
+            context: './backup/'
+            args:
+                BRANCH: "${BRANCH}"
+                API_TOKEN: "${DROPBOX_TOKEN}"
+                DB_FILE: "${DB_FILE}"
+        volumes:
+            - /opt/visitor-db/database:/visitor-back/database
+            - /opt/visitor-db/log/backup:/visitor-back/log
     visitor-flask:
         build:
             context: ./flask_app/
@@ -21,13 +31,3 @@ services:
             - 5001:5001
         volumes:
             - /opt/visitor-db/database:/visitor-db/database
-    visitor-backup:
-        build:
-            context: './backup/'
-            args:
-                BRANCH: "${BRANCH}"
-                API_TOKEN: "${DROPBOX_TOKEN}"
-                DB_FILE: "${DB_FILE}"
-        volumes:
-            - /opt/visitor-db/database:/visitor-back/database
-            - /opt/visitor-db/log/backup:/visitor-back/log
