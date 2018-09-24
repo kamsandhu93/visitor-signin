@@ -146,15 +146,14 @@ def main():
 
     dbx = dropbox.Dropbox(arguments.token)
 
-    operations = {
-        "backup": backup(dbx, dbPath, backupName),
-        "restore": restore(dbx, dbPath, backupName),
-        "restore_force": restore(dbx, dbPath, backupName, True)
-    }
-
     startLogging(os.path.join(arguments.log, "backup.log"))
 
-    operations[arguments.operation]
+    if arguments.operation == "backup":
+        backup(dbx, dbPath, backupName)
+    elif arguments.operation == "restore":
+        restore(dbx, dbPath, backupName)
+    elif arguments.operation == "restore_force":
+        restore(dbx, dbPath, backupName, True)
 
 
 if __name__ == "__main__":
