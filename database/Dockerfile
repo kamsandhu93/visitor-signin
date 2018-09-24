@@ -25,7 +25,9 @@ WORKDIR $TEMP_DIR/database
 RUN git checkout $BRANCH
 RUN pip install -r requirements.txt
 COPY backup.py $WORK_DIR
+COPY startup.sh $WORK_DIR
 RUN chmod u+x $WORK_DIR/backup.py
+RUN chmod +x $WORK_DIR/startup.sh
 RUN echo "* * * * *" $WORK_DIR/backup.py -t $API_TOKEN > /etc/crontabs/root
 
 WORKDIR $WORK_DIR
@@ -34,4 +36,4 @@ HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
     CMD curl --fail http://$APP_HOST:$APP_PORT || exit 1
 
 EXPOSE $APP_PORT
-CMD ["sqlite_web", "-H 0.0.0.0", "-p 5001", "/visitor-db/database/visitor_db.db"]
+CMD ["startup.sh", "-h 0.0.0.0", "-p 5001", "-d /visitor-db/database/visitor_db.db"]
