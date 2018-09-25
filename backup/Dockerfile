@@ -30,7 +30,6 @@ RUN chmod u+x $WORK_DIR/db_ops.py
 RUN echo "0 1 * * *" $WORK_DIR/db_ops.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH -f $DB_FILE -o "backup" > /etc/crontabs/root
 
 WORKDIR $WORK_DIR
-RUN python db_ops.py -t $API_TOKEN -p $DB_PATH -l $LOG_PATH -f $DB_FILE -o "restore"
 RUN rm -rf $TEMP_DIR
 
 CMD ["crond", "-f"]

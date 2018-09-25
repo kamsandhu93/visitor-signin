@@ -1,6 +1,7 @@
 # visitor-signin
 
 ## Prerequisites
+ - curl
  - Install [Docker](https://docs.docker.com/install/)
  - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
  - A [Dropbox](https://www.dropbox.com) account
@@ -21,9 +22,11 @@
 ### Optional commands
 ```
 -d, --debug
-    Start both containers in debug mode
+    Start all containers in debug mode
 -b, --build
-    Force rebuild of both containers even when there are no changes
+    Force rebuild of all images and recreate all containers even when there are no changes
+-r, --recreate
+    Force recreate all containers even when there are no changes
 -db, --database
     Name of database file (default: visitor_db.db)
 -br, --branch
@@ -47,7 +50,6 @@ The system is made up of three docker containers with the sqlite database persis
 
 ### Visitor-Back
  - Hosts the backup and restore scripts.
- - If there is no database detected, the script will download a copy of the database from dropbox during deployment.
  - Database is backedup to dropbox every day at 01:00 server time.
  - Reads and writes to `/visitor-back/database/visitor_db.db` inside the container.
 To perform a forced restore, run:
