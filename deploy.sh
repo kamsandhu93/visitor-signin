@@ -71,11 +71,13 @@ if [ -z "$token" ]; then
     exit 1
 fi
 
+#create host directories if not exist
 for directory in ${directories[*]}
 do
     createDir "$directory"
 done
 
+#download db file if not exist
 if [ ! -f "$dbPath" ]; then
     {
         echo "Database not found, downloading database..."
@@ -89,6 +91,7 @@ if [ ! -f "$dbPath" ]; then
     }
 fi
 
+#export env variables for docker compose
 export DROPBOX_TOKEN="$token"
 export DB_FILE="$dbName"
 export BRANCH="$branch"
