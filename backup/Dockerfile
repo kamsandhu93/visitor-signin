@@ -8,9 +8,7 @@ ARG DB_FILE
 
 ARG WORK_DIR=/visitor-back
 ARG TEMP_DIR=/visitor-back-temp
-ARG DB_PATH=$WORK_DIR/database
-ARG LOG_PATH=$WORK_DIR/log
-ARG CONFIG_NAME=db_ops.cfg
+ARG CONFIG_NAME=$WORK_DIR/db_ops.cfg
 
 #install packages
 RUN apk update && apk upgrade \
@@ -43,4 +41,4 @@ RUN echo LogDir=$WORK_DIR/log >> $CONFIG_NAME
 #cleanup
 RUN rm -rf $TEMP_DIR
 
-CMD ["python", "db_ops.py"]
+CMD ["python", "db_ops.py", "-s", "-o", "backup"]
