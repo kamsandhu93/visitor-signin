@@ -45,6 +45,9 @@ def logout_handler():
         app.logger.info("User logged out")
 
         return render_template("logedout.html", first_name=full_name[0], surname=full_name[1])
+    except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
+        app.log_exception(ex)
+        return render_template("error.html"), 400
     except exceptions.DatabaseAccessEx as ex:
         app.log_exception(ex)
         return render_template("error.html"), 503
