@@ -22,6 +22,7 @@ def login_handler():
         app.logger.info("User logged in")
         return render_template("logedin.html", name=request.form["name"], pass_id=pass_id)
     except Exception as ex:
+        app.logger.exception(ex)
         return render_template("error.html"), 500
 
 

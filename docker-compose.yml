@@ -13,14 +13,12 @@ services:
     visitor-flask:
         build:
             context: ./flask_app/
-            args:
-                BRANCH: "${BRANCH}"
                 DB_FILE: "${DB_FILE}"
         ports:
             - 5000:5000
         volumes:
-            - /opt/visitor-db/database:/visitor-app/database
-            - /opt/visitor-db/log/flask:/visitor-app/log
+            - /opt/visitor-db/database:/app/visitor_app/database
+            - /opt/visitor-db/log/flask:/app/visitor_app/log
     visitor-database:
         build:
             context: ./database/

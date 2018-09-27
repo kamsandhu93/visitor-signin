@@ -1,13 +1,11 @@
 from visitor_app import app
-import sqlite3
-import os
-import datetime
 
-DB = os.environ.get("DB_PATH", os.path.join(app.instance_path, "visitor_db.db"))
+import sqlite3
+import datetime
 
 
 def login(request_form):
-    print(DB)
+    print(app.config["DB_PATH"])
     first_name = request_form["name"]
     surname = request_form["surname"]
     visiting = request_form["visiting"]
@@ -71,7 +69,7 @@ def get_unique_pass_code():
 
 # Prob should put these in a models.py
 def execute_modification_sql(sql, params=()):
-    conn = sqlite3.connect(DB)
+    conn = sqlite3.connect(app.config["DB_PATH"])
     cursor = conn.cursor()
     cursor.execute(sql, params)
     conn.commit()
@@ -79,7 +77,7 @@ def execute_modification_sql(sql, params=()):
 
 
 def execute_select_sql(sql, params=()):
-    conn = sqlite3.connect(DB)
+    conn = sqlite3.connect(app.config["DB_PATH"])
     cursor = conn.cursor()
     cursor.execute(sql, params)
     res = cursor.fetchone()

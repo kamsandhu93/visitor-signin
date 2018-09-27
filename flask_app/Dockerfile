@@ -1,46 +1,30 @@
-FROM python:2.7-alpine
-MAINTAINER NHS Digital
+FROM python:3.7-alpine
 
-ARG BRANCH
-ARG DB_FILE
-
-ARG WORK_DIR=/visitor-app
-ARG TEMP_DIR=/visitor-app-temp
-ENV DB_PATH=$WORK_DIR/database/$DB_FILE
-ARG APP_PORT=5000
-ARG APP_HOST=0.0.0.0
-ARG CONFIG_NAME=$WORK_DIR/main.cfg
+MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
 RUN apk update && apk upgrade \
  && apk add git \
  && apk add curl \
  && rm -rf /var/cache/apk/*
 
-RUN mkdir $WORK_DIR
-RUN mkdir $WORK_DIR/log
-RUN mkdir $WORK_DIR/database
+COPY requirements.txt /tmp/
+RUN pip install -r /tmp/requirements.txt
 
-RUN git clone https://github.com/kamsandhu93/visitor-signin.git $TEMP_DIR
+# SHOULD NOT BE HARDCODED HERE
+ENV DB_PATH /app/visitor_app/database/visitor_db.db
+ENV PORT 5000
+ENV HOST 0.0.0.0
+ENV LOG_PATH /app/visitor_app/log/visitor_app.log
 
-WORKDIR $TEMP_DIR/flask_app
-RUN git checkout $BRANCH
-COPY main.py $WORK_DIR
-RUN mkdir $WORK_DIR/visitor_app
-COPY visitor_app/ $WORK_DIR/visitor_app/
-RUN pip install -r requirements.txt
+ADD ./visitor_app /app/visitor_app
+ADD ./main.py /app/
+RUN mkdir app/visitor_app/log
+RUN mkdir app/visitor_app/database
 
-WORKDIR $WORK_DIR
-
-RUN touch $CONFIG_NAME
-RUN echo [DEFAULT] >> $CONFIG_NAME
-RUN echo LogDir=$WORK_DIR/log >> $CONFIG_NAME
-RUN echo Host=$APP_HOST >> $CONFIG_NAME
-RUN echo Port=$APP_PORT >> $CONFIG_NAME
-
-RUN rm -rf $TEMP_DIR
+WORKDIR /app
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
-    CMD curl --fail http://$APP_HOST:$APP_PORT || exit 1
+    CMD curl --fail http://$HOST:$PORT/status || exit 1
 
-EXPOSE $APP_PORT
-CMD ["python", "main.py", "-c", "/visitor-app/main.cfg"]
+EXPOSE $PORT
+CMD ["python3", "main.py"]
