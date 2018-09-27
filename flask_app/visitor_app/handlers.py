@@ -39,7 +39,7 @@ def logout_handler():
         return render_template("error.html"), 500
 
 def validate_login_form_keys(request_form):
-    valid_keys = ["name", "first_name", "visiting"]
+    valid_keys = ["name", "first_name", "visiting", "company"]
     pass
 
 def validate_logout_form_keys(request_form):

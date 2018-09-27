@@ -20,11 +20,11 @@ def execute_select_sql(sql, params=()):
     return res
 
 
-def log_visitor_in(pass_id, first_name, surname, visiting):
-    sql = "INSERT INTO visitors (pass_id, first_name, surname, visiting, time_in) " \
-          "VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)"
+def log_visitor_in(pass_id, first_name, surname, visiting, company):
+    sql = "INSERT INTO visitors (pass_id, first_name, surname, visiting, company, time_in) " \
+          "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
 
-    execute_modification_sql(sql, params=[pass_id, first_name, surname, visiting])
+    execute_modification_sql(sql, params=[pass_id, first_name, surname, visiting, company])
 
 
 def log_visitor_out(pass_id):
@@ -33,6 +33,7 @@ def log_visitor_out(pass_id):
           "WHERE pass_id = ?"
 
     execute_modification_sql(sql, params=[pass_id])
+
 
 def get_visitor_full_name(pass_id):
     sql = "SELECT first_name, surname " \

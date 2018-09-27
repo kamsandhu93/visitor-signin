@@ -7,8 +7,9 @@ def login(request_form):
     first_name = request_form["name"]
     surname = request_form["surname"]
     visiting = request_form["visiting"]
+    company = request_form["company"]
 
-    data_access.log_visitor_in(pass_id, first_name, surname, visiting)
+    data_access.log_visitor_in(pass_id, first_name, surname, visiting, company)
 
     ''' print pass'''
 
