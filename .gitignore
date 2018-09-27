@@ -73,3 +73,7 @@ Docker/docker-data/
 bin/
 local/
 share/
+
+
+
+.DS_Store
