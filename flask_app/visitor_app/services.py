@@ -37,4 +37,6 @@ def get_unique_pass_code():
         char = last_pass_id[-1]
         pass_code = str(number).zfill(5) + char
 
+    data_access.update_last_pass_id(pass_code)
+
     return pass_code

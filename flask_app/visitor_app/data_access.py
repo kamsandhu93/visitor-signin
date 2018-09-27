@@ -1,23 +1,30 @@
 import sqlite3
 
 from visitor_app import app
+from visitor_app import exceptions
 
 
 def execute_modification_sql(sql, params=()):
-    conn = sqlite3.connect(app.config["DB_PATH"])
-    cursor = conn.cursor()
-    cursor.execute(sql, params)
-    conn.commit()
-    conn.close()
+    try:
+        conn = sqlite3.connect(app.config["DB_PATH"])
+        cursor = conn.cursor()
+        cursor.execute(sql, params)
+        conn.commit()
+        conn.close()
+    except Exception as ex:
+        raise exceptions.DatabaseAccessEx(ex)
 
 
 def execute_select_sql(sql, params=()):
-    conn = sqlite3.connect(app.config["DB_PATH"])
-    cursor = conn.cursor()
-    cursor.execute(sql, params)
-    res = cursor.fetchone()
-    conn.close()
-    return res
+    try:
+        conn = sqlite3.connect(app.config["DB_PATH"])
+        cursor = conn.cursor()
+        cursor.execute(sql, params)
+        res = cursor.fetchone()
+        conn.close()
+        return res
+    except Exception as ex:
+        raise exceptions.DatabaseAccessEx(ex)
 
 
 def log_visitor_in(pass_id, first_name, surname, visiting, company):
