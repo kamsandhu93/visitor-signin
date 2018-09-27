@@ -58,7 +58,7 @@ sudo docker ps
 <copy the container id of the backup container>
 sudo docker exec -it <container id> /bin/sh
 cd /visitor-back
-python db_ops.py -t <dropbox token> -p /visitor-back/database -l /visitor-back/log -f <database file name> -o "restore_force"
+python db_ops.py -o "restore_force"
 ```
 
 During deployment `deploy.sh` creates the following file structure on the host system:
