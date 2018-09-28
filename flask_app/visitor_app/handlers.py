@@ -19,6 +19,7 @@ def status_handler():
 @app.route("/login", methods=["POST"])
 def login_handler():
     try:
+        request.form = request.get_json()['body']
         validate_request_form_keys(request.form, valid_keys=["name", "surname", "visiting", "company"])
         validate_login_form_values(request.form)
         pass_id = services.login(request.form)
@@ -39,6 +40,7 @@ def login_handler():
 @app.route("/logout", methods=["POST"])
 def logout_handler():
     try:
+        request.form = request.get_json()['body']
         validate_request_form_keys(request.form, valid_keys=["pass_id"])
         validate_pass_id(request.form["pass_id"])
         full_name = services.logout(request.form)
@@ -73,4 +75,3 @@ def validate_pass_id(pass_id):
     regex = "^[0-9]{5}[a-z]$"
     if not re.match(regex, pass_id):
         raise exceptions.InvalidRequestBodyValuesEx
-
