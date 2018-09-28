@@ -3,7 +3,6 @@ FROM python:3.7-alpine
 MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
 RUN apk update && apk upgrade \
- && apk add git \
  && apk add curl \
  && rm -rf /var/cache/apk/*
 

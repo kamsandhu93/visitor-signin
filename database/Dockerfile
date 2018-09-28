@@ -11,7 +11,6 @@ ARG APP_PORT=5001
 ARG APP_HOST=0.0.0.0
 
 RUN apk update && apk upgrade \
- && apk add git \
  && apk add curl \
  && rm -rf /var/cache/apk/*
 

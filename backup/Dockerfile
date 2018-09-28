@@ -10,7 +10,6 @@ ARG CONFIG_NAME=$WORK_DIR/db_ops.cfg
 
 #install packages
 RUN apk update && apk upgrade \
- && apk add git \
  && apk add curl \
  && rm -rf /var/cache/apk/*
 
