@@ -1,6 +1,6 @@
 import sys
 import hashlib
-import ConfigParser
+import configparser
 import argparse
 import logging
 import dropbox
@@ -153,7 +153,7 @@ def parseConfig(configPath):
     """
     Parse config and return as dictionary
     """
-    config = ConfigParser.RawConfigParser()
+    config = configparser.ConfigParser()
     config.optionxform = str
     config.read(configPath)
 

@@ -1,5 +1,5 @@
-FROM python:2.7-alpine
-MAINTAINER NHS Digital
+FROM python:3.6-alpine
+MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
 #declare arguments
 ARG API_TOKEN
