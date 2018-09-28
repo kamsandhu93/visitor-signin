@@ -77,3 +77,7 @@ share/
 
 
 .DS_Store
+
+#pdf generation temp files
+**/generated.html
+**/test.pdf
