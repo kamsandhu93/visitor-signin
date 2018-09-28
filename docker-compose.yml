@@ -4,7 +4,6 @@ services:
         build:
             context: './backup/'
             args:
-                BRANCH: "${BRANCH}"
                 API_TOKEN: "${DROPBOX_TOKEN}"
                 DB_FILE: "${DB_FILE}"
         volumes:
@@ -13,6 +12,7 @@ services:
     visitor-flask:
         build:
             context: ./flask_app/
+            args:
                 DB_FILE: "${DB_FILE}"
         ports:
             - 5000:5000
@@ -23,7 +23,6 @@ services:
         build:
             context: ./database/
             args:
-                BRANCH: "${BRANCH}"
                 DB_FILE: "${DB_FILE}"
         ports:
             - 5001:5001

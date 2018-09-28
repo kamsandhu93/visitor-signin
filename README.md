@@ -29,8 +29,6 @@
     Force recreate all containers even when there are no changes
 -db, --database
     Name of database file (default: visitor_db.db)
--br, --branch
-    Select which branch to use (default: master)
 ```
 
 After deployment has finished

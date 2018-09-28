@@ -11,7 +11,9 @@ COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 
 # SHOULD NOT BE HARDCODED HERE
-ENV DB_PATH /app/visitor_app/database/visitor_db.db
+ARG DB_FILE
+
+ENV DB_PATH /app/visitor_app/database/$DB_FILE
 ENV PORT 5000
 ENV HOST 0.0.0.0
 ENV LOG_PATH /app/visitor_app/log/visitor_app.log

@@ -3,7 +3,6 @@ rootPath="/opt/visitor-db"
 directories=("$rootPath" "$rootPath/database" "$rootPath/log" "$rootPath/log/flask" "$rootPath/log/backup")
 dbName="visitor_db.db"
 dbPath="$rootPath/database/$dbName"
-branch="master"
 
 red='\033[0;31m'
 end='\033[0m'
@@ -55,11 +54,6 @@ do
         shift
         shift
         ;;
-        -br|--branch)
-        branch=$2
-        shift
-        shift
-        ;;
         *)
         shift
         ;;
@@ -94,7 +88,6 @@ fi
 #export env variables for docker compose
 export DROPBOX_TOKEN="$token"
 export DB_FILE="$dbName"
-export BRANCH="$branch"
 
 cmd="docker-compose up"
 
