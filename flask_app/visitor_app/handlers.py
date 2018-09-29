@@ -6,8 +6,9 @@ from visitor_app import exceptions
 from visitor_app import services
 
 
-@app.route("/")
-def view():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
     return render_template("index.html")
 
 
@@ -25,7 +26,7 @@ def login_handler():
         pass_id = services.login(request.form)
         app.logger.info("User logged in")
 
-        return render_template("logedin.html", name=request.form["name"], pass_id=pass_id)
+        return "success", 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
         return render_template("error.html"), 400
@@ -46,7 +47,7 @@ def logout_handler():
         full_name = services.logout(request.form)
         app.logger.info("User logged out")
 
-        return render_template("logedout.html", first_name=full_name[0], surname=full_name[1])
+        return "success", 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
         return render_template("error.html"), 400

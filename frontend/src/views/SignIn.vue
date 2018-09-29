@@ -31,6 +31,7 @@
                 axios.post('http://localhost:5000/login', {body: this.formData})
                 .then(response => {
                     console.log(response)
+                    this.back()
                 })
                 .catch(e => {
                     console.log(e)

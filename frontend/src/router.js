@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import SignIn from './views/SignIn.vue'
 import SignOut from './views/SignOut.vue'
+import NotFound from './views/NotFound.vue'
 
 Vue.use(Router)
 

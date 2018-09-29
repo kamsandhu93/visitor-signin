@@ -27,6 +27,7 @@
                 axios.post('http://localhost:5000/logout', {body: {pass_id: decodedString}})
                 .then(response => {
                     console.log(response)
+                    this.back()
                 })
                 .catch(e => {
                     console.log(e)

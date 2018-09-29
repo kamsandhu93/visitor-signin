@@ -5,10 +5,9 @@ from flask import Flask
 
 
 app = Flask(__name__,
-            template_folder = './dist',
-            static_folder="./dist",
-            static_url_path='')
-from visitor_app.handlers import view, login_handler, logout_handler, status_handler
+            template_folder = './templates',
+            static_folder = './templates/static')
+from visitor_app.handlers import catch_all, login_handler, logout_handler, status_handler
 
 app.config.from_pyfile('config.cfg')
 
