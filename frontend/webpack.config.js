@@ -4,8 +4,23 @@ const webpack = require('webpack')
 const { VueLoaderPlugin } = require('vue-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const path = require('path')
+
+// the path(s) that should be cleaned
+let pathsToClean = [
+  '../flask_app/vistor_app/templates'
+]
+
+// the clean options to use
+let cleanOptions = {
+    watch: true,
+    verbose:  true,
+    dry: false,
+    allowExternal: true
+}
+
 
 module.exports = {
     mode: 'development',
@@ -44,6 +59,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(pathsToClean, cleanOptions),
         new webpack.HotModuleReplacementPlugin(),
         new VueLoaderPlugin(),
         new CopyWebpackPlugin([
