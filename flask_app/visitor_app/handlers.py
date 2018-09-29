@@ -1,10 +1,16 @@
 import re
+import json
 
 from flask import render_template, request
 from visitor_app import app
 from visitor_app import exceptions
 from visitor_app import services
 
+def createError(errMsg, errCode):
+    """
+    create return error message
+    """
+    return json.dumps({"error": errMsg}), errCode
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -26,16 +32,16 @@ def login_handler():
         pass_id = services.login(request.form)
         app.logger.info("User logged in")
 
-        return "success", 200
+        return "Success", 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
-        return render_template("error.html"), 400
+        return createError("Missing or invalid request body", 400)
     except exceptions.DatabaseAccessEx as ex:
         app.log_exception(ex)
-        return render_template("error.html"), 503
+        return createError("Unable to access database", 503)
     except Exception as ex:
         app.logger.exception(ex)
-        return render_template("error.html"), 500
+        return createError("{0}".format(ex), 500)
 
 
 @app.route("/logout", methods=["POST"])
@@ -47,16 +53,16 @@ def logout_handler():
         full_name = services.logout(request.form)
         app.logger.info("User logged out")
 
-        return "success", 200
+        return "Success", 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
-        return render_template("error.html"), 400
+        return createError("Missing or invalid request body", 400)
     except exceptions.DatabaseAccessEx as ex:
         app.log_exception(ex)
-        return render_template("error.html"), 503
+        return createError("Unable to access database", 503)
     except Exception as ex:
         app.logger.exception(ex)
-        return render_template("error.html"), 500
+        return createError("{0}".format(ex), 500)
 
 
 def validate_request_form_keys(request_form, valid_keys):
