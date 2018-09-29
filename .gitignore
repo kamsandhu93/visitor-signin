@@ -79,3 +79,4 @@ share/
 .DS_Store
 
 node_modules/
+flask_app/visitor_app/templates/
