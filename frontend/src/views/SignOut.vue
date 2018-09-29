@@ -2,7 +2,15 @@
     <div>
         <button @click="back">back</button>
         <qrcode-reader @decode="onDecode" :paused="paused"></qrcode-reader>
-        {{ passId }}
+        <el-form :model="formData" :rules="rules" ref="signOutForm">
+            <el-form-item label="Pass ID" prop="pass_id">
+                <el-input v-model="formData['pass_id']"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="submitForm('signOutForm')">Create</el-button>
+                <el-button @click="resetForm('signOutForm')">Reset</el-button>
+            </el-form-item>
+        </el-form>
     </div>
 </template>
 
@@ -13,7 +21,12 @@
     export default {
         data () {
             return {
-                passId: "",
+                formData: {
+                    pass_id: ""
+                },
+                rules: {
+                    pass_id: [{required: true, message: 'Please input Pass ID', trigger: 'blur'}]
+                },
                 paused: false
             }
         },
@@ -23,22 +36,41 @@
         methods: {
             onDecode (decodedString) {
                 this.paused = true
-                this.passId = decodedString
-                axios.post('http://localhost:5000/logout', {body: {pass_id: decodedString}})
-                .then(response => {
-                    console.log(response)
-                    this.back()
-                })
-                .catch(e => {
-                    console.log(e)
-                    this.$message({
-                        message: `${e}`,
-                        type: "error"
-                    })
-                })
+                this.formData["pass_id"] = decodedString
+                this.submitForm("signOutForm")
             },
             back () {
                 this.$router.push({path: "/"})
+            },
+            submitForm (formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        axios.post('http://localhost:5000/logout', {body: this.formData})
+                        .then(response => {
+                            this.$notify({
+                                title: "Sign out success",
+                                message: `${response.data.message}`,
+                                type: 'success'
+                            })
+                            this.back()
+                        })
+                        .catch(e => {
+                            this.$notify({
+                                title: "Error",
+                                message: `${e.response.data.message} - ${e.response.status}`,
+                                type: "error"
+                            })
+                        })
+                    }
+                    else {
+                        this.paused = false
+                        return false
+                    }
+                })
+            },
+            resetForm (formName) {
+                this.$refs[formName].resetFields()
+                this.paused = false
             }
         }
     }

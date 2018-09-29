@@ -1,16 +1,15 @@
 import re
-import json
 
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from visitor_app import app
 from visitor_app import exceptions
 from visitor_app import services
 
-def createError(errMsg, errCode):
+def createResponse(msg, status):
     """
-    create return error message
+    create response
     """
-    return json.dumps({"error": errMsg}), errCode
+    return jsonify({'message': msg}), status
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -32,16 +31,17 @@ def login_handler():
         pass_id = services.login(request.form)
         app.logger.info("User logged in")
 
-        return "Success", 200
+        responseMsg = "{0} {1} Signed in".format(request.form['name'], request.form['surname'])
+        return createResponse(responseMsg, 200)
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
-        return createError("Missing or invalid request body", 400)
+        return createResponse("Missing or invalid request body", 400)
     except exceptions.DatabaseAccessEx as ex:
         app.log_exception(ex)
-        return createError("Unable to access database", 503)
+        return createResponse("Unable to access database", 503)
     except Exception as ex:
         app.logger.exception(ex)
-        return createError("{0}".format(ex), 500)
+        return createResponse("{0}".format(ex), 500)
 
 
 @app.route("/logout", methods=["POST"])
@@ -53,16 +53,17 @@ def logout_handler():
         full_name = services.logout(request.form)
         app.logger.info("User logged out")
 
-        return "Success", 200
+        responseMsg = "{0} {1} Signed out".format(full_name[0], full_name[1])
+        return createResponse(responseMsg, 200)
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
-        return createError("Missing or invalid request body", 400)
+        return createResponse("Missing or invalid request body", 400)
     except exceptions.DatabaseAccessEx as ex:
         app.log_exception(ex)
-        return createError("Unable to access database", 503)
+        return createResponse("Unable to access database", 503)
     except Exception as ex:
         app.logger.exception(ex)
-        return createError("{0}".format(ex), 500)
+        return createResponse("{0}".format(ex), 500)
 
 
 def validate_request_form_keys(request_form, valid_keys):
