@@ -1,17 +1,23 @@
 <template>
-    <div>
-        <button @click="back">back</button>
-        <qrcode-reader @decode="onDecode" :paused="paused"></qrcode-reader>
-        <el-form :model="formData" :rules="rules" ref="signOutForm">
-            <el-form-item label="Pass ID" prop="pass_id">
-                <el-input v-model="formData['pass_id']"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('signOutForm')">Create</el-button>
-                <el-button @click="resetForm('signOutForm')">Reset</el-button>
-            </el-form-item>
-        </el-form>
-    </div>
+    <el-row>
+        <el-row>
+            <qrcode-reader @decode="onDecode" :paused="paused" :camera="cameraOpts"></qrcode-reader>
+        </el-row>
+        <el-row type="flex" justify="center">
+            <el-col :span="12">
+                <el-form :model="formData" :rules="rules" ref="signOutForm">
+                    <el-form-item label="Pass ID" prop="pass_id">
+                        <el-input v-model="formData['pass_id']"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="success" @click="submitForm('signOutForm')" icon="el-icon-check">Create</el-button>
+                        <el-button @click="resetForm('signOutForm')" type="primary" icon="el-icon-refresh">Reset</el-button>
+                        <el-button @click="back()" type="danger" icon="el-icon-close">Cancel</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+        </el-row>
+    </el-row>
 </template>
 
 <script>
@@ -27,7 +33,12 @@
                 rules: {
                     pass_id: [{required: true, message: 'Please input Pass ID', trigger: 'blur'}]
                 },
-                paused: false
+                paused: false,
+                cameraOpts: {
+                    facingMode: { ideal: "environment" },
+                    width: { min: 360, ideal: 680, max: 800 },
+                    height: { min: 240, ideal: 480, max: 600 }
+                }
             }
         },
         components: {
