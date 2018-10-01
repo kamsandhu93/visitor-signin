@@ -4,8 +4,10 @@ import logging
 from flask import Flask
 
 
-app = Flask(__name__)
-from visitor_app.handlers import view, login_handler, logout_handler, status_handler
+app = Flask(__name__,
+            template_folder = './templates',
+            static_folder = './templates/static')
+from visitor_app.handlers import catch_all, login_handler, logout_handler, status_handler
 
 app.config.from_pyfile('config.cfg')
 

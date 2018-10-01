@@ -1,4 +1,4 @@
-FROM python:3.6-alpine
+FROM python:3.7-alpine
 MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
 #declare arguments

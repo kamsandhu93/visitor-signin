@@ -2,6 +2,7 @@
 
 ## Prerequisites
  - curl
+ - Install [Node.js](https://nodejs.org/en/download/)
  - Install [Docker](https://docs.docker.com/install/)
  - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
  - A [Dropbox](https://www.dropbox.com) account
@@ -14,6 +15,10 @@
  ```
  git clone https://github.com/kamsandhu93/visitor-signin.git
  cd visitor-signin
+ cd frontend
+ npm install
+ npm run build
+ cd ../
  chmod +x ./deploy.sh
  ./deploy.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
  <enter root password as docker needs to run as root>
