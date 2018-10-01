@@ -15,10 +15,6 @@
  ```
  git clone https://github.com/kamsandhu93/visitor-signin.git
  cd visitor-signin
- cd frontend
- npm install
- npm run build
- cd ../
  chmod +x ./deploy.sh
  ./deploy.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
  <enter root password as docker needs to run as root>
@@ -26,13 +22,15 @@
 
 ### Optional commands
 ```
--d, --debug
+-h
+    Show help
+-d
     Start all containers in debug mode
--b, --build
+-b
     Force rebuild of all images and recreate all containers even when there are no changes
--r, --recreate
+-r
     Force recreate all containers even when there are no changes
--db, --database
+-f
     Name of database file (default: visitor_db.db)
 ```
 
