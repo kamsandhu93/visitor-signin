@@ -1,11 +1,13 @@
 from visitor_app import app
 from visitor_app import data_access
+from generate_pdf.html_to_pdf import generate_pass
 
 
 def login(request_form):
     pass_id = get_unique_pass_code()
     first_name = request_form["name"]
     surname = request_form["surname"]
+    #if visiting or company not mandatory then we need safe extract from the dict
     visiting = request_form["visiting"]
     company = request_form["company"]
 
@@ -40,3 +42,11 @@ def get_unique_pass_code():
     data_access.update_last_pass_id(pass_code)
 
     return pass_code
+
+
+def print_pass(pass_id, request_form):
+    first_name = request_form["name"]
+    surname = request_form["surname"]
+    company = request_form.get("company")
+    full_name = first_name + " " + surname
+    generate_pass(pass_id, full_name, company)

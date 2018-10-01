@@ -1,3 +1,6 @@
+# ToDo restore change backup to sync in case the timestamp on the dropbox is after the timestamp on the local
+# ToDo check for zone difference issues between loacl and the dropbox
+# cron job?
 FROM python:3.7-alpine
 MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
@@ -7,6 +10,7 @@ ARG DB_FILE
 
 ARG WORK_DIR=/visitor-back
 ARG CONFIG_NAME=$WORK_DIR/db_ops.cfg
+RUN echo "test"
 
 #install packages
 RUN apk update && apk upgrade \

@@ -55,8 +55,10 @@ def get_visitor_full_name(pass_id):
 def get_last_pass_id():
     sql = "SELECT last_pass " \
           "FROM settings"
-
-    last_pass_id = execute_select_sql(sql)[0]
+    try:
+        last_pass_id = execute_select_sql(sql)[0]
+    except TypeError:
+        last_pass_id = "00000a"
 
     return last_pass_id
 
@@ -67,5 +69,3 @@ def update_last_pass_id(pass_code):
           "WHERE pass = 1"
 
     execute_modification_sql(sql, [pass_code])
-
-

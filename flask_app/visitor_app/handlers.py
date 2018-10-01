@@ -25,11 +25,14 @@ def status_handler():
 @app.route("/login", methods=["POST"])
 def login_handler():
     try:
+        # ToDo do we need to pass data object instead of request.form?
         request.form = request.get_json()['body']
         validate_request_form_keys(request.form, valid_keys=["name", "surname", "visiting", "company"])
         validate_login_form_values(request.form)
         pass_id = services.login(request.form)
         app.logger.info("User logged in")
+        services.print_pass(pass_id, request.form)
+        app.logger.info("Pass printed")
 
         responseMsg = "{0} {1} Signed in".format(request.form['name'], request.form['surname'])
         return createResponse(responseMsg, 200)

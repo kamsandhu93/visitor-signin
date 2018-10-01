@@ -1,3 +1,4 @@
+# ToDo: Do we need classes?
 import sys
 import hashlib
 import configparser

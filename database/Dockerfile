@@ -21,6 +21,7 @@ RUN mkdir $WORK_DIR/database
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 
+# why do we create file here?
 RUN touch $START_SCRIPT
 RUN echo #!/bin/sh >> $START_SCRIPT
 RUN echo sqlite_web -H $APP_HOST -p $APP_PORT $DB_PATH >> $START_SCRIPT

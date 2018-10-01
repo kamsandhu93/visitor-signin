@@ -3,6 +3,7 @@ FROM python:3.7-alpine
 MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
 RUN apk update && apk upgrade \
+ && apk add wkhtmltopdf \
  && apk add curl \
  && rm -rf /var/cache/apk/*
 
@@ -18,6 +19,7 @@ ENV HOST 0.0.0.0
 ENV LOG_PATH /app/visitor_app/log/visitor_app.log
 
 ADD ./visitor_app /app/visitor_app
+ADD ./generate_pdf /app/generate_pdf
 ADD ./main.py /app/
 RUN mkdir app/visitor_app/log
 RUN mkdir app/visitor_app/database

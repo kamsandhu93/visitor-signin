@@ -5,21 +5,17 @@ import pdfkit
 from bs4 import BeautifulSoup
 
 
-def generate_pass(name, company=None):
+def generate_pass(pass_id, name, company=None):
     """
-    generates a pdf pass to print in (the same directory) test.pdf 
+    generates a pdf pass to print in (the same directory) test.pdf
 
     Args:
+        pass_id(string):
         name(string):
         company(string): optional
 
-    Returns:
-        pass_id(string)
     """
-    # ToDo generate a random/consecutive numbers
-    pass_id = "0001"
-
-    with open("template.html") as template:
+    with open("./generate_pdf/template.html") as template:
         txt = template.read()
         soup = BeautifulSoup(txt)
 
@@ -28,11 +24,12 @@ def generate_pass(name, company=None):
     company_element = soup.find(id="company")
     company_element.string.replace_with(company)
     date_element = soup.find(id="date")
+    # ToDO do we need to pick this date from the DB ? or something 
     date_element.string.replace_with(datetime.now().strftime("%d-%M-%Y"))
     pass_id_element = soup.find(id="passid")
     pass_id_element.string.replace_with(pass_id_element.string + pass_id)
 
-    with open("generated.html", "w") as out:
+    with open("./generate_pdf/generated.html", "w") as out:
         out.write(str(soup))
 
 
@@ -44,6 +41,4 @@ def generate_pass(name, company=None):
         'margin-left':'0cm',
         'margin-right':'0cm'
     }
-    pdfkit.from_file('generated.html', 'test.pdf', options=pdf_options)
-
-    return pass_id
+    pdfkit.from_file('./generate_pdf/generated.html', 'test.pdf', options=pdf_options)

@@ -1,15 +1,68 @@
 # visitor-signin
 
 ## Prerequisites
+N.B. Commands assuming Ubuntu
  - curl
+    ```
+    sudo apt-get install curl
+    ```
  - Install [Node.js](https://nodejs.org/en/download/)
+    ```
+    sudo apt-get update
+    sudo apt-get install nodejs
+    sudo apt-get install npm
+    ```
+    Verify node and npm installed correctly, Node >=8 needed (till this moment)
+    ```
+    node -v # Expected Version 
+    npm -v # Expected Version
+    ```
+    If you already have an old version of node, you will need to upgrade it
+    ```
+    sudo npm cache clean -f
+    sudo npm install -g n
+    sudo n stable  #if needed (sudo n latest)
+        OR
+    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash # install nvm (node version manager)
+    nvm install stable
+    ```
  - Install [Docker](https://docs.docker.com/install/)
- - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
+    ```
+    sudo apt-get update
+    sudo apt-get install apt-transport-https ca-certificates software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt-get update
+    sudo apt install docker-ce
+    ```
+    Verify docker installed correctly
+    ```
+    sudo docker run hello-world
+    ```
+ - Install [Docker-Compose](https://docs.docker.com/compose/install/)
+    
+    ```
+    # find out what is the latest release from https://github.com/docker/compose/releases/ 
+    # then replace the release number in the url with the version you want to install
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    ```
+    Verify
+    ```
+    docker-compose --version
+    ```
  - A [Dropbox](https://www.dropbox.com) account
- - Created a dropbox app and generated a dropbox api token in [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
+ - Create a Dropbox API app [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
+    - Choose app folder
+    - Name: must be globaly unique choose any name and take a note of it
+    - After creating the app, click `Generate access token`
  - A copy of sqlite database in either:
-   - `/opt/visitor-db/database` or
-   - Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
+   - (Locally) `/opt/visitor-db/database/` or
+   - (on Dropbox) Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
+   - if you dont have a copy and this a fresh deployment create an empty database file locally, default name for the file is `visitor_db.db`
+
+Alternatively run the following script
+
 
 ## Deployment
  ```
