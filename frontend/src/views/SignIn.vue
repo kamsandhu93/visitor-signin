@@ -15,7 +15,7 @@
                     <el-input v-model="formData['company']"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="success" icon="el-icon-check" @click="submitForm('signInForm')">Create</el-button>
+                    <el-button type="success" icon="el-icon-check" @click="submitForm('signInForm')">Sign In</el-button>
                     <el-button type="primary" icon="el-icon-refresh" @click="resetForm('signInForm')">Reset</el-button>
                     <el-button type="danger" icon="el-icron-cross" @click="back()">Cancel</el-button>
                 </el-form-item>
