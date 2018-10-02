@@ -25,6 +25,7 @@ N.B. Commands assuming Ubuntu
         OR
     wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash # install nvm (node version manager)
     nvm install stable
+    nvm use stable
     ```
  - Install [Docker](https://docs.docker.com/install/)
     ```
@@ -59,7 +60,7 @@ N.B. Commands assuming Ubuntu
  - A copy of sqlite database in either:
    - (Locally) `/opt/visitor-db/database/` or
    - (on Dropbox) Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
-   - if you dont have a copy and this a fresh deployment create an empty database file locally, default name for the file is `visitor_db.db`
+   - if you dont have a copy and this a fresh deployment use the empty database file from ./database/empty_visitor_db.db and rename - default name for the file is `visitor_db.db`
 
 Alternatively run the following script
 
