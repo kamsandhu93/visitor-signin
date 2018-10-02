@@ -1,5 +1,5 @@
 <template>
-    <el-row>
+    <el-main>
         <el-row>
             <qrcode-reader @decode="onDecode" :paused="paused" :camera="cameraOpts"></qrcode-reader>
         </el-row>
@@ -12,12 +12,12 @@
                     <el-form-item>
                         <el-button type="success" @click="submitForm('signOutForm')" icon="el-icon-check">Sign Out</el-button>
                         <el-button @click="resetForm('signOutForm')" type="primary" icon="el-icon-refresh">Reset</el-button>
-                        <el-button @click="back()" type="danger" icon="el-icon-close">Cancel</el-button>
+                        <el-button @click="backToHome()" type="danger" icon="el-icon-close">Cancel</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
         </el-row>
-    </el-row>
+    </el-main>
 </template>
 
 <script>
@@ -45,33 +45,18 @@
             QrcodeReader
         },
         methods: {
-            onDecode (decodedString) {
+            onDecode(decodedString) {
                 this.paused = true
                 this.formData["pass_id"] = decodedString
                 this.submitForm("signOutForm")
             },
-            back () {
+            backToHome() {
                 this.$router.push({path: "/"})
             },
-            submitForm (formName) {
+            submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        axios.post('http://localhost:5000/logout', {body: this.formData})
-                        .then(response => {
-                            this.$notify({
-                                title: "Sign out success",
-                                message: `${response.data.message}`,
-                                type: 'success'
-                            })
-                            this.back()
-                        })
-                        .catch(e => {
-                            this.$notify({
-                                title: "Error",
-                                message: `${e.response.data.message} - ${e.response.status}`,
-                                type: "error"
-                            })
-                        })
+                        this.sendSignoutRequest()
                     }
                     else {
                         this.paused = false
@@ -79,9 +64,27 @@
                     }
                 })
             },
-            resetForm (formName) {
+            resetForm(formName) {
                 this.$refs[formName].resetFields()
                 this.paused = false
+            },
+            sendSignoutRequest() {
+                axios.post('http://localhost:5000/logout', {body: this.formData})
+                .then(response => {
+                    this.$notify({
+                        title: "Sign out success",
+                        message: `${response.data.message}`,
+                        type: 'success'
+                    })
+                    this.backToHome()
+                })
+                .catch(e => {
+                    this.$notify({
+                        title: "Error",
+                        message: `${e.response.data.message} - ${e.response.status}`,
+                        type: "error"
+                    })
+                })
             }
         }
     }

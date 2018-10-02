@@ -1,8 +1,8 @@
 <template>
-    <div class="home">
+    <el-main>
         <el-button @click="changeRoute('/signin')">Sign In</el-button>
         <el-button @click="changeRoute('/signout')">Sign Out</el-button>
-    </div>
+    </el-main>
 </template>
 
 <script>
