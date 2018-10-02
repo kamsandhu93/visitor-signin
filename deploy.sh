@@ -13,6 +13,38 @@ function printMsg () {
     printf "\n"
 }
 
+function checkSuccess () {
+    if [[ $? = 0 ]]; then
+        printMsg "${green}$1 SUCCESS${end}"
+    else
+        printMsg "${red}$1 FAILED${end}"
+        exit $?
+    fi
+}
+
+function createDirectories () {
+    for directory in $@
+    do
+        if [[ ! -d $directory ]]; then
+            sudo mkdir $directory
+            checkSuccess "Create $directory"
+        fi
+    done
+}
+
+function downloadDatabase () {
+    if [[ ! -f $dbPath ]]; then
+        printMsg "Database not found, downloading database..."
+        sudo curl -X POST https://content.dropboxapi.com/2/files/download \
+        --header "Authorization: Bearer $token" \
+        --header "Dropbox-API-Arg: {\"path\": \"/$dbName\"}" \
+        --output "$dbPath"
+        checkSuccess "Database download"
+    fi
+}
+
+
+# Start of main script
 while getopts ":t: :f: :hbdr" opt; do
     case ${opt} in
         h )
@@ -59,62 +91,24 @@ if [[ -z $token ]]; then
 fi
 
 rootPath="/opt/visitor-db"
-directories=("$rootPath" "$rootPath/database" "$rootPath/log" "$rootPath/log/flask" "$rootPath/log/backup")
+rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$rootPath/log/flask" "$rootPath/log/backup")
 dbPath="$rootPath/database/$dbName"
 
+createDirectories ${rootDirectories[*]}
 
-#create host directories if not exist
-for directory in ${directories[*]}
-do
-    if [[ ! -d $directory ]]; then
-        sudo mkdir $directory
-        if [[ $? = 0 ]]; then
-            printMsg "${green}Created: $directory${end}"
-        else
-            printMsg "${red}Failed to create: $directory${end}"
-            exit $?
-        fi
-    fi
-done
-
-
-#download db file if not exist
-if [[ ! -f $dbPath ]]; then
-    printMsg "Database not found, downloading database..."
-    sudo curl -X POST https://content.dropboxapi.com/2/files/download \
-    --header "Authorization: Bearer $token" \
-    --header "Dropbox-API-Arg: {\"path\": \"/$dbName\"}" \
-    --output "$dbPath"
-    if [[ $? = 0 ]]; then
-        echo    "---------------------------------------------"
-        echo -e "${green}Database downloaded to: $dbPath${end}"
-        echo    "---------------------------------------------"
-    else
-        echo    "------------------------------------"
-        echo -e "${red}Database download failed${end}"
-        echo    "------------------------------------"
-        exit $?
-    fi
-fi
+downloadDatabase
 
 #build frontend
 printMsg "Building frontend..."
 pushd frontend
+
 printMsg "Installing node modules..."
 npm install
-if [[ $? = 0 ]]; then
-    printMsg "${green}npm install success${end}"
-else
-    printMsg "${red}npm install fail${end}"
-    exit $?
-fi
+checkSuccess "npm install"
+
 npm run build
-if [[ $? = 0 ]]; then
-    printMsg "${green}Frontend build success${end}"
-else
-    printMsg "${red}Frontend build fail${end}"
-    exit $?
-fi
+checkSuccess "npm build"
+
 popd
 
 export DROPBOX_TOKEN=$token
@@ -126,12 +120,7 @@ cmd="sudo -E docker-compose up"
 if [[ $rebuild = true ]]; then
     printMsg "Rebuilding containers"
     sudo -E docker-compose build --no-cache
-    if [[ $? = 0 ]]; then
-        printMsg "${green}Container build success${end}"
-    else
-        printMsg "${red}Container build fail${end}"
-        exit $?
-    fi
+    checkSuccess "Container build"
 fi
 
 if [[ $recreate = true ]]; then

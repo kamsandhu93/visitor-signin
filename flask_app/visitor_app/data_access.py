@@ -67,5 +67,3 @@ def update_last_pass_id(pass_code):
           "WHERE pass = 1"
 
     execute_modification_sql(sql, [pass_code])
-
-
