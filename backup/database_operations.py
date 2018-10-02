@@ -23,7 +23,7 @@ def parseArgs(args):
     parser.add_argument(
         "-c", "--config", dest="configPath",
         type=checkFile, required=False,
-        default="/visitor-back/db_ops.cfg",
+        default="/visitor-back/database_operations.cfg",
         help="Config file path"
     )
 

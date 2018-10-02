@@ -6,7 +6,7 @@ ARG API_TOKEN
 ARG DB_FILE
 
 ARG WORK_DIR=/visitor-back
-ARG CONFIG_NAME=$WORK_DIR/db_ops.cfg
+ARG CONFIG_NAME=$WORK_DIR/database_operations.cfg
 
 #install packages
 RUN apk update && apk upgrade \
@@ -18,7 +18,7 @@ RUN mkdir $WORK_DIR
 RUN mkdir $WORK_DIR/log
 RUN mkdir $WORK_DIR/database
 
-ADD db_ops.py $WORK_DIR
+ADD database_operations.py $WORK_DIR
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 
@@ -32,4 +32,4 @@ RUN echo DatabaseFile=$DB_FILE >> $CONFIG_NAME
 RUN echo DatabaseDir=$WORK_DIR/database >> $CONFIG_NAME
 RUN echo LogDir=$WORK_DIR/log >> $CONFIG_NAME
 
-CMD ["python", "db_ops.py", "-s", "-o", "backup"]
+CMD ["python", "database_operations.py", "-s", "-o", "backup"]
