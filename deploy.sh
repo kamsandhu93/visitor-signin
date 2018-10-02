@@ -6,9 +6,11 @@ end='\033[0m'
 green='\033[0;32m'
 
 function printMsg () {
+    printf "\n"
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
     echo -e $1
     printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+    printf "\n"
 }
 
 while getopts ":t: :f: :hbdr" opt; do
