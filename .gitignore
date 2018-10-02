@@ -80,6 +80,10 @@ share/
 node_modules/
 flask_app/visitor_app/templates/
 
+# eclipse settings
+.project
+.pydevproject
+
 #pdf generation temp files
 **/generated.html
 **/test.pdf

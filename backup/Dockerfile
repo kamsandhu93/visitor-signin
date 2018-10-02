@@ -10,7 +10,6 @@ ARG DB_FILE
 
 ARG WORK_DIR=/visitor-back
 ARG CONFIG_NAME=$WORK_DIR/db_ops.cfg
-RUN echo "test"
 
 #install packages
 RUN apk update && apk upgrade \

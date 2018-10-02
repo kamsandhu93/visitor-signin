@@ -10,7 +10,7 @@
                         <el-input v-model="formData['pass_id']"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="success" @click="submitForm('signOutForm')" icon="el-icon-check">Create</el-button>
+                        <el-button type="success" @click="submitForm('signOutForm')" icon="el-icon-check">Sign Out</el-button>
                         <el-button @click="resetForm('signOutForm')" type="primary" icon="el-icon-refresh">Reset</el-button>
                         <el-button @click="back()" type="danger" icon="el-icon-close">Cancel</el-button>
                     </el-form-item>

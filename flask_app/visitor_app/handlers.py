@@ -6,9 +6,6 @@ from visitor_app import exceptions
 from visitor_app import services
 
 def createResponse(msg, status):
-    """
-    create response
-    """
     return jsonify({'message': msg}), status
 
 @app.route('/', defaults={'path': ''})
