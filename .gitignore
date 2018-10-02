@@ -80,3 +80,7 @@ share/
 
 node_modules/
 flask_app/visitor_app/templates/
+
+# eclipse settings
+.project
+.pydevproject
