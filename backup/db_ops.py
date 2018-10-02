@@ -12,34 +12,34 @@ from dropbox.files import WriteMode
 
 def main():
     arguments = parseArgs(sys.argv[1:])
-    config = parseConfig(arguments.config)
-    startLogging(config, arguments.operation)
+    config = parseConfig(arguments.configPath)
+    startLogging(config, arguments.operationType)
     database = Database(config)
-    runOperation(database, arguments.operation, arguments.service)
+    runDatabaseOperation(database, arguments.operationType, arguments.isService)
 
 def parseArgs(args):
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "-c", "--config",
+        "-c", "--config", dest="configPath",
         type=checkFile, required=False,
         default="/visitor-back/db_ops.cfg",
         help="Config file path"
     )
 
     parser.add_argument(
-        "-o", "--operation",
+        "-o", "--operation", dest="operationType",
         type=checkOperation, required=True,
         help="Backup or restore database"
     )
 
     parser.add_argument(
         "-s", "--service",
-        dest="service", action="store_true",
+        dest="isService", action="store_true",
         help="Run script continuously as a service"
     )
 
-    parser.set_defaults(service=False)
+    parser.set_defaults(isService=False)
 
     arguments = parser.parse_args(args)
     return arguments
@@ -71,7 +71,7 @@ def parseConfig(configPath):
     return config.defaults()
 
 def startLogging(config, operation):
-    logPath = os.path.join(config["LogDir"], "backup.log")
+    logFilePath = os.path.join(config["LogDir"], "backup.log")
     loggingFormat = logging.Formatter("%(asctime)s | {0} | %(levelname)s | %(message)s".format(operation))
 
     fileHandler = logging.FileHandler(logFilePath, encoding = "utf-8")
@@ -83,6 +83,21 @@ def startLogging(config, operation):
     logging.root.setLevel(logging.INFO)
     logging.root.addHandler(fileHandler)
     logging.root.addHandler(consoleHandler)
+
+def runDatabaseOperation(database, operationType, isService):
+    if isService:
+        runDatabaseOperationAsService(database, operationType)
+    else:
+        database.operate(operationType)
+
+def runDatabaseOperationAsService(database, operationType):
+    currentHash = {}
+    while True:
+        newHash = database.getHash()
+        if newHash != currentHash:
+            database.operate(operationType)
+            currentHash = newHash
+        time.sleep(30)
 
 class Database(object):
     def __init__(self, config):
@@ -135,40 +150,25 @@ class Database(object):
             logging.error(err)
             sys.exit()
 
-    def operate(self, operation):
-        self.operationDict[operation]()
+    def operate(self, operationType):
+        self.operationDict[operationType]()
 
-def runOperation(database, operation, isService):
-    if isService:
-        runAsService(database, operation)
-    else:
-        database.operate(operation)
+    def getHash(self, bufferSize=65536):
+        sha1 = hashlib.sha1()
+        md5 = hashlib.md5()
 
-def runAsService(database, operation):
-    currentHash = {}
-    while True:
-        newHash = getHash(localPath)
-        if newHash != currentHash:
-            database.operate(operation)
-            currentHash = newHash
-        time.sleep(30)
+        with open(self.localPath, "rb") as f:
+            while True:
+                data = f.read(bufferSize)
+                if not data:
+                    break
+                md5.update(data)
+                sha1.update(data)
 
-def getHash(filePath, bufferSize=65536):
-    sha1 = hashlib.sha1()
-    md5 = hashlib.md5()
-
-    with open(filePath, "rb") as f:
-        while True:
-            data = f.read(bufferSize)
-            if not data:
-                break
-            md5.update(data)
-            sha1.update(data)
-
-    return {
-        "md5": md5.hexdigest(),
-        "sha1": sha1.hexdigest()
-    }
+        return {
+            "md5": md5.hexdigest(),
+            "sha1": sha1.hexdigest()
+        }
 
 if __name__ == "__main__":
     main()
