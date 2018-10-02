@@ -59,7 +59,7 @@ sudo docker ps
 <copy the container id of the backup container>
 sudo docker exec -it <container id> /bin/sh
 cd /visitor-back
-python db_ops.py -o "restore_force"
+python database_operations.py -o "restore_force"
 ```
 
 During deployment `deploy.sh` creates the following file structure on the host system:
