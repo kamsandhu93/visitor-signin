@@ -1,11 +1,12 @@
-FROM python:3.7-alpine
+FROM python:3.7
 
 MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
-RUN apk update && apk upgrade \
- && apk add curl \
- && apk add wkhtmltopdf --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
- && rm -rf /var/cache/apk/*
+RUN apt-get update -y && apt-get upgrade -y \
+ && apt-get install curl -y \
+ && apt-get install wkhtmltopdf -y \
+ && apt-get install xvfb -y \
+ && rm -rf /var/cache/apt/*
 
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
