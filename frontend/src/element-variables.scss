@@ -4,6 +4,10 @@ found in element-ui/packages/theme-chalk/src/common/var.scss.
 For example, to overwrite the theme color:
 */
 $--color-primary: #005EB8;
+$--color-success: #78BE20;
+$--color-warning: #FFB81C;
+$--color-danger: #DA291C;
+$--color-info: #768692;
 
 /* icon font path, required */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
