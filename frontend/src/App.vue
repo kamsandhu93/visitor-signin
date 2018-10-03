@@ -1,5 +1,8 @@
 <template>
     <el-container id="app">
+        <el-header height="80px">
+            <img src="./assets/nhs_digital_logo.png" class="logo"/>
+        </el-header>
         <router-view></router-view>
     </el-container>
 </template>
@@ -12,7 +15,7 @@
 
 <style>
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-family: Arial;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
@@ -26,5 +29,19 @@
     h1 {
         color: #005EB8;
         font-size: 24pt;
+    }
+
+    h2 {
+        color: #005EB8;
+    }
+</style>
+
+<style scoped>
+    .logo {
+        width: 180px;
+        position: absolute;
+        display: block;
+        top: 50px;
+        left: 50px;
     }
 </style>

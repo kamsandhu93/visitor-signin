@@ -42,8 +42,8 @@
                 paused: false,
                 cameraOpts: {
                     facingMode: { ideal: "environment" },
-                    width: { min: 360, ideal: 680, max: 800 },
-                    height: { min: 240, ideal: 480, max: 600 }
+                    width: { min: 400, ideal: 600, max: 800 },
+                    height: { min: 200, ideal: 400, max: 600 }
                 }
             }
         },

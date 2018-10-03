@@ -19,11 +19,8 @@
             </el-col>
         </el-row>
         <el-row>
-            <el-dialog
-                title="Confirm Details"
-                :visible.sync="dialogVisible"
-                width="50%"
-            >
+            <el-dialog :visible.sync="dialogVisible" width="50%">
+                <span slot="title"><h2>Confirm Details</h2></span>
                 <confirm-dialog-item label="Name" :body="getFullName()"></confirm-dialog-item>
                 <confirm-dialog-item label="Visiting" :body="formData['visiting']"></confirm-dialog-item>
                 <confirm-dialog-item label="Company" :body="formData['company']"></confirm-dialog-item>
@@ -82,23 +79,34 @@
             sendSigninRequest() {
                 axios.post('http://localhost:5000/login', {body: this.formData})
                 .then(response => {
-                    this.$notify({
-                        title: "Sign in success",
-                        message: `${response.data.message}`,
-                        type: "success"
-                    })
+                    this.notifySuccess(`${response.data.message}`)
                     this.backToHome()
                 })
                 .catch(e => {
-                    this.$notify({
-                        title: "Error",
-                        message: `${e.response.data.message} - ${e.response.status}`,
-                        type: "error"
-                    })
+                    if (e["response"]) {
+                        this.notifyError(`${e.response.data.message} - ${e.response.status}`)
+                    }
+                    else {
+                        this.notifyError(`${e}`)
+                    }
                 })
             },
             getFullName() {
                 return `${this.formData["name"]} ${this.formData["surname"]}`
+            },
+            notifySuccess(msg) {
+                this.$notify({
+                    title: "Sign in success",
+                    message: msg,
+                    type: "success"
+                })
+            },
+            notifyError(msg) {
+                this.$notify({
+                    title: "Error",
+                    message: msg,
+                    type: "error"
+                })
             }
         }
     }

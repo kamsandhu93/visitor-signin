@@ -1,7 +1,7 @@
 <template>
     <el-main>
         <el-row>
-            <p>404 - Not Found</p>
+            <h1>404 - Not Found</h1>
         </el-row>
         <el-row>
             <el-button type="primary" @click="backToHome()">Back to Home</el-button>
@@ -18,3 +18,13 @@
         }
     }
 </script>
+
+<style scoped>
+    h1 {
+        font-size: 36pt;
+    }
+
+    button {
+        font-size: 14pt;
+    }
+</style>

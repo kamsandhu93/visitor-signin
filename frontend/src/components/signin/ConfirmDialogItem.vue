@@ -1,9 +1,9 @@
 <template>
-    <el-row type="flex" justify="center" :gutter="10" class="row">
+    <el-row type="flex" justify="center" :gutter="20" class="row">
         <el-col :span="5" class="label">
             <b>{{ label }}</b>
         </el-col>
-        <el-col :span="10" class="body">
+        <el-col :span="11" class="body">
             {{ text }}
         </el-col>
     </el-row>
@@ -37,6 +37,6 @@
     }
 
     .row {
-        margin: 10px;
+        margin: 15px;
     }
 </style>
