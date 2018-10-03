@@ -1,18 +1,19 @@
 <template>
     <el-main>
         <el-row>
+            <h1>Sign Out</h1>
+        </el-row>
+        <el-row>
             <qrcode-reader @decode="onDecode" :paused="paused" :camera="cameraOpts"></qrcode-reader>
         </el-row>
         <el-row type="flex" justify="center">
             <el-col :span="12">
                 <el-form :model="formData" :rules="rules" ref="signOutForm">
-                    <el-form-item label="Pass ID" prop="pass_id">
-                        <el-input v-model="formData['pass_id']"></el-input>
-                    </el-form-item>
+                    <form-item label="Pass ID" prop="pass_id" v-model="formData['pass_id']"></form-item>
                     <el-form-item>
-                        <el-button type="success" @click="submitForm('signOutForm')" icon="el-icon-check">Sign Out</el-button>
-                        <el-button @click="resetForm('signOutForm')" type="primary" icon="el-icon-refresh">Reset</el-button>
-                        <el-button @click="backToHome()" type="danger" icon="el-icon-close">Cancel</el-button>
+                        <el-button type="primary" icon="el-icon-check" @click="submitForm('signOutForm')">Sign Out</el-button>
+                        <el-button type="info" icon="el-icon-refresh" @click="resetForm('signOutForm')" plain>Reset</el-button>
+                        <el-button type="danger" icon="el-icon-close" @click="backToHome()" plain>Cancel</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -23,8 +24,13 @@
 <script>
     import { QrcodeReader } from 'vue-qrcode-reader'
     import axios from 'axios'
+    import FormItem from '../components/common/FormItem.vue'
 
     export default {
+        components: {
+            QrcodeReader,
+            FormItem
+        },
         data () {
             return {
                 formData: {
@@ -40,9 +46,6 @@
                     height: { min: 240, ideal: 480, max: 600 }
                 }
             }
-        },
-        components: {
-            QrcodeReader
         },
         methods: {
             onDecode(decodedString) {
@@ -91,4 +94,9 @@
 </script>
 
 <style scoped>
+    button {
+        margin: 5px;
+        font-size: 16pt;
+        padding: 20px;
+    }
 </style>

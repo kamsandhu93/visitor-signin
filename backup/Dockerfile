@@ -19,6 +19,7 @@ RUN mkdir $WORK_DIR/log
 RUN mkdir $WORK_DIR/database
 
 ADD database_operations.py $WORK_DIR
+ADD database.py $WORK_DIR
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 

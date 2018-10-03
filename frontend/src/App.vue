@@ -16,6 +16,15 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
-        color: #2c3e50;
+        color: #231f20;
+    }
+
+    button {
+        font-size: 14pt;
+    }
+
+    h1 {
+        color: #005EB8;
+        font-size: 24pt;
     }
 </style>

@@ -28,15 +28,15 @@
 <style scoped>
     .label {
         text-align: right;
-        font-size: 14pt;
+        font-size: 16pt;
     }
 
     .body {
         text-align: left;
-        font-size: 14pt;
+        font-size: 16pt;
     }
 
     .row {
-        margin: 5px;
+        margin: 10px;
     }
 </style>

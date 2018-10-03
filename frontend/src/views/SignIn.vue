@@ -1,24 +1,19 @@
 <template>
     <el-main>
+        <el-row>
+            <h1>Sign In</h1>
+        </el-row>
         <el-row type="flex" justify="center">
             <el-col :span="12">
                 <el-form :model="formData" :rules="rules" ref="signInForm">
-                    <el-form-item label="First Name" prop="name">
-                        <el-input v-model="formData['name']"></el-input>
-                    </el-form-item>
-                    <el-form-item label="Surname" prop="surname">
-                        <el-input v-model="formData['surname']"></el-input>
-                    </el-form-item>
-                    <el-form-item label="Visiting" prop="visiting">
-                        <el-input v-model="formData['visiting']"></el-input>
-                    </el-form-item>
-                    <el-form-item label="Company" prop="company">
-                        <el-input v-model="formData['company']"></el-input>
-                    </el-form-item>
+                    <form-item label="First Name" prop="name" v-model="formData['name']"></form-item>
+                    <form-item label="Surname" prop="surname" v-model="formData['surname']"></form-item>
+                    <form-item label="Visiting" prop="visiting" v-model="formData['visiting']"></form-item>
+                    <form-item label="Company" prop="company" v-model="formData['company']"></form-item>
                     <el-form-item>
-                        <el-button type="success" icon="el-icon-check" @click="submitForm('signInForm')">Sign In</el-button>
-                        <el-button type="primary" icon="el-icon-refresh" @click="resetForm('signInForm')">Reset</el-button>
-                        <el-button type="danger" icon="el-icon-close" @click="backToHome()">Cancel</el-button>
+                        <el-button type="primary" icon="el-icon-check" @click="submitForm('signInForm')">Sign In</el-button>
+                        <el-button type="info" icon="el-icon-refresh" @click="resetForm('signInForm')" plain>Reset</el-button>
+                        <el-button type="danger" icon="el-icon-close" @click="backToHome()" plain>Cancel</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -33,8 +28,8 @@
                 <confirm-dialog-item label="Visiting" :body="formData['visiting']"></confirm-dialog-item>
                 <confirm-dialog-item label="Company" :body="formData['company']"></confirm-dialog-item>
                 <span slot="footer">
-                    <el-button type="success" icon="el-icon-check" @click="sendSigninRequest()">Confirm</el-button>
-                    <el-button type="danger" icon="el-icon-close" @click="dialogVisible = false">Cancel</el-button>
+                    <el-button type="primary" icon="el-icon-check" @click="sendSigninRequest()">Confirm</el-button>
+                    <el-button type="danger" icon="el-icon-close" @click="dialogVisible = false" plain>Cancel</el-button>
                 </span>
             </el-dialog>
         </el-row>
@@ -44,10 +39,12 @@
 <script>
     import axios from 'axios'
     import ConfirmDialogItem from '../components/signin/ConfirmDialogItem.vue'
+    import FormItem from '../components/common/FormItem.vue'
 
     export default {
         components: {
-            ConfirmDialogItem
+            ConfirmDialogItem,
+            FormItem
         },
         data() {
             return {
@@ -108,4 +105,9 @@
 </script>
 
 <style scoped>
+    button {
+        margin: 5px;
+        padding: 20px;
+        font-size: 16pt;
+    }
 </style>
