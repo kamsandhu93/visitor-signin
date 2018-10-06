@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import SignIn from './views/SignIn.vue'
 import SignOut from './views/SignOut.vue'
-import Settings from './views/Settings.vue'
 import Pass from './views/Pass.vue'
 import ErrorPage from './views/Error.vue'
 
@@ -29,11 +28,6 @@ export default new Router({
         {
             path: '*',
             redirect: '/'
-        },
-        {
-            path: '/settings',
-            name: 'settings',
-            component: Settings
         },
         {
             path: '/pass',
