@@ -1,8 +1,11 @@
-# visitor-signin-frontend
+# Visitor Signin Frontend
 
 > Front end of visitor signin system
 
-#### Build Setup
+## Prerequisites
+ - Install [Node.js](https://nodejs.org/en/download/)
+
+## Build Setup
 
 ``` bash
 # install dependencies
@@ -15,6 +18,22 @@ npm run dev
 npm run build
 
 
+```
+
+## Setting Request URL and Printer
+If no `config.json` is found in the same directory as the application. A default is used:
+```
+host: localhost
+port: 5000
+printer: Microsoft Print to PDF
+```
+To change the default setup, create `config.json` in the same directory as the application with structure:
+``` json
+{
+    "host": "<your host>",
+    "port": "<your port>",
+    "printer": "<printer name>"
+}
 ```
 
 ---
