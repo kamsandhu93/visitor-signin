@@ -73,7 +73,7 @@
                 })
             },
             sendSigninRequest() {
-                axios.post(`${this.$store.getters.url}/login`, {body: this.formData}, {timeout: 1000})
+                axios.post(`${this.$store.getters.url}/login`, {body: this.formData})
                 .then((response) => {
                     var query = {
                         name: this.getFullName(),

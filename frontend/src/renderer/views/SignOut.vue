@@ -50,7 +50,10 @@
                 })
             },
             sendSignoutRequest() {
-                axios.post(`${this.$store.getters.url}/logout`, {body: this.formData}, {timeout: 1000})
+                this.$message({
+                    message: `url: ${this.$store.getters.url}`
+                })
+                axios.post(`${this.$store.getters.url}/logout`, {body: this.formData})
                 .then((response) => {
                     this.notifySuccess("Sign out success")
                     this.changeRoute('home')
@@ -60,7 +63,7 @@
                         this.notifyError(`${e.response.data.message}`)
                     }
                     else {
-                        this.notifyError("An error occured when signing out. Please try again. If problem persists, please inform the receptionist.")
+                        this.notifyError(`${e}`)
                     }
                 })
             }
