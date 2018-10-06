@@ -98,19 +98,6 @@ createDirectories ${rootDirectories[*]}
 
 downloadDatabase
 
-#build frontend
-printMsg "Building frontend..."
-pushd frontend
-
-printMsg "Installing node modules..."
-npm install
-checkSuccess "npm install"
-
-npm run build
-checkSuccess "npm build"
-
-popd
-
 export DROPBOX_TOKEN=$token
 export DB_FILE=$dbName
 

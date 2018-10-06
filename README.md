@@ -2,7 +2,6 @@
 
 ## Prerequisites
  - curl
- - Install [Node.js](https://nodejs.org/en/download/)
  - Install [Docker](https://docs.docker.com/install/)
  - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
  - A [Dropbox](https://www.dropbox.com) account
