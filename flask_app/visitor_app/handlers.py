@@ -8,12 +8,6 @@ from visitor_app import services
 def createResponse(msg, status):
     return jsonify({'message': msg}), status
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    return render_template("index.html")
-
-
 @app.route("/status")
 def status_handler():
     return "OK"
@@ -29,7 +23,7 @@ def login_handler():
         app.logger.info("User logged in")
 
         responseMsg = "{0} {1} Signed in".format(request.form['name'], request.form['surname'])
-        return createResponse(responseMsg, 200)
+        return jsonify({'message': responseMsg, 'passId': pass_id}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
         return createResponse("Missing or invalid request body", 400)

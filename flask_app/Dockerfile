@@ -4,7 +4,6 @@ MAINTAINER NHS Digital Delivery Centre,  Team-Grads
 
 RUN apk update && apk upgrade \
  && apk add curl \
- && apk add wkhtmltopdf --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
  && rm -rf /var/cache/apk/*
 
 COPY requirements.txt /tmp/

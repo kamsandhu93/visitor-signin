@@ -2,12 +2,12 @@ import logging
 
 
 from flask import Flask
+from flask_cors import CORS
 
+app = Flask(__name__)
 
-app = Flask(__name__,
-            template_folder = './templates',
-            static_folder = './templates/static')
-from visitor_app.handlers import catch_all, login_handler, logout_handler, status_handler
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
+from visitor_app.handlers import login_handler, logout_handler, status_handler
 
 app.config.from_pyfile('config.cfg')
 
