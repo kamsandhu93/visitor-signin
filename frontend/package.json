@@ -43,7 +43,7 @@
     "mac": {
       "icon": "build/icons/icon.icns",
       "target": [
-        "portable"
+        "zip"
       ]
     },
     "win": {
@@ -55,7 +55,7 @@
     "linux": {
       "icon": "build/icons",
       "target": [
-        "portable"
+        "AppImage"
       ]
     }
   },
