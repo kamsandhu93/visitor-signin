@@ -1,8 +1,10 @@
 import fs from 'fs'
 
+const workDir = process.env['PORTABLE_EXECUTABLE_DIR'] || process.cwd()
+
 class Config {
     constructor() {
-        this.configPath = `${process.env.PORTABLE_EXECUTABLE_DIR}/config.json`
+        this.configPath = `${workDir}/config.json`
         this.defaultConfig = {
             host: "localhost",
             port: "5000",
