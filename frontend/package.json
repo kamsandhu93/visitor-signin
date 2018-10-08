@@ -43,19 +43,19 @@
     "mac": {
       "icon": "build/icons/icon.icns",
       "target": [
-        "zip"
+        "portable"
       ]
     },
     "win": {
       "icon": "build/icons/icon.ico",
       "target": [
-        "zip"
+        "portable"
       ]
     },
     "linux": {
       "icon": "build/icons",
       "target": [
-        "zip"
+        "portable"
       ]
     }
   },

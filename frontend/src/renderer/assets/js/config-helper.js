@@ -2,7 +2,7 @@ import fs from 'fs'
 
 class Config {
     constructor() {
-        this.configPath = "./config.json"
+        this.configPath = `${process.env.PORTABLE_EXECUTABLE_DIR}/config.json`
         this.defaultConfig = {
             host: "localhost",
             port: "5000",
