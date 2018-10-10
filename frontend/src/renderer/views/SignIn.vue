@@ -57,9 +57,21 @@
                     company: ""
                 },
                 rules: {
-                    name: [{required: true, message: "Please input your first name", trigger: "blur"}],
-                    surname: [{required: true, message: "Please input your surname", trigger: "blur"}],
-                    visiting: [{required: true, message: "Please input who you are visiting", trigger: "blur"}]
+                    name: [
+                        { required: true, message: "Please input your first name", trigger: "blur" },
+                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
+                    ],
+                    surname: [
+                        { required: true, message: "Please input your surname", trigger: "blur" },
+                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
+                    ],
+                    visiting: [
+                        { required: true, message: "Please input who you are visiting", trigger: "blur" },
+                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
+                    ],
+                    company: [
+                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
+                    ]
                 },
                 confirmDialog: false
             }
@@ -84,7 +96,7 @@
                 })
                 .catch((e) => {
                     if (e["response"]) {
-                        this.notifyError(`${e.response.data.message} - ${e.response.status}`)
+                        this.notifyError(`${e.response.data.message}`)
                     }
                     else {
                         this.notifyError("An error occured when signing in. Please try again. If problem persists, please inform the receptionist.")

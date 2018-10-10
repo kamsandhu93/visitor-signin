@@ -1,7 +1,7 @@
 <template>
     <el-form-item :prop="prop" ref="test">
         <span slot="label"><b>{{ label }}</b></span>
-        <el-input v-model="body"></el-input>
+        <el-input v-model="body" clearable></el-input>
     </el-form-item>
 </template>
 

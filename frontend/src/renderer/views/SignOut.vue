@@ -37,7 +37,10 @@
                     pass_id: ""
                 },
                 rules: {
-                    pass_id: [{required: true, message: 'Please input Pass ID', trigger: 'blur'}]
+                    pass_id: [
+                        { required: true, message: 'Please input Pass ID', trigger: 'blur' },
+                        { min: 6, max: 6, message: 'Pass ID should be 6 characters long', trigger: 'blur' }
+                    ]
                 }
             }
         },
@@ -63,7 +66,7 @@
                         this.notifyError(`${e.response.data.message}`)
                     }
                     else {
-                        this.notifyError(`${e}`)
+                        this.notifyError("An error occured when signing out. Please try again. If problem persists, please inform the receptionist.")
                     }
                 })
             }
