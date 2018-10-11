@@ -83,3 +83,18 @@ flask_app/visitor_app/templates/
 #pdf generation temp files
 **/generated.html
 **/test.pdf
+
+dist/electron/*
+dist/web/*
+build/*
+!build/icons
+node_modules/
+npm-debug.log
+npm-debug.log.*
+thumbs.db
+!.gitkeep
+
+
+# eclipse settings
+.project
+.pydevproject

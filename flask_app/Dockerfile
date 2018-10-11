@@ -9,7 +9,6 @@ RUN apk update && apk upgrade \
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 
-# SHOULD NOT BE HARDCODED HERE
 ARG DB_FILE
 
 ENV DB_PATH /app/visitor_app/database/$DB_FILE
