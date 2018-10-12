@@ -100,11 +100,12 @@
                 })
             },
             calculateFontSize() {
-                if(40 > this.$route.query.name.length > 30){
+                var nameLength = this.$route.query.name.length
+                if(40 > nameLength > 30){
                     return 18
-                }else if(50 > this.$route.query.name.length > 40){
+                }else if(50 > nameLength > 40){
                     return 15
-                }else if(60 > this.$route.query.name.length >50){
+                }else if(65 > nameLength > 50){
                     return 12
                 }
             }
