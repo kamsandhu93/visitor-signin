@@ -53,6 +53,9 @@
                 <img src="../assets/img/diagram.png" style="width: 70%">
             </div>
         </div>
+        <div v-show="!printing">
+            Please read the information on this pass carefully
+        </div>
     </div>
 </template>
 
@@ -62,16 +65,10 @@
     export default {
         mixins: [RouteHelper],
         data() {
-            if(40 > $route.query.name.length > 30){
-                name_font_size=18
-            }else if(50 > $route.query.name.length > 40){
-                name_font_size=15
-            }else if(65 > $route.query.name.length >50){
-                name_font_size=12
-            }
             return {
                 date: this.getDate(),
-                computedFontSize: name_font_size
+                computedFontSize: this.calculateFontSize(),
+                printing: false
             }
         },
         methods: {
@@ -95,20 +92,29 @@
                 var contents = window.webContents
                 contents.print({silent: true, deviceName: this.$store.getters.printer}, (response) => {
                     if (response) {
-                        this.$notify({
-                            title: "Sign in success",
-                            message: `${this.$route.query.name} logged in. Please collect your pass from reception.`,
-                            type: "success"
-                        })
-                        this.changeRoute('home')
+                        var query = {
+                            transitionType: 'signin'
+                        }
+                        this.changeRouteQuery('transition', query)
                     }
                 })
+            },
+            calculateFontSize() {
+                var nameLength = this.$route.query.name.length
+                if(40 > nameLength > 30){
+                    return 18
+                }else if(50 > nameLength > 40){
+                    return 15
+                }else if(65 > nameLength > 50){
+                    return 12
+                }
             }
         },
         mounted() {
             setTimeout(() => {
+                this.printing = true
                 this.printPage()
-            }, 1000)
+            }, 3000)
         }
     }
 </script>
