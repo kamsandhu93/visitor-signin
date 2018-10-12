@@ -66,7 +66,7 @@
                 name_font_size=18
             }else if(50 > $route.query.name.length > 40){
                 name_font_size=15
-            }else if(60 > $route.query.name.length >50){
+            }else if(65 > $route.query.name.length >50){
                 name_font_size=12
             }
             return {
