@@ -7,9 +7,9 @@
                     <div class="info">
                         <img src="../assets/img/pass_logo.png">
                         <div class="visitor">VISITOR</div>
-                        <h3 id="name">Name: {{ $route.query.name }}</h3>
-                        <h3 id="company">Company: {{ $route.query.company }}</h3>
-                        <h3 id="date">Date: {{ date }}</h3>
+                        <h3 id="name" v-bind:style="{ fontSize: computedFontSize }">{{ $route.query.name }}</h3>
+                        <h3 id="company">{{ $route.query.company }}</h3>
+                        <h3 id="date">{{ date }}</h3>
                     </div>
                     <div class="passid" id="passid">Pass ID: {{ $route.query.passId }}</div>
                 </div>
@@ -62,8 +62,16 @@
     export default {
         mixins: [RouteHelper],
         data() {
+            if(40 > $route.query.name.length > 30){
+                name_font_size=18
+            }else if(50 > $route.query.name.length > 40){
+                name_font_size=15
+            }else if(60 > $route.query.name.length >50){
+                name_font_size=12
+            }
             return {
-                date: this.getDate()
+                date: this.getDate(),
+                computedFontSize: name_font_size
             }
         },
         methods: {
