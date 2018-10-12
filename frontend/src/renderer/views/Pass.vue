@@ -62,16 +62,9 @@
     export default {
         mixins: [RouteHelper],
         data() {
-            if(40 > $route.query.name.length > 30){
-                name_font_size=18
-            }else if(50 > $route.query.name.length > 40){
-                name_font_size=15
-            }else if(60 > $route.query.name.length >50){
-                name_font_size=12
-            }
             return {
                 date: this.getDate(),
-                computedFontSize: name_font_size
+                computedFontSize: this.calculateFontSize()
             }
         },
         methods: {
@@ -95,14 +88,21 @@
                 var contents = window.webContents
                 contents.print({silent: true, deviceName: this.$store.getters.printer}, (response) => {
                     if (response) {
-                        this.$notify({
-                            title: "Sign in success",
-                            message: `${this.$route.query.name} logged in. Please collect your pass from reception.`,
-                            type: "success"
-                        })
-                        this.changeRoute('home')
+                        var query = {
+                            transitionType: 'signin'
+                        }
+                        this.changeRouteQuery('transition', query)
                     }
                 })
+            },
+            calculateFontSize() {
+                if(40 > this.$route.query.name.length > 30){
+                    return 18
+                }else if(50 > this.$route.query.name.length > 40){
+                    return 15
+                }else if(60 > this.$route.query.name.length >50){
+                    return 12
+                }
             }
         },
         mounted() {

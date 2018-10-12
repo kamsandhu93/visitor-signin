@@ -53,13 +53,12 @@
                 })
             },
             sendSignoutRequest() {
-                this.$message({
-                    message: `url: ${this.$store.getters.url}`
-                })
                 axios.post(`${this.$store.getters.url}/logout`, {body: this.formData})
                 .then((response) => {
-                    this.notifySuccess("Sign out success")
-                    this.changeRoute('home')
+                    var query = {
+                        transitionType: 'signout'
+                    }
+                    this.changeRouteQuery('transition', query)
                 })
                 .catch((e) => {
                     if (e['response']) {

@@ -1,8 +1,6 @@
 <template>
     <el-main>
-        <el-row class="imgContainer">
-            <img src="../assets/img/nhs_digital_logo.png" />
-        </el-row>
+        <main-logo></main-logo>
         <el-row>
             <h1>Visitior Registration</h1>
         </el-row>
@@ -20,9 +18,13 @@
 <script>
     import RouteHelper from '../mixins/route-helper.js'
     import FailureTracker from '../mixins/failure-tracker.js'
+    import MainLogo from '../components/common/MainLogo.vue'
 
     export default {
-        mixins: [RouteHelper, FailureTracker]
+        mixins: [RouteHelper, FailureTracker],
+        components: {
+            MainLogo
+        }
     }
 </script>
 
@@ -37,16 +39,7 @@
         width: 350px;
     }
 
-
     h1 {
         font-size: 40pt;
-    }
-
-    img {
-        width: 150px;
-    }
-
-    .imgContainer {
-        text-align: left;
     }
 </style>

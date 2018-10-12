@@ -5,6 +5,7 @@ import SignIn from './views/SignIn.vue'
 import SignOut from './views/SignOut.vue'
 import Pass from './views/Pass.vue'
 import ErrorPage from './views/Error.vue'
+import TransitionPage from './views/TransitionPage.vue'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ export default new Router({
             path: '/error',
             name: 'error',
             component: ErrorPage
+        },
+        {
+            path: '/transition',
+            name: 'transition',
+            component: TransitionPage
         }
     ]
 })
