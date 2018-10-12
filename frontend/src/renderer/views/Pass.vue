@@ -53,6 +53,9 @@
                 <img src="../assets/img/diagram.png" style="width: 70%">
             </div>
         </div>
+        <div v-show="!printing">
+            Please read the information on this pass carefully
+        </div>
     </div>
 </template>
 
@@ -64,7 +67,8 @@
         data() {
             return {
                 date: this.getDate(),
-                computedFontSize: this.calculateFontSize()
+                computedFontSize: this.calculateFontSize(),
+                printing: false
             }
         },
         methods: {
@@ -107,8 +111,9 @@
         },
         mounted() {
             setTimeout(() => {
+                this.printing = true
                 this.printPage()
-            }, 1000)
+            }, 3000)
         }
     }
 </script>

@@ -9,7 +9,9 @@
             <h1>Sign in success</h1>
             <h1>Please collect your visitor pass from reception</h1>
         </el-row>
-        <el-button @click="changeRoute('home')">back</el-button>
+        <el-row>
+            <el-button type="primary" @click="changeRoute('home')">Home</el-button>
+        </el-row>
     </el-main>
 </template>
 
@@ -35,5 +37,10 @@
 <style scoped>
     h1 {
         font-size: 36pt;
+    }
+
+    button {
+        padding: 20px;
+        font-size: 16pt;
     }
 </style>
