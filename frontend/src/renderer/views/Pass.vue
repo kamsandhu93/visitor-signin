@@ -2,42 +2,46 @@
     <div>
         <div class="row">
             <div class="box">
-                <h5>Whitehall II Security: 0113 866 5735</h5>
-                <div class="presentation">
-                    <div class="info">
-                        <img src="../assets/img/pass_logo.png">
-                        <div class="visitor">VISITOR</div>
-                        <h3 id="name" v-bind:style="{ fontSize: computedFontSize }">{{ $route.query.name }}</h3>
-                        <h3 id="company">{{ $route.query.company }}</h3>
-                        <h3 id="date">{{ date }}</h3>
-                    </div>
-                    <div class="passid" id="passid">Pass ID: {{ $route.query.passId }}</div>
+                <div class="p1Header">
+                    <b>Whitehall II Security: 0113 866 5735</b>
                 </div>
-                <div class="red">IMPORTANT: <br>Please read the health & safety regulations on this pass and return pass to reception on departure</div>
+                <div class="p1Main">
+                    <img class="logo" src="../assets/img/pass_logo.png">
+                    <div class="visitor">VISITOR</div>
+                    <h3 id="name" :style="{ fontSize: calculateFontSize($route.query.name) }">{{ $route.query.name }}</h3>
+                    <h3 id="company" :style="{ fontSize: calculateFontSize($route.query.company) }">{{ $route.query.company }}</h3>
+                </div>
+                <div class="p1Secondary">
+                    <div class="date">Date: {{ date }}</div><div class="passId">Pass ID: {{ $route.query.passId }}</div>
+                </div>
+                <div class="p1Footer">
+                    IMPORTANT: <br>Please read the health &amp; safety regulations on this pass and return pass to reception on departure
+                </div>
             </div>
-            <div>
-                <div class="box">
-                    <div style="font-size: 9.8pt;">
-                        <span style="color:blue;font-size: 13px;">Welcome to Whitehall II<br></span>
-                        Whitehall Quay, LS1 4HR<br>
-                        <span style="font-weight: bold;">Whilst on site please observe the following:<br></span>
-                        <ul style="list-style-type: decimal; margin-left: -0.7cm;">
-                            <li><span style="color:blue">HEALTH AND SAFETY AT WORK:</span> A safe working environment is provided and all visitors are requested to co-operate in the maintenance of the high standard of safe practice.</li>
-                            <li><span style="color:blue">EMERGENCY PROCEDURE:</span> See reverse.</li>
-                            <li><span style="color:blue">FIRST AID:</span> In the event of injury or illness contact Office Services on 0113 397 3970 (option 2).</li>
-                            <li><span style="color:blue">FIRST AID:</span> SECURITY AND CCTV: This pass must be worn at all times whilst without their host. 24/7 live CCTV monitoring and recording is taking place for the purposes of security and crime prevention. All security incidents must be reported immediately to 0113 397 3970 (option 3).</li>
-                            <li><span style="color:blue">CAMERAS:</span> Are not allowed without approval.</li>
-                            <li><span style="color:blue">THIS IS A NON SMOKING ENVIRONMENT</span></li>
-                        </ul>
-                    </div>
+            <div class="box">
+                <div class="p2Header">
+                    <span style="color: blue; font-size: 12pt;">Welcome to Whitehall II</span><br>
+                    Whitehall Quay, LS1 4HR<br>
+                    <span><b>Whilst on site please observe the following:</b></span><br>
+                </div>
+                <div class="p2Main">
+                    <ul style="list-style-type: decimal;">
+                        <li><span style="color:blue">HEALTH AND SAFETY AT WORK:</span> A safe working environment is provided and all visitors are requested to co-operate in the maintenance of the high standard of safe practice.</li>
+                        <li><span style="color:blue">EMERGENCY PROCEDURE:</span> See reverse.</li>
+                        <li><span style="color:blue">FIRST AID:</span> In the event of injury or illness contact Office Services on 0113 397 3970 (option 2).</li>
+                        <li><span style="color:blue">FIRST AID:</span> SECURITY AND CCTV: This pass must be worn at all times whilst without their host. 24/7 live CCTV monitoring and recording is taking place for the purposes of security and crime prevention. All security incidents must be reported immediately to 0113 397 3970 (option 3).</li>
+                        <li><span style="color:blue">CAMERAS:</span> Are not allowed without approval.</li>
+                        <li><span style="color:blue">THIS IS A NON SMOKING ENVIRONMENT</span></li>
+                    </ul>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="box">
-                <div style="font-size: 14">
-                    <span style="color: red; font-size: 18px;">Fire Action Notice:</span>
-                    <br>
+                <div class="p3Header">
+                    Fire Action Notice:
+                </div>
+                <div class="p3Main">
                     <ul>
                         <li>On hearing the alarm, please leave the building via the nearest route and await further instruction from fire marshall's.</li>
                         <li>The turnstiles will automatically release, for all other doors please press the green door release dutton.</li>
@@ -49,8 +53,10 @@
                 </div>
             </div>
             <div class="box">
-                <span style="color: red; font-size: 18px;">Emergency Assembly Point</span>
-                <img src="../assets/img/diagram.png" style="width: 70%">
+                <div class="p4Header">
+                    Emergency Assembly Point
+                </div>
+                <img class="diagram" src="../assets/img/diagram.png">
             </div>
         </div>
         <div v-show="!printing">
@@ -67,7 +73,6 @@
         data() {
             return {
                 date: this.getDate(),
-                computedFontSize: this.calculateFontSize(),
                 printing: false
             }
         },
@@ -99,14 +104,16 @@
                     }
                 })
             },
-            calculateFontSize() {
-                var nameLength = this.$route.query.name.length
-                if(40 > nameLength > 30){
-                    return 18
-                }else if(50 > nameLength > 40){
-                    return 15
-                }else if(65 > nameLength > 50){
-                    return 12
+            calculateFontSize(text) {
+                var nameLength = text.length
+                if (40 > nameLength && nameLength > 20) {
+                    return '11pt'
+                }
+                else if (50 > nameLength && nameLength >= 40) {
+                    return '10pt'
+                }
+                else if (nameLength >= 50) {
+                    return '9pt'
                 }
             }
         },
@@ -124,19 +131,12 @@
 
     }
 
-    div.row{
+    .row {
         display: flex;
         flex-flow: row;
     }
-    div.presentation {
-        width: auto;
-        height: auto;
-        display: flex;
-        flex-flow: row;
-        align-items: center;
-        justify-content: center;
-    }
-    div.box {
+
+    .box {
         width: 9.3cm;
         height: 7.5cm;
         display: flex;
@@ -147,39 +147,93 @@
         padding: 0.3cm;
     }
 
-    div.box img {
-        width: 30%;
-        height: auto;
-        margin-top: 0cm;
+    .p1Header {
+        width: 100%;
+        height: 0.5cm;
+        line-height: 0.5cm;
+        font-size: 11pt;
     }
-    div.box div.info{
-        display: flex;
-        flex-flow: column;
-        align-items: center;
+
+    .p1Main {
+        width: 100%;
+        height: 5cm;
+        text-align: center;
+        word-wrap: break-word;
     }
-    div.box h3{
-        margin: 0cm;
+
+    .logo {
+        width: 25%;
+        margin: 0;
     }
-    div.visitor{
-        font-size: 45px;
+
+    .visitor{
+        font-size: 32pt;
         font-weight: 900;
         color: black;
     }
-    div.red {
-        margin-left: 0.2cm;
+
+    .p1Secondary {
+        height: 0.7cm;
+        line-height: 0.7cm;
+        width: 100%;
+        font-size: 11pt;
+        margin-top: 0.1cm;
+    }
+
+    .date {
+        width: 50%;
+        float: left;
+    }
+
+    .passId {
+        width: 50%;
+        float: left;
+    }
+
+    .p1Footer {
+        width: 100%;
+        height: 1.2cm;
         color: red;
-        font-size: 12px;
+        font-size: 9pt;
         font-weight: bold;
     }
-    div.box h5{
-        margin: 0cm;
+
+    .p2Header {
+        width: 100%;
+        font-size: 9pt;
     }
-    div.passid {
-        width: 5cm;
-        height: 0.5cm;
-        transform: rotate(-90deg);
-        font-size: 16pt;
-        margin-left: -2.5cm;
-        margin-right: -1cm;
+
+    .p2Main {
+        font-size: 9.8pt;
+        text-align: justify;
+        width: 100%;
+    }
+
+    .p3Header {
+        font-size: 14pt;
+        color: red;
+    }
+
+    .p3Main {
+        text-align: justify;
+        font-size: 11pt;
+    }
+
+    .p4Header {
+        font-size: 14pt;
+        color: red;
+    }
+
+    h3 {
+        margin: 0.2cm;
+        font-size: 12pt;
+    }
+
+    ul {
+        margin-left: -0.6cm;
+    }
+
+    .diagram {
+        width: 70%;
     }
 </style>
