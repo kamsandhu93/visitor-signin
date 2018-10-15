@@ -34,14 +34,18 @@
 ```
 
 After deployment has finished
-visitor app will be available at: `http://localhost:5000`
+visitor app api will be available at: `http://localhost:5000`
 sqlite database control panel will be available at: `http://localhost:5001`
 
 ## System Infrastructure
-The system is made up of three docker containers with the sqlite database persisted between all three and the host.
+The system is made up of three docker containers and a front end electron application.
+
+### Front End
+ - Talks to flask api to add and change the sqlite database
+ - Please see the readme in frontend directory for more details
 
 ### Visitor-Flask
- - Hosts the flask app that serves the front end of the visitor signin app.
+ - Hosts the flask app that serves the api for frontend to talk to.
  - Flask app writes to `/visitor-app/database/visitor_db.db` inside the container.
 
 ### Visitor-Database
