@@ -3,6 +3,9 @@
         <el-row>
             <h1>Sign Out</h1>
         </el-row>
+        <el-row>
+            <qrcode-reader @decode="submitQR" :camera="qrVideoOptions"></qrcode-reader>
+        </el-row>
         <el-row type="flex" justify="center">
             <el-col :span="20">
                 <el-form :model="formData" :rules="rules" ref="signOutForm">
@@ -25,10 +28,13 @@
     import NotificationHelper from '../mixins/notification-helper.js'
     import FormHelper from '../mixins/form-helper.js'
     import FailureTracker from '../mixins/failure-tracker.js'
+    import { QrcodeReader } from 'vue-qrcode-reader'
+    import 'vue-qrcode-reader/dist/vue-qrcode-reader.css'
 
     export default {
         components: {
-            FormItem
+            FormItem,
+            QrcodeReader
         },
         mixins: [RouteHelper, NotificationHelper, FormHelper, FailureTracker],
         data () {
@@ -41,10 +47,18 @@
                         { required: true, message: 'Please input Pass ID', trigger: 'blur' },
                         { min: 6, max: 6, message: 'Pass ID should be 6 characters long', trigger: 'blur' }
                     ]
+                },
+                qrVideoOptions: {
+                    facingMode: 'user'
                 }
             }
         },
         methods: {
+            submitQR(decodedQr) {
+                this.formData["pass_id"] = decodedQr
+                this.readerPaused = true
+                this.submitForm('signOutForm')
+            },
             submitForm(formName) {
                 this.validateForm(formName, (valid) => {
                     if (valid) {
