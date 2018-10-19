@@ -2,11 +2,11 @@
     <el-main>
         <main-logo></main-logo>
         <el-row v-if="$route.query.transitionType == 'signout'">
-            <h1>Sign out success</h1>
+            <span class="signinName">{{ $route.query.name }}</span><span class="signinMsg"> sign out success</span>
             <h1>Please return your visitor pass to reception</h1>
         </el-row>
         <el-row v-if="$route.query.transitionType == 'signin'">
-            <h1>Sign in success</h1>
+            <span class="signinName">{{ $route.query.name }}</span><span class="signinMsg"> sign in success</span>
             <h1>Please collect your visitor pass from reception</h1>
         </el-row>
         <el-row>
@@ -21,7 +21,6 @@
     import MainLogo from '../components/common/MainLogo.vue'
 
     export default {
-        props: ["transitionType"],
         components: {
             MainLogo
         },
@@ -37,6 +36,15 @@
 <style scoped>
     h1 {
         font-size: 36pt;
+    }
+
+    span {
+        font-size: 36pt;
+        font-weight: bold;
+    }
+
+    .signinMsg {
+        color: var(--nhs-blue);
     }
 
     button {

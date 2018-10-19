@@ -69,8 +69,10 @@
             sendSignoutRequest() {
                 axios.post(`${this.$store.getters.url}/logout`, {body: this.formData})
                 .then((response) => {
+                    var name = `${response.data.firstName} ${response.data.surname}`
                     var query = {
-                        transitionType: 'signout'
+                        transitionType: 'signout',
+                        name: name
                     }
                     this.changeRouteQuery('transition', query)
                 })

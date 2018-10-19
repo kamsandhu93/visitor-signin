@@ -109,7 +109,8 @@
                 contents.print({silent: true, deviceName: this.$store.getters.printer}, (response) => {
                     if (response) {
                         var query = {
-                            transitionType: 'signin'
+                            transitionType: 'signin',
+                            name: this.$route.query.name
                         }
                         this.changeRouteQuery('transition', query)
                     }

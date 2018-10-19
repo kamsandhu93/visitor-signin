@@ -11,12 +11,14 @@
 </script>
 
 <style>
+    @import './assets/css/colors.css';
+
     #app {
         font-family: Arial;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
-        color: #231f20;
+        color: var(--nhs-black);
     }
 
     button {
@@ -24,12 +26,12 @@
     }
 
     h1 {
-        color: #005EB8;
+        color: var(--nhs-blue);
         font-size: 24pt;
     }
 
     h2 {
-        color: #005EB8;
+        color: var(--nhs-blue);
     }
 </style>
 

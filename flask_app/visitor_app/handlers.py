@@ -21,9 +21,8 @@ def login_handler():
         validate_login_form_values(request.form)
         pass_id = services.login(request.form)
         app.logger.info("User logged in")
-
-        responseMsg = "{0} {1} Signed in".format(request.form['name'], request.form['surname'])
-        return jsonify({'message': responseMsg, 'passId': pass_id}), 200
+        
+        return jsonify({'passId': pass_id}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
         return createResponse("Missing or invalid request body", 400)
@@ -44,8 +43,11 @@ def logout_handler():
         full_name = services.logout(request.form)
         app.logger.info("User logged out")
 
-        responseMsg = "{0} {1} Signed out".format(full_name[0], full_name[1])
-        return createResponse(responseMsg, 200)
+        response = {
+            'firstName': full_name[0],
+            'surname': full_name[1]
+        }
+        return jsonify(response), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
         return createResponse("Missing or invalid request body", 400)
