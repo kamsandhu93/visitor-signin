@@ -27,18 +27,18 @@
             </div>
             <div class="box">
                 <div class="p2Header">
-                    <span style="color: blue; font-size: 12pt;">Welcome to Whitehall II</span><br>
+                    <span class="blueFont" style="font-size: 12pt;">Welcome to Whitehall II</span><br>
                     Whitehall Quay, LS1 4HR<br>
                     <span><b>Whilst on site please observe the following:</b></span><br>
                 </div>
                 <div class="p2Main">
                     <ul style="list-style-type: decimal;">
-                        <li><span style="color:blue">HEALTH AND SAFETY AT WORK:</span> A safe working environment is provided and all visitors are requested to co-operate in the maintenance of the high standard of safe practice.</li>
-                        <li><span style="color:blue">EMERGENCY PROCEDURE:</span> See reverse.</li>
-                        <li><span style="color:blue">FIRST AID:</span> In the event of injury or illness contact Office Services on 0113 397 3970 (option 2).</li>
-                        <li><span style="color:blue">FIRST AID:</span> SECURITY AND CCTV: This pass must be worn at all times whilst without their host. 24/7 live CCTV monitoring and recording is taking place for the purposes of security and crime prevention. All security incidents must be reported immediately to 0113 397 3970 (option 3).</li>
-                        <li><span style="color:blue">CAMERAS:</span> Are not allowed without approval.</li>
-                        <li><span style="color:blue">THIS IS A NON SMOKING ENVIRONMENT</span></li>
+                        <li><span class="blueFont">HEALTH AND SAFETY AT WORK:</span> A safe working environment is provided and all visitors are requested to co-operate in the maintenance of the high standard of safe practice.</li>
+                        <li><span class="blueFont">EMERGENCY PROCEDURE:</span> See reverse.</li>
+                        <li><span class="blueFont">FIRST AID:</span> In the event of injury or illness contact Office Services on 0113 397 3970 (option 2).</li>
+                        <li><span class="blueFont">FIRST AID:</span> SECURITY AND CCTV: This pass must be worn at all times whilst without their host. 24/7 live CCTV monitoring and recording is taking place for the purposes of security and crime prevention. All security incidents must be reported immediately to 0113 397 3970 (option 3).</li>
+                        <li><span class="blueFont">CAMERAS:</span> Are not allowed without approval.</li>
+                        <li><span class="blueFont">THIS IS A NON SMOKING ENVIRONMENT</span></li>
                     </ul>
                 </div>
             </div>
@@ -264,5 +264,9 @@
 
     .diagram {
         width: 70%;
+    }
+
+    .blueFont {
+        color: blue;
     }
 </style>

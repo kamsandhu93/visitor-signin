@@ -80,12 +80,18 @@
             submitForm(formName) {
                 this.validateForm(formName, (valid) => {
                     if (valid) {
+                        this.captializeField('name')
+                        this.captializeField('surname')
+                        this.captializeField('visiting')
                         this.confirmDialog = true
                     }
                 })
             },
+            captializeField(field) {
+                this.formData[field] = this.formData[field].charAt(0).toUpperCase() + this.formData[field].slice(1);
+            },
             sendSigninRequest() {
-                axios.post(`${this.$store.getters.url}/login`, {body: this.formData})
+                axios.post(`${this.$store.getters.url}/login`, { body: this.formData })
                 .then((response) => {
                     var query = {
                         name: this.getFullName(),
