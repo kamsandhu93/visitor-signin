@@ -6,7 +6,14 @@
                     <b>Whitehall II Security: 0113 866 5735</b>
                 </div>
                 <div class="p1Main">
-                    <img class="logo" src="../assets/img/pass_logo.png">
+                    <div class="p1Img">
+                        <div class="p1QrContainer">
+                            <qrcode-vue :value="$route.query.passId" :size="75"></qrcode-vue>
+                        </div>
+                        <div class="p1LogoContainer">
+                            <img class="logo" src="../assets/img/pass_logo.png"/>
+                        </div>
+                    </div>
                     <div class="visitor">VISITOR</div>
                     <h3 id="name" :style="{ fontSize: calculateFontSize($route.query.name) }">{{ $route.query.name }}</h3>
                     <h3 id="company" :style="{ fontSize: calculateFontSize($route.query.company) }">{{ $route.query.company }}</h3>
@@ -67,8 +74,12 @@
 
 <script>
     import RouteHelper from '../mixins/route-helper.js'
+    import QrcodeVue from 'qrcode.vue'
 
     export default {
+        components: {
+            QrcodeVue
+        },
         mixins: [RouteHelper],
         data() {
             return {
@@ -161,9 +172,26 @@
         word-wrap: break-word;
     }
 
+    .p1Img {
+        width: 100%;
+        height: 2cm;
+    }
+
+    .p1LogoContainer {
+        width: 50%;
+        height: 100%;
+        float: left;
+    }
+
+    .p1QrContainer {
+        width: 50%;
+        height: 100%;
+        float: left;
+    }
+
     .logo {
-        width: 25%;
         margin: 0;
+        height: 100%;
     }
 
     .visitor{
