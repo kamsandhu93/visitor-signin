@@ -16,12 +16,12 @@ def status_handler():
 @app.route("/login", methods=["POST"])
 def login_handler():
     try:
-        request.form = request.get_json()['body']
-        validate_request_form_keys(request.form, valid_keys=["name", "surname", "visiting", "company"])
-        validate_login_form_values(request.form)
-        pass_id = services.login(request.form)
+        request_form = request.get_json()['body']
+        validate_request_form_keys(request_form, valid_keys=["name", "surname", "visiting", "company"])
+        validate_login_form_values(request_form)
+        pass_id = services.login(request_form)
         app.logger.info("User logged in")
-        
+
         return jsonify({'passId': pass_id}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
@@ -67,8 +67,9 @@ def validate_request_form_keys(request_form, valid_keys):
 
 def validate_login_form_values(request_form):
     regex = r"^[A-Za-z]{1,32}$"
-    for value in list(request_form.values()):
-        if not re.match(regex, value):
+    optional_fields = ['company']
+    for key in request_form:
+        if key not in optional_fields and not re.match(regex, request_form[key]):
             raise exceptions.InvalidRequestBodyValuesEx
 
 
