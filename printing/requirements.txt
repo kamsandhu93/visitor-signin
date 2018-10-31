@@ -1,0 +1,4 @@
+weasyprint
+flask
+beautifulsoup4
+qrcode[pil]

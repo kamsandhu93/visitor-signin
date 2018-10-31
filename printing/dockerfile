@@ -1,0 +1,50 @@
+FROM alpine:latest
+
+MAINTAINER NHS Digital Delivery Centre,  Team-Grads
+
+RUN apk update && apk upgrade \
+ && apk add curl \
+ && apk add bash \
+ #install weasprint dependencies
+ && apk add cairo \
+ && apk add pango \
+ && apk add gdk-pixbuf \
+ && apk add py3-cffi \
+ && apk add py3-pillow \
+ && apk add py-lxml \
+ #install cups
+ && apk add cups \
+ && apk add cups-client \
+ #install ms-font because pass requires arial font
+ && apk add fontconfig \
+ && apk add msttcorefonts-installer \
+ && update-ms-fonts \
+ && fc-cache -f \
+ && rm -rf /var/cache/apk/*
+
+COPY requirements.txt /tmp/
+RUN pip3 install -r /tmp/requirements.txt
+
+ARG WRK_DIR=/printservice
+
+ENV PORT 5002
+ENV HOST 0.0.0.0
+ENV LOG_PATH=$WRK_DIR/log/print.log
+
+RUN mkdir $WRK_DIR
+RUN mkdir $WRK_DIR/log
+ADD ./printapi $WRK_DIR/printapi
+ADD ./template $WRK_DIR/template
+ADD ./main.py $WRK_DIR/
+ADD ./start.sh $WRK_DIR/
+
+#create client.conf to allow start script to write host server ip
+RUN touch /etc/cups/client.conf
+
+HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
+    CMD curl --fail http://$HOST:$PORT/status || exit 1
+
+WORKDIR $WRK_DIR
+EXPOSE ${PORT}
+
+CMD ["/bin/sh", "start.sh"]
