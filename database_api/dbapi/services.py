@@ -1,5 +1,4 @@
-from visitor_app import app
-from visitor_app import data_access
+from dbapi import app, data_access
 
 
 def login(request_form):

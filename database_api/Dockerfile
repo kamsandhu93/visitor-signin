@@ -3,12 +3,12 @@ FROM python:3.7-alpine
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
 ARG DB_FILE
-ARG WRK_DIR=/databaseservice
+ARG WRK_DIR=/databaseapi
 
-ENV DB_PATH /app/visitor_app/database/$DB_FILE
+ENV DB_PATH $WRK_DIR/database/$DB_FILE
 ENV PORT 5000
 ENV HOST 0.0.0.0
-ENV LOG_PATH /app/visitor_app/log/visitor_app.log
+ENV LOG_PATH $WRK_DIR/log/database_api.log
 
 COPY requirements.txt /tmp/
 
@@ -19,14 +19,15 @@ RUN apk update && apk upgrade \
  #purge cache
  && rm -rf /var/cache/apk/* \
  #create work directory
- && mkdir app/visitor_app/log \
- && mkdir app/visitor_app/database
+ && mkdir $WRK_DIR \
+ && mkdir $WRK_DIR/log \
+ && mkdir $WRK_DIR/database
 
-ADD ./visitor_app /app/visitor_app
-ADD ./main.py /app/
+COPY ./dbapi $WRK_DIR/dbapi
+COPY ./main.py $WRK_DIR/
 
 
-WORKDIR /app
+WORKDIR $WRK_DIR
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
     CMD curl --fail http://$HOST:$PORT/status || exit 1

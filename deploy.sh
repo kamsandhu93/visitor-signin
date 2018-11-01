@@ -90,8 +90,8 @@ if [[ -z $token ]]; then
     exit 1
 fi
 
-rootPath="/opt/visitor-db"
-rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$rootPath/log/flask" "$rootPath/log/backup")
+rootPath="/opt/visitorsignin"
+rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log")
 dbPath="$rootPath/database/$dbName"
 
 createDirectories ${rootDirectories[*]}

@@ -3,7 +3,7 @@ LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
 ARG DB_FILE
 
-ARG WORK_DIR=/visitor-db
+ARG WORK_DIR=/databaseadmin
 ARG DB_PATH=$WORK_DIR/database/$DB_FILE
 ARG START_SCRIPT=$WORK_DIR/start.sh
 ARG PORT=5001
@@ -24,7 +24,7 @@ RUN apk update && apk upgrade \
  && mkdir $WORK_DIR/database \
  #make start script
  && touch $START_SCRIPT \
- && echo #!/bin/sh >> $START_SCRIPT \
+ && echo "#!/bin/sh" >> $START_SCRIPT \
  && echo sqlite_web -H $HOST -p $PORT $DB_PATH >> $START_SCRIPT \
  && chmod +x $START_SCRIPT
 

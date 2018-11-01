@@ -1,9 +1,7 @@
 import re
 
-from flask import render_template, request, jsonify
-from visitor_app import app
-from visitor_app import exceptions
-from visitor_app import services
+from flask import request, jsonify
+from dbapi import app, exceptions, services
 
 def createResponse(msg, status):
     return jsonify({'message': msg}), status

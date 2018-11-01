@@ -7,13 +7,13 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
-from visitor_app.handlers import login_handler, logout_handler, status_handler
+from dbapi.handlers import login_handler, logout_handler, status_handler
 
 app.config.from_pyfile('config.cfg')
 
 logPath = app.config["LOG_PATH"]
 
-log_format = "%(asctime)s | Visitor_app | %(levelname)s | %(message)s"
+log_format = "%(asctime)s | Database API | %(levelname)s | %(message)s"
 formatter = logging.Formatter(log_format)
 logger = logging.getLogger()
 

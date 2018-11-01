@@ -5,7 +5,7 @@ LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 ARG API_TOKEN
 ARG DB_FILE
 
-ARG WORK_DIR=/visitor-back
+ARG WORK_DIR=/backupservice
 ARG CONFIG_NAME=$WORK_DIR/database_operations.cfg
 
 COPY requirements.txt /tmp/
@@ -14,7 +14,7 @@ COPY requirements.txt /tmp/
 RUN apk update && apk upgrade \
  && apk add curl \
  #install pip packages
- && pip install -r requirements.txt \
+ && pip install -r /tmp/requirements.txt \
  #purge cache
  && rm -rf /var/cache/apk/* \
  && rm /tmp/requirements.txt \

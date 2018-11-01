@@ -1,7 +1,6 @@
 import sqlite3
 
-from visitor_app import app
-from visitor_app import exceptions
+from dbapi import app, exceptions
 
 
 def execute_modification_sql(sql, params=()):

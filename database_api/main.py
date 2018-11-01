@@ -1,4 +1,4 @@
-from visitor_app import app
+from dbapi import app
 
 if __name__ == "__main__":
     app.logger.info("Starting visitor service")

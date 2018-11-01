@@ -1,37 +1,37 @@
 version: '3'
 services:
-    visitor-backup:
+    backup:
         build:
             context: './backup/'
             args:
                 API_TOKEN: "${DROPBOX_TOKEN}"
                 DB_FILE: "${DB_FILE}"
         volumes:
-            - /opt/visitor-db/database:/visitor-back/database
-            - /opt/visitor-db/log/backup:/visitor-back/log
-    visitor-flask:
+            - /opt/visitorsignin/database:/backupservice/database
+            - /opt/visitorsignin/log:/backupservice/log
+    database-api:
         build:
-            context: ./flask_app/
+            context: ./database_api/
             args:
                 DB_FILE: "${DB_FILE}"
         ports:
             - 5000:5000
         volumes:
-            - /opt/visitor-db/database:/app/visitor_app/database
-            - /opt/visitor-db/log/flask:/app/visitor_app/log
-    visitor-database:
+            - /opt/visitorsignin/database:/databaseapi/database
+            - /opt/visitorsignin/log:/databaseapi/log
+    database-admin:
         build:
-            context: ./database/
+            context: ./database_admin/
             args:
                 DB_FILE: "${DB_FILE}"
         ports:
             - 5001:5001
         volumes:
-            - /opt/visitor-db/database:/visitor-db/database
-    visitor-print:
+            - /opt/visitorsignin/database:/databaseadmin/database
+    print:
         build:
             context: './printing'
         ports:
             - 5002:5002
         volumes:
-            - /opt/visitor-db/log/flask:/printservice/log
+            - /opt/visitorsignin/log:/printservice/log
