@@ -35,3 +35,10 @@ services:
             - 5002:5002
         volumes:
             - /opt/visitorsignin/log:/printservice/log
+    frontend:
+        build:
+            context: './frontend'
+            args:
+                REQUEST_HOST: "${REQUEST_HOST}"
+        ports:
+            - 5003:5003

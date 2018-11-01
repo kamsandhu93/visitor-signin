@@ -1,0 +1,42 @@
+FROM node:10.12.0-alpine
+
+LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
+
+ARG REQUEST_HOST
+ARG WRK_DIR=/visitorpwa
+ARG START_SCRIPT=$WRK_DIR/start.sh
+ARG HOST=0.0.0.0
+ARG PORT=5003
+
+
+RUN apk update && apk upgrade \
+ && apk add curl \
+ #install node packages
+ && npm install -g http-server \
+ #purge cache
+ && rm -rf /var/cache/apk/* \
+ #make work directory
+ && mkdir $WRK_DIR \
+ && mkdir $WRK_DIR/raw
+
+COPY . $WRK_DIR/.
+
+WORKDIR $WRK_DIR
+
+RUN npm install \
+ # create production env file
+ && touch $WRK_DIR/.env.production \
+ && echo VUE_APP_REQUEST_HOST=$REQUEST_HOST >> $WRK_DIR/.env.production \
+ #build and move dist
+ && npm run build \
+ #clean up
+ && rm -rf node_modules \
+ #create startup script
+ && touch $START_SCRIPT \
+ && echo "#!/bin/sh" >> $START_SCRIPT \
+ && echo http-server dist -a $HOST -p $PORT >> $START_SCRIPT \
+ && chmod +x $START_SCRIPT
+
+EXPOSE $PORT
+
+CMD ["/bin/sh", "start.sh"]

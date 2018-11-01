@@ -45,7 +45,7 @@ function downloadDatabase () {
 
 
 # Start of main script
-while getopts ":t: :f: :hbdr" opt; do
+while getopts ":t: :c: :f: :hbdr" opt; do
     case ${opt} in
         h )
             echo "Usage:"
@@ -72,6 +72,9 @@ while getopts ":t: :f: :hbdr" opt; do
             ;;
         f )
             dbName=$OPTARG
+            ;;
+        c )
+            container=$OPTARG
             ;;
         \? )
             echo -e "${red}Invalid option: $OPTARG${end}" 1>&2
@@ -100,6 +103,7 @@ downloadDatabase
 
 export DROPBOX_TOKEN=$token
 export DB_FILE=$dbName
+export REQUEST_HOST=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep 192.)
 
 cmd="sudo -E docker-compose up"
 
@@ -108,6 +112,11 @@ if [[ $rebuild = true ]]; then
     printMsg "Rebuilding containers"
     sudo -E docker-compose build --no-cache
     checkSuccess "Container build"
+elif [[ ! -z $container ]]; then
+    printMsg "Rebuilding $container"
+    sudo -E docker-compose build --no-cache $container
+    checkSuccess "$container build"
+    cmd="sudo -E docker-compose up $container"
 fi
 
 if [[ $recreate = true ]]; then

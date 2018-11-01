@@ -1,13 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import config from './assets/js/config-helper.js'
 
 Vue.use(Vuex)
 
 var state = {
-    config: config.read(),
+    config: {
+        host: process.env.VUE_APP_REQUEST_HOST,
+        port: 5000
+    },
     failures: 0
 }
+
 
 export default new Vuex.Store({
     state: state,
