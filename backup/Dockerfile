@@ -1,5 +1,5 @@
 FROM python:3.7-alpine
-MAINTAINER NHS Digital Delivery Centre,  Team-Grads
+LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
 #declare arguments
 ARG API_TOKEN
@@ -8,29 +8,31 @@ ARG DB_FILE
 ARG WORK_DIR=/visitor-back
 ARG CONFIG_NAME=$WORK_DIR/database_operations.cfg
 
+COPY requirements.txt /tmp/
+
 #install packages
 RUN apk update && apk upgrade \
  && apk add curl \
- && rm -rf /var/cache/apk/*
+ #install pip packages
+ && pip install -r requirements.txt \
+ #purge cache
+ && rm -rf /var/cache/apk/* \
+ && rm /tmp/requirements.txt \
+ #create work directory structure
+ && mkdir $WORK_DIR \
+ && mkdir $WORK_DIR/log \
+ && mkdir $WORK_DIR/database \
+ #create config for service
+ && touch $CONFIG_NAME \
+ && echo [DEFAULT] >> $CONFIG_NAME \
+ && echo DropboxToken=$API_TOKEN >> $CONFIG_NAME \
+ && echo DatabaseFile=$DB_FILE >> $CONFIG_NAME \
+ && echo DatabaseDir=$WORK_DIR/database >> $CONFIG_NAME \
+ && echo LogDir=$WORK_DIR/log >> $CONFIG_NAME
 
-#create work directory structure
-RUN mkdir $WORK_DIR
-RUN mkdir $WORK_DIR/log
-RUN mkdir $WORK_DIR/database
-
-ADD database_operations.py $WORK_DIR
-ADD database.py $WORK_DIR
-COPY requirements.txt /tmp/
-RUN pip install -r /tmp/requirements.txt
+COPY database_operations.py $WORK_DIR/
+COPY database.py $WORK_DIR/
 
 WORKDIR $WORK_DIR
-
-#create config for service
-RUN touch $CONFIG_NAME
-RUN echo [DEFAULT] >> $CONFIG_NAME
-RUN echo DropboxToken=$API_TOKEN >> $CONFIG_NAME
-RUN echo DatabaseFile=$DB_FILE >> $CONFIG_NAME
-RUN echo DatabaseDir=$WORK_DIR/database >> $CONFIG_NAME
-RUN echo LogDir=$WORK_DIR/log >> $CONFIG_NAME
 
 CMD ["python", "database_operations.py", "-s", "-o", "backup"]

@@ -1,45 +1,41 @@
-FROM alpine:latest
+FROM python:3.7-slim
 
-MAINTAINER NHS Digital Delivery Centre,  Team-Grads
-
-RUN apk update && apk upgrade \
- && apk add curl \
- && apk add bash \
- #install weasprint dependencies
- && apk add cairo \
- && apk add pango \
- && apk add gdk-pixbuf \
- && apk add py3-cffi \
- && apk add py3-pillow \
- && apk add py-lxml \
- #install cups
- && apk add cups \
- && apk add cups-client \
- #install ms-font because pass requires arial font
- && apk add fontconfig \
- && apk add msttcorefonts-installer \
- && update-ms-fonts \
- && fc-cache -f \
- && rm -rf /var/cache/apk/*
-
-COPY requirements.txt /tmp/
-RUN pip3 install -r /tmp/requirements.txt
+LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
 ARG WRK_DIR=/printservice
-
 ENV PORT 5002
 ENV HOST 0.0.0.0
-ENV LOG_PATH=$WRK_DIR/log/print.log
+ENV LOG_PATH $WRK_DIR/log/print.log
 
-RUN mkdir $WRK_DIR
-RUN mkdir $WRK_DIR/log
-ADD ./printapi $WRK_DIR/printapi
-ADD ./template $WRK_DIR/template
-ADD ./main.py $WRK_DIR/
-ADD ./start.sh $WRK_DIR/
+COPY requirements.txt /tmp/
 
-#create client.conf to allow start script to write host server ip
-RUN touch /etc/cups/client.conf
+RUN apt-get update \
+ && apt-get install -y \
+ bash \
+ curl \
+ cups \
+ cups-client \
+ python3-dev \
+ libcups2-dev \
+ iproute2 \
+ fonts-liberation \
+ #install python libraries
+ && pip3 install -r /tmp/requirements.txt \
+ #remove build dependencies and purge cache
+ && apt-get purge -y --auto-remove \
+ gcc \
+ libcups2-dev \
+ python3-dev \
+ && rm -rf /var/lib/apt/lists/* \
+ #make working directories
+ && mkdir $WRK_DIR \
+ && mkdir $WRK_DIR/log \
+ && touch /etc/cups/client.conf
+
+COPY ./printapi $WRK_DIR/printapi/
+COPY ./template $WRK_DIR/template/
+COPY ./main.py $WRK_DIR/
+COPY ./start.sh $WRK_DIR/
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
     CMD curl --fail http://$HOST:$PORT/status || exit 1
@@ -47,4 +43,4 @@ HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
 WORKDIR $WRK_DIR
 EXPOSE ${PORT}
 
-CMD ["/bin/sh", "start.sh"]
+CMD ["/bin/bash", "start.sh"]

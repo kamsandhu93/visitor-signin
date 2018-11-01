@@ -28,3 +28,10 @@ services:
             - 5001:5001
         volumes:
             - /opt/visitor-db/database:/visitor-db/database
+    visitor-print:
+        build:
+            context: './printing'
+        ports:
+            - 5002:5002
+        volumes:
+            - /opt/visitor-db/log/flask:/printservice/log
