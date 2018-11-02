@@ -3,11 +3,13 @@ FROM node:10.12.0-alpine
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
 ARG REQUEST_HOST
-ARG WRK_DIR=/visitorpwa
-ARG START_SCRIPT=$WRK_DIR/start.sh
-ARG HOST=0.0.0.0
-ARG PORT=5003
+ARG WORK_DIR=/visitorpwa
+ENV HOST=0.0.0.0
+ENV PORT=5003
 
+COPY . $WORK_DIR/.
+
+WORKDIR $WORK_DIR
 
 RUN apk -q update && apk -q upgrade \
  && apk -q add curl \
@@ -15,30 +17,18 @@ RUN apk -q update && apk -q upgrade \
  && npm install -g http-server \
  #purge cache
  && rm -rf /var/cache/apk/* \
- #make work directory
- && mkdir $WRK_DIR \
- && mkdir $WRK_DIR/raw
-
-COPY . $WRK_DIR/.
-
-WORKDIR $WRK_DIR
-
-RUN npm install \
+ # run install node build dependencies
+ && npm install \
  # create production env file
- && touch $WRK_DIR/.env.production \
- && echo VUE_APP_REQUEST_HOST=$REQUEST_HOST >> $WRK_DIR/.env.production \
+ && touch $WORK_DIR/.env.production \
+ && echo VUE_APP_REQUEST_HOST=$REQUEST_HOST >> $WORK_DIR/.env.production \
  #build and move dist
  && npm run build \
- #clean up
- && rm -rf node_modules \
- #create startup script
- && touch $START_SCRIPT \
- && echo "#!/bin/sh" >> $START_SCRIPT \
- && echo http-server dist -a $HOST -p $PORT >> $START_SCRIPT \
- && chmod +x $START_SCRIPT
+ #clean up node build dependencies
+ && rm -rf node_modules
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
-     CMD curl --fail http://$HOST:$PORT || exit 1
+     CMD /bin/sh healthcheck.sh
 
 
 EXPOSE $PORT
