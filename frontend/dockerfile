@@ -37,6 +37,10 @@ RUN npm install \
  && echo http-server dist -a $HOST -p $PORT >> $START_SCRIPT \
  && chmod +x $START_SCRIPT
 
+HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
+     CMD curl --fail http://$HOST:$PORT || exit 1
+
+
 EXPOSE $PORT
 
 CMD ["/bin/sh", "start.sh"]
