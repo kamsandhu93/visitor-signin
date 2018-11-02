@@ -2,7 +2,7 @@
     <el-main>
         <main-logo></main-logo>
         <el-row>
-            <h1>Visitior Registration</h1>
+            <h1>Visitor Registration</h1>
         </el-row>
         <el-row type="flex" justify="center" :gutter="20">
             <el-col :span="12">

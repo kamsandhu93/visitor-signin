@@ -6,6 +6,7 @@ import SignOut from './views/SignOut.vue'
 import Pass from './views/Pass.vue'
 import ErrorPage from './views/Error.vue'
 import TransitionPage from './views/TransitionPage.vue'
+import PrintError from './views/PrintError.vue'
 
 Vue.use(Router)
 
@@ -44,6 +45,11 @@ export default new Router({
             path: '/transition',
             name: 'transition',
             component: TransitionPage
+        },
+        {
+            path: '/printerror',
+            name: 'printerror',
+            component: PrintError
         }
     ]
 })

@@ -2,11 +2,11 @@
     <el-main>
         <main-logo></main-logo>
         <el-row v-if="$route.query.transitionType == 'signout'">
-            <span class="signinName">{{ $route.query.name }}</span><span class="signinMsg"> sign out success</span>
+            <span>{{ $route.query.name }}</span><span class="blueFont"> sign out success</span>
             <h1>Please return your visitor pass to reception</h1>
         </el-row>
         <el-row v-if="$route.query.transitionType == 'signin'">
-            <span class="signinName">{{ $route.query.name }}</span><span class="signinMsg"> sign in success</span>
+            <span>{{ $route.query.name }}</span><span class="blueFont"> sign in success</span>
             <h1>Please collect your visitor pass from reception</h1>
         </el-row>
         <el-row>
@@ -43,7 +43,7 @@
         font-weight: bold;
     }
 
-    .signinMsg {
+    .blueFont {
         color: var(--nhs-blue);
     }
 
