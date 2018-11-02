@@ -36,3 +36,38 @@ This is a Single Page Progressive Web Application created using [Vue.js](https:/
  - QR code image generator for visitor pass example page
 ##### [axios](https://github.com/axios/axios)
  - Promise based request library for http requests
+
+## Workflow
+```
+                                User
+                                  +
+                                  v
+                             +----+------+
+                             | Home Page +<---------------------+
+                             +--+----+---+                      |
+                                |    |                          |
+             +--------------+   |    |    +---------------+     |
+             | Sign In Page +<--+    +--->+ Sign Out Page |     |
+             +-----------+--+             +--+------------+     |
+                         |                   |                  |
+                         v                   v                  |
+                      +--+-------------------+---+              |
+              +-------+   POST to database api   |              |
+              |       +-----+-------------------++              |
+              v             |                   |               |
+                            |                   |               |
++--------------------+      |                   |               |
+| POST to Print Pass |      |                   |               |
++----------+--------++      |                   |               |
+           |        |       |                   |               |
+           |        | Error |          Sign out |               |
+           |        v       v          Success  v               |
+           |        +-------+----+   +----------+--------+      |
+           |        | Error Page |   | Confirmation Page +------+
+           |        +------------+   +----+--------------+
+           |                              ^
+           |                              |
+           |        Print Success         |
+           +------------------------------+
+
+```
