@@ -103,7 +103,7 @@ downloadDatabase
 
 export DROPBOX_TOKEN=$token
 export DB_FILE=$dbName
-export REQUEST_HOST=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep 192.)
+export REQUEST_HOST=$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep 192.)
 
 cmd="sudo -E docker-compose up"
 
