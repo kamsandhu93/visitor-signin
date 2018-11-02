@@ -7,7 +7,7 @@
  - A [Dropbox](https://www.dropbox.com) account
  - Created a dropbox app and generated a dropbox api token in [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
  - A copy of sqlite database in either:
-   - `/opt/visitor-db/database` or
+   - `/opt/visitorsigin/database` or
    - Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
 
 ## Deployment
@@ -31,53 +31,52 @@
     Force recreate all containers even when there are no changes
 -f
     Name of database file (default: visitor_db.db)
+-c [CONTAINER_NAME_IN_COMPOSE]
+    Allow a single selected container to be started. The -b option will overwrite this option
 ```
 
 After deployment has finished
-visitor app api will be available at: `http://localhost:5000`
-sqlite database control panel will be available at: `http://localhost:5001`
+frontend will be available at: `http://localhost:5003`
+database admin panel will be available at: `http://localhost:5001`
 
 ## System Infrastructure
-The system is made up of three docker containers and a front end electron application.
+The system is made up of five docker containers
 
-### Front End
- - Talks to flask api to add and change the sqlite database
- - Please see the readme in frontend directory for more details
+### frontend
+ - Progressive web application served by node http-server
+ - Communicates with both `print` and `database-api` containers
 
-### Visitor-Flask
- - Hosts the flask app that serves the api for frontend to talk to.
- - Flask app writes to `/visitor-app/database/visitor_db.db` inside the container.
+### database-api
+ - Hosts the flask app that serves the api for sign in and sign out
 
-### Visitor-Database
- - Hosts the database control panel web app for the sqlite database.
- - Reads and writes to `/visitor-db/database/visitor_db.db` inside the container.
+### database-admin
+ - Hosts the database admin website
 
-### Visitor-Back
- - Hosts the backup and restore scripts.
- - Database is backedup to dropbox every day at 01:00 server time.
- - Reads and writes to `/visitor-back/database/visitor_db.db` inside the container.
+### print
+ - Hosts print service
+
+### backup
+ - Hosts the backup and restore scripts
+ - Database is checked every 30 seconds for changes and is backed up if there are changes
 To perform a forced restore, run:
 ```
 sudo docker ps
 <copy the container id of the backup container>
 sudo docker exec -it <container id> /bin/sh
-cd /visitor-back
+cd /backupservice
 python database_operations.py -o "restore_force"
 ```
 
 During deployment `deploy.sh` creates the following file structure on the host system:
 ```
-/opt/visitor-db
+/opt/visitorsignin
 |
 └─── database
 |   └─── visitor_db.db
 └─── log
     |
-    └─── flask
-    |   └─── visitor.log
-    └─── backup
-        └─── backup.log
+    └─── database_api.log
+    └─── backup.log
+    └─── print.log
 ```
 The database file `visitor_db.db` is persisted to all three containers.
-`visitor.log` contains all logs from the flask app.
-`backup.log` contains all logs from the backup and restore script.
