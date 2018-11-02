@@ -11,13 +11,12 @@ ARG CONFIG_NAME=$WORK_DIR/database_operations.cfg
 COPY requirements.txt /tmp/
 
 #install packages
-RUN apk update && apk upgrade \
- && apk add curl \
+RUN apk -q update && apk -q upgrade \
+ && apk -q add curl \
  #install pip packages
- && pip install -r /tmp/requirements.txt \
+ && pip install -qr /tmp/requirements.txt \
  #purge cache
  && rm -rf /var/cache/apk/* \
- && rm /tmp/requirements.txt \
  #create work directory structure
  && mkdir $WORK_DIR \
  && mkdir $WORK_DIR/log \

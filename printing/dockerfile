@@ -9,8 +9,8 @@ ENV LOG_PATH $WRK_DIR/log/print.log
 
 COPY requirements.txt /tmp/
 
-RUN apt-get update \
- && apt-get install -y \
+RUN apt-get -qq update \
+ && apt-get -qq install -y \
  bash \
  curl \
  cups \
@@ -20,9 +20,9 @@ RUN apt-get update \
  iproute2 \
  fonts-liberation \
  #install python libraries
- && pip3 install -r /tmp/requirements.txt \
+ && pip3 install -qr /tmp/requirements.txt \
  #remove build dependencies and purge cache
- && apt-get purge -y --auto-remove \
+ && apt-get -qq purge -y --auto-remove \
  gcc \
  libcups2-dev \
  python3-dev \

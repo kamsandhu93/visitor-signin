@@ -9,8 +9,8 @@ ARG HOST=0.0.0.0
 ARG PORT=5003
 
 
-RUN apk update && apk upgrade \
- && apk add curl \
+RUN apk -q update && apk -q upgrade \
+ && apk -q add curl \
  #install node packages
  && npm install -g http-server \
  #purge cache

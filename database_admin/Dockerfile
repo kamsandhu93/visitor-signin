@@ -11,12 +11,11 @@ ARG HOST=0.0.0.0
 
 COPY requirements.txt /tmp/
 
-RUN apk update && apk upgrade \
- && apk add curl \
+RUN apk -q update && apk -q upgrade \
+ && apk -q add curl \
  #install python packages
- && pip install -r /tmp/requirements.txt \
+ && pip install -qr /tmp/requirements.txt \
  #purge cache
- && rm /tmp/requirements.txt \
  && rm -rf /var/cache/apk/* \
  #make work directory
  && mkdir $WORK_DIR \

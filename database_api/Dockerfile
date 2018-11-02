@@ -12,10 +12,10 @@ ENV LOG_PATH $WRK_DIR/log/database_api.log
 
 COPY requirements.txt /tmp/
 
-RUN apk update && apk upgrade \
- && apk add curl \
+RUN apk -q update && apk -q upgrade \
+ && apk -q add curl \
  #install python packages
- && pip install -r /tmp/requirements.txt \
+ && pip install -qr /tmp/requirements.txt \
  #purge cache
  && rm -rf /var/cache/apk/* \
  #create work directory
