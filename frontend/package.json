@@ -1,5 +1,5 @@
 {
-  "name": "visitor-app",
+  "name": "visitor-signin-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -19,8 +19,6 @@
   "devDependencies": {
     "@vue/cli-plugin-pwa": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
-    "node-sass": "^4.9.2",
-    "sass-loader": "^7.0.3",
     "vue-cli-plugin-element": "^1.0.0",
     "vue-template-compiler": "^2.5.17"
   }
