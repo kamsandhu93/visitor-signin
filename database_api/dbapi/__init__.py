@@ -5,8 +5,7 @@ from flask import Flask
 from flask_cors import CORS
 
 app = Flask(__name__)
-
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 from dbapi.handlers import login_handler, logout_handler, status_handler
 
 app.config.from_pyfile('config.cfg')

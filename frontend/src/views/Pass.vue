@@ -73,6 +73,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import RouteHelper from '../mixins/route-helper.js'
     import QrcodeVue from 'qrcode.vue'
 
@@ -104,11 +105,18 @@
                 return mm + '/' + dd + '/' + yyyy;
             },
             printPage() {
-                var query = {
-                    transitionType: 'signin',
-                    name: this.$route.query.name
-                }
-                this.changeRouteQuery('transition', query)
+                axios.post(this.$store.getters.printer, { body: this.$route.query })
+                .then((response) => {
+                    console.log(response)
+                    var query = {
+                        transitionType: 'signin',
+                        name: this.$route.query.name
+                    }
+                    this.changeRouteQuery('transition', query)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
             },
             calculateFontSize(text) {
                 var nameLength = text.length

@@ -6,7 +6,8 @@ Vue.use(Vuex)
 var state = {
     config: {
         host: process.env.VUE_APP_REQUEST_HOST,
-        port: 5000
+        dbapiPort: 5000,
+        printerPort: 5002
     },
     failures: 0
 }
@@ -17,11 +18,13 @@ export default new Vuex.Store({
     getters: {
         url(state) {
             var host = state.config['host']
-            var port = state.config['port']
+            var port = state.config['dbapiPort']
             return `http://${host}:${port}`
         },
         printer(state) {
-            return state.config['printer']
+            var host = state.config['host']
+            var port = state.config['printerPort']
+            return `http://${host}:${port}/print`
         }
     },
     mutations: {
