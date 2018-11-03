@@ -23,6 +23,8 @@
 ```
 -h
     Show help
+-H
+    Host IP address the frontend will send request to (default is the first 192. IP address of ifconfig)
 -d
     Start all containers in debug mode
 -b
