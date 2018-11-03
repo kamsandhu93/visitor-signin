@@ -13,6 +13,8 @@ COPY . $WORK_DIR/.
 #install packages
 RUN apk -q update && apk -q upgrade \
  && apk -q add curl \
+ && apk -q add bash \
+ && apk -q add bash-completion \
  #install pip packages
  && pip install -qr $WORK_DIR/requirements.txt \
  #purge cache

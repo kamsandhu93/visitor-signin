@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/bash
 
 response=$(curl --write-out %{http_code} --silent --output /dev/null http://$HOST:$PORT)
 

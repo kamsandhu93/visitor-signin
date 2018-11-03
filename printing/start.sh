@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #Adds host ip address to cups client conf to allow network printing
 clientConf=/etc/cups/client.conf

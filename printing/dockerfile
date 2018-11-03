@@ -11,6 +11,7 @@ COPY . $WORK_DIR/.
 
 RUN apt-get -qq update \
  && apt-get -qq install -y \
+ bash \
  curl \
  cups \
  cups-client \
@@ -39,4 +40,4 @@ HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
 
 EXPOSE ${PORT}
 
-CMD ["/bin/sh", "start.sh"]
+CMD ["/bin/bash", "start.sh"]

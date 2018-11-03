@@ -14,6 +14,8 @@ COPY . $WORK_DIR/.
 
 RUN apk -q update && apk -q upgrade \
  && apk -q add curl \
+ && apk -q add bash \
+ && apk -q add bash-completion \
  && pip install -qr $WORK_DIR/requirements.txt \
  #purge cache
  && rm -rf /var/cache/apk/* \

@@ -13,6 +13,8 @@ COPY . $WORK_DIR/.
 
 RUN apk -q update && apk -q upgrade \
  && apk -q add curl \
+ && apk -q add bash \
+ && apk -q add bash-completion \
  #install python packages
  && pip install -qr $WORK_DIR/requirements.txt \
  #purge cache
@@ -24,7 +26,7 @@ RUN apk -q update && apk -q upgrade \
 WORKDIR $WORK_DIR
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
-    CMD /bin/sh healthcheck.sh
+    CMD /bin/bash healthcheck.sh
 
 EXPOSE $PORT
-CMD ["/bin/sh", "start.sh"]
+CMD ["/bin/bash", "start.sh"]

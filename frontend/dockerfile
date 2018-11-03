@@ -13,6 +13,8 @@ WORKDIR $WORK_DIR
 
 RUN apk -q update && apk -q upgrade \
  && apk -q add curl \
+ && apk -q add bash \
+ && apk -q add bash-completion \
  #install node packages
  && npm install -g http-server \
  #purge cache
@@ -28,9 +30,9 @@ RUN apk -q update && apk -q upgrade \
  && rm -rf node_modules
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
-     CMD /bin/sh healthcheck.sh
+     CMD /bin/bash healthcheck.sh
 
 
 EXPOSE $PORT
 
-CMD ["/bin/sh", "start.sh"]
+CMD ["/bin/bash", "start.sh"]
