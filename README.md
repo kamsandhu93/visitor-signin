@@ -1,14 +1,25 @@
 # visitor-signin
 
 ## Prerequisites
+### Common
  - curl
- - Install [Docker](https://docs.docker.com/install/)
- - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
  - A [Dropbox](https://www.dropbox.com) account
  - Created a dropbox app and generated a dropbox api token in [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
  - A copy of sqlite database in either:
    - `/opt/visitorsigin/database` or
    - Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
+### Normal System
+ - Install [Docker](https://docs.docker.com/install/)
+ - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
+### Raspberry Pi
+Note: Only tested on Raspbian
+ - Install Docker
+ `curl -sSL https://get.docker.com | sh`
+ - Install Docker-Compose:
+ ```
+ sudo apt-get install python pip
+ sudo pip install docker-compose
+ ```
 
 ## Deployment
  ```
