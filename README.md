@@ -17,7 +17,7 @@ Note: Only tested on Raspbian
  `curl -sSL https://get.docker.com | sh`
  - Install Docker-Compose:
  ```
- sudo apt-get install python pip
+ sudo apt-get install python-pip
  sudo pip install docker-compose
  ```
 
