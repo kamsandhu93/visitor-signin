@@ -1,5 +1,6 @@
 #!/bin/bash
 dbName="visitor_db.db"
+hostIp=$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep 192.)
 
 red='\033[0;31m'
 end='\033[0m'
@@ -45,16 +46,18 @@ function downloadDatabase () {
 
 
 # Start of main script
-while getopts ":t: :c: :f: :hbdr" opt; do
+while getopts ":t: :c: :f: :H: :hbdr" opt; do
     case ${opt} in
         h )
             echo "Usage:"
             echo "    -h        Display help"
             echo "    -t        Dropbox API token (Mandatory)"
+            echo "    -H        Host IP address"
             echo "    -b        Force rebuild"
             echo "    -d        Start in debug mode"
             echo "    -r        Force recreate containers"
             echo "    -f        File name of sqlite database"
+            echo "    -c        Name of container to build for building single container"
             exit 0
             ;;
         t )
@@ -75,6 +78,9 @@ while getopts ":t: :c: :f: :hbdr" opt; do
             ;;
         c )
             container=$OPTARG
+            ;;
+        H )
+            hostIp=$OPTARG
             ;;
         \? )
             echo -e "${red}Invalid option: $OPTARG${end}" 1>&2
@@ -103,7 +109,7 @@ downloadDatabase
 
 export DROPBOX_TOKEN=$token
 export DB_FILE=$dbName
-export REQUEST_HOST=$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep 192.)
+export REQUEST_HOST=$hostIp
 
 cmd="sudo -E docker-compose up"
 

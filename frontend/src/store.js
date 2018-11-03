@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 var state = {
     config: {
-        host: process.env.VUE_APP_REQUEST_HOST,
+        host: env.REQUEST_HOST,
         dbapiPort: 5000,
         printerPort: 5002
     },

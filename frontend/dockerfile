@@ -21,10 +21,7 @@ RUN apk -q update && apk -q upgrade \
  && rm -rf /var/cache/apk/* \
  # run install node build dependencies
  && npm install \
- # create production env file
- && touch $WORK_DIR/.env.production \
- && echo VUE_APP_REQUEST_HOST=$REQUEST_HOST >> $WORK_DIR/.env.production \
- #build and move dist
+ #build dist
  && npm run build \
  #clean up node build dependencies
  && rm -rf node_modules
