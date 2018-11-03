@@ -53,10 +53,10 @@ This is a Single Page Progressive Web Application created using [Vue.js](https:/
                          v                   v                  |
                       +--+-------------------+---+              |
               +-------+   POST to database api   |              |
-              |       +-----+-------------------++              |
+      Sign In |       +-----+-------------------++              |
+      Success |             |                   |               |
               v             |                   |               |
-                            |                   |               |
-+--------------------+      |                   |               |
++-------------+------+      |                   |               |
 | POST to Print Pass |      |                   |               |
 +----------+--------++      |                   |               |
            |        |       |                   |               |
