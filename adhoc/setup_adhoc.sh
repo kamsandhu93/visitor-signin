@@ -65,7 +65,10 @@ hostapdConf=/etc/hostapd/hostapd.conf
 dnsmasqConf=/etc/dnsmasq.conf
 dnsmasqConfOrig="${dnsmasqConf}.orig"
 
-origFiles=("$interfacesOrig" "$hostapdOrig" "$dnsmasqConfOrig")
+dhcpcdConf=/etc/dhcpcd.conf
+dhcpcdConfOrig="${dhcpcdConf}.orig"
+
+origFiles=("$interfacesOrig" "$hostapdOrig" "$dnsmasqConfOrig" "$dhcpcdConfOrig")
 
 if [[ $action = "set" ]]; then
     sudo mv $interfaces $interfacesOrig
@@ -76,6 +79,9 @@ if [[ $action = "set" ]]; then
 
     sudo mv $dnsmasqConf $dnsmasqConfOrig
     sudo cp dnsmasq.conf $dnsmasqConf
+
+    sudo mv $dhcpcdConf $dhcpcdConfOrig
+    sudo cp dhcpcd.conf $dhcpcdConf
 
     sudo cp hostapd.conf $hostapdConf
 elif [[ $action = "unset" ]]; then
@@ -91,6 +97,9 @@ elif [[ $action = "unset" ]]; then
 
     sudo rm $dnsmasqConf
     sudo mv $dnsmasqConfOrig $dnsmasqConf
+
+    sudo rm $dhcpcdConf
+    sudo mv $dhcpcdConfOrig $dhcpcdConf
 else
     printMsg "${red}Please select an operation type (see 'setup_adhoc.sh -h') ${end}"
     exit 1
