@@ -15,22 +15,36 @@ function checkOrig () {
     for file in $@
     do
         if [[ ! -f $file ]]; then
-            printMsg "${red}Original $file was not found, restore cancelled${end}"
+            printMsg "${red}Original file: $file was not found, restore cancelled${end}"
             exit 1
         fi
     done
 }
 
-while getopts ":t: :h" opt; do
+function checkNoOrig () {
+    for file in $@
+    do
+        if [[ -f $file ]]; then
+            printMsg "${red}Original file: $file was found, setup cancelled${end}"
+            exit 1
+        fi
+    done
+}
+
+while getopts ":t: :p: :h" opt; do
     case ${opt} in
         h )
             echo "Usage:"
             echo "    -h        Display help"
-            echo "    -t        Operation type (set or unset)"
+            echo "    -t        Operation type - set or unset (Mandatory)"
+            echo "    -p        Passphrase of ad-hoc network (Mandatory)"
             exit 0
             ;;
         t )
             action=$OPTARG
+            ;;
+        p )
+            passphrase=$OPTARG
             ;;
         \? )
             echo -e "${red}Invalid option: $OPTARG${end}" 1>&2
@@ -70,7 +84,12 @@ dhcpcdConfOrig="${dhcpcdConf}.orig"
 
 origFiles=("$interfacesOrig" "$hostapdOrig" "$dnsmasqConfOrig" "$dhcpcdConfOrig")
 
-if [[ $action = "set" ]]; then
+if [[ $action = "set" ]] && [[ -z $passphrase ]]; then
+    printMsg "${red}Passphrase not set. Setup cancelled${end}"
+    exit 1
+elif [[ $action = "set" ]]; then
+    checkNoOrig ${origFiles[*]}
+
     sudo mv $interfaces $interfacesOrig
     sudo cp interfaces $interfaces
 
