@@ -75,11 +75,22 @@ if [[ $action = "set" ]]; then
     sudo cp hostapd $hostapd
 
     sudo mv $dnsmasqConf $dnsmasqConfOrig
-    sudo cp dnsmasq.confg $dnsmasqConf
+    sudo cp dnsmasq.conf $dnsmasqConf
 
     sudo cp hostapd.conf $hostapdConf
 elif [[ $action = "unset" ]]; then
     checkOrig ${origFiles[*]}
+
+    sudo rm $interfaces
+    sudo mv $interfacesOrig $interfaces
+
+    sudo rm $hostapd
+    sudo mv $hostapdOrig $hostapd
+
+    sudo rm $hostapdConf
+
+    sudo rm $dnsmasqConf
+    sudo mv $dnsmasqConfOrig $dnsmasqConf
 else
     printMsg "${red}Please select an operation type (see 'setup_adhoc.sh -h') ${end}"
     exit 1
