@@ -1,6 +1,7 @@
 version: '3'
 services:
     backup:
+        restart: always
         build:
             context: './backup/'
             args:
@@ -10,6 +11,7 @@ services:
             - /opt/visitorsignin/database:/backupservice/database
             - /opt/visitorsignin/log:/backupservice/log
     database-api:
+        restart: always
         build:
             context: ./database_api/
             args:
@@ -20,6 +22,7 @@ services:
             - /opt/visitorsignin/database:/databaseapi/database
             - /opt/visitorsignin/log:/databaseapi/log
     database-admin:
+        restart: always
         build:
             context: ./database_admin/
             args:
@@ -29,6 +32,7 @@ services:
         volumes:
             - /opt/visitorsignin/database:/databaseadmin/database
     print:
+        restart: always
         build:
             context: './printing'
         ports:
@@ -36,6 +40,7 @@ services:
         volumes:
             - /opt/visitorsignin/log:/printservice/log
     frontend:
+        restart: always
         build:
             context: './frontend'
         environment:
