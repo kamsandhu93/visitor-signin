@@ -105,7 +105,7 @@ elif [[ $action = "set" ]]; then
     sudo cp dhcpcd.conf $dhcpcdConf
 
     sudo cp hostapd.conf $hostapdConf
-    sudo bash -c "wpa_passphrase=$passphrase >> $hostapdConf"
+    sudo bash -c "echo wpa_passphrase=$passphrase >> $hostapdConf"
 elif [[ $action = "unset" ]]; then
     checkOrig ${origFiles[*]}
 
