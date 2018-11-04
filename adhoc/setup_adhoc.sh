@@ -68,7 +68,7 @@ if [[ ! $startScript =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
-sudo apt-get install dnsmasq hostapd
+sudo apt-get install -y dnsmasq hostapd
 
 interfaces=/etc/network/interfaces
 interfacesOrig="${interfaces}.orig"
