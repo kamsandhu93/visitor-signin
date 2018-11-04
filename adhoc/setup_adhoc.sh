@@ -11,6 +11,16 @@ function printMsg () {
     printf "\n"
 }
 
+function checkOrig () {
+    for file in $@
+    do
+        if [[ ! -f $file ]]; then
+            printMsg "${red}Original $file was not found, restore cancelled${end}"
+            exit 1
+        fi
+    done
+}
+
 while getopts ":t: :h" opt; do
     case ${opt} in
         h )
@@ -34,7 +44,43 @@ while getopts ":t: :h" opt; do
 done
 shift $((OPTIND -1))
 
-if [[ $action != "set" ]] && [[ $action != "unset" ]]; then
+echo -e "${red}ONLY USE THIS SCRIPT ON A RASPBERRY PI${end}"
+echo "Continue (y/N): "
+
+read startScript
+
+if [[ ! $startScript =~ ^[Yy]$ ]]; then
+    echo -e "${red}Cancelled${end}"
+    exit 0
+fi
+
+interfaces=/etc/network/interfaces
+interfacesOrig="${interfaces}.orig"
+
+hostapd=/etc/init.d/hostapd
+hostapdOrig="${hostapd}.orig"
+
+hostapdConf=/etc/hostapd/hostapd.conf
+
+dnsmasqConf=/etc/dnsmasq.conf
+dnsmasqConfOrig="${dnsmasqConf}.orig"
+
+origFiles=("$interfacesOrig" "$hostapdOrig" "$dnsmasqConfOrig")
+
+if [[ $action = "set" ]]; then
+    sudo mv $interfaces $interfacesOrig
+    sudo cp interfaces $interfaces
+
+    sudo mv $hostapd $hostapdOrig
+    sudo cp hostapd $hostapd
+
+    sudo mv $dnsmasqConf $dnsmasqConfOrig
+    sudo cp dnsmasq.confg $dnsmasqConf
+
+    sudo cp hostapd.conf $hostapdConf
+elif [[ $action = "unset" ]]; then
+    checkOrig ${origFiles[*]}
+else
     printMsg "${red}Please select an operation type (see 'setup_adhoc.sh -h') ${end}"
     exit 1
 fi
