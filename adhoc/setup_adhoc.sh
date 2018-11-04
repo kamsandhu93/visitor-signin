@@ -76,6 +76,9 @@ interfacesOrig="${interfaces}.orig"
 hostapd=/etc/init.d/hostapd
 hostapdOrig="${hostapd}.orig"
 
+hostapdDefault=/etc/default/hostapd
+hostapdDefaultOrig="${hostapdDefault}.orig"
+
 hostapdConf=/etc/hostapd/hostapd.conf
 
 dnsmasqConf=/etc/dnsmasq.conf
@@ -84,7 +87,7 @@ dnsmasqConfOrig="${dnsmasqConf}.orig"
 dhcpcdConf=/etc/dhcpcd.conf
 dhcpcdConfOrig="${dhcpcdConf}.orig"
 
-origFiles=("$interfacesOrig" "$hostapdOrig" "$dnsmasqConfOrig" "$dhcpcdConfOrig")
+origFiles=("$interfacesOrig" "$hostapdOrig" "$dnsmasqConfOrig" "$dhcpcdConfOrig" "$hostapdDefaultOrig")
 
 if [[ $action = "set" ]] && [[ -z $passphrase ]]; then
     printMsg "${red}Passphrase not set. Setup cancelled${end}"
@@ -98,6 +101,9 @@ elif [[ $action = "set" ]]; then
     sudo mv $hostapd $hostapdOrig
     sudo cp hostapd $hostapd
 
+    sudo mv $hostapdDefault $hostapdDefaultOrig
+    sudo cp hostapdDefault $hostapdDefault
+
     sudo mv $dnsmasqConf $dnsmasqConfOrig
     sudo cp dnsmasq.conf $dnsmasqConf
 
@@ -106,6 +112,7 @@ elif [[ $action = "set" ]]; then
 
     sudo cp hostapd.conf $hostapdConf
     sudo bash -c "echo wpa_passphrase=$passphrase >> $hostapdConf"
+
 elif [[ $action = "unset" ]]; then
     checkOrig ${origFiles[*]}
 
@@ -114,6 +121,9 @@ elif [[ $action = "unset" ]]; then
 
     sudo rm $hostapd
     sudo mv $hostapdOrig $hostapd
+
+    sudo rm $hostapdDefault
+    sudo mv $hostapdDefaultOrig $hostapdDefault
 
     sudo rm $hostapdConf
 
