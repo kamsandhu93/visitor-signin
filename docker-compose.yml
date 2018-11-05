@@ -14,8 +14,10 @@ services:
         restart: always
         build:
             context: ./database_api/
-            args:
-                DB_FILE: "${DB_FILE}"
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5000
+            - DB_FILE
         ports:
             - 5000:5000
         volumes:
@@ -25,8 +27,10 @@ services:
         restart: always
         build:
             context: ./database_admin/
-            args:
-                DB_FILE: "${DB_FILE}"
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5001
+            - DB_FILE
         ports:
             - 5001:5001
         volumes:
@@ -35,6 +39,9 @@ services:
         restart: always
         build:
             context: './printing'
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5002
         ports:
             - 5002:5002
         volumes:
@@ -44,6 +51,8 @@ services:
         build:
             context: './frontend'
         environment:
+            - HOST=0.0.0.0
+            - PORT=5003
             - REQUEST_HOST
         ports:
             - 5003:5003

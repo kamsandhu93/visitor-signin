@@ -1,13 +1,9 @@
 FROM python:3.7-alpine
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
-ARG DB_FILE
-
 ARG WORK_DIR=/databaseadmin
 
-ENV PORT=5001
-ENV HOST=0.0.0.0
-ENV DB_PATH $WORK_DIR/database/$DB_FILE
+ENV DB_PATH $WORK_DIR/database
 
 COPY . $WORK_DIR/.
 

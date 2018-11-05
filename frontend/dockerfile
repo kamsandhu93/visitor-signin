@@ -4,8 +4,6 @@ LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
 ARG REQUEST_HOST
 ARG WORK_DIR=/visitorpwa
-ENV HOST=0.0.0.0
-ENV PORT=5003
 
 COPY . $WORK_DIR/.
 

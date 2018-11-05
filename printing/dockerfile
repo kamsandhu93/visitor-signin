@@ -3,8 +3,7 @@ FROM python:3.7-slim
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
 ARG WORK_DIR=/printservice
-ENV PORT 5002
-ENV HOST 0.0.0.0
+
 ENV LOG_PATH $WORK_DIR/log/print.log
 
 COPY . $WORK_DIR/.
