@@ -38,7 +38,7 @@ function createDirectories () {
 }
 
 # Start of main script
-while getopts ":t: :f: :H: :hdr" opt; do
+while getopts ":t: :f: :H: :b: :hdr" opt; do
     case ${opt} in
         h )
             echo "Usage:"
@@ -47,7 +47,8 @@ while getopts ":t: :f: :H: :hdr" opt; do
             echo "    -H        Host IP address"
             echo "    -d        Start in debug mode"
             echo "    -r        Force recreate containers"
-            echo "    -f        File name of sqlite database"
+            echo "    -f        File name of sqlite database (default: visitor_db.db)"
+            echo "    -b        Offline backup path (default: /opt/visitorsignin/offline_backup)"
             exit 0
             ;;
         t )
@@ -64,6 +65,9 @@ while getopts ":t: :f: :H: :hdr" opt; do
             ;;
         H )
             hostIp=$OPTARG
+            ;;
+        b )
+            offlineBackup=$OPTARG
             ;;
         \? )
             echo -e "${red}Invalid option: $OPTARG${end}" 1>&2
