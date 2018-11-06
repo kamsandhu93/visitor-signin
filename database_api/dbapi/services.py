@@ -1,41 +1,39 @@
 from dbapi import app, data_access
 
 
-def login(request_form):
-    pass_id = get_unique_pass_code()
-    first_name = request_form["name"]
-    surname = request_form["surname"]
-    visiting = request_form["visiting"]
-    company = request_form["company"]
+def login(requestBody):
+    passId = generatePassId()
+    firstName = requestBody["name"]
+    surname = requestBody["surname"]
+    visiting = requestBody["visiting"]
+    company = requestBody["company"]
 
-    data_access.log_visitor_in(pass_id, first_name, surname, visiting, company)
+    data_access.logVisitorIn(passId, firstName, surname, visiting, company)
 
-    ''' print pass'''
-
-    return pass_id
+    return passId
 
 
-def logout(request_form):
-    pass_id = request_form["pass_id"]
-    data_access.log_visitor_out(pass_id)
-    full_name = data_access.get_visitor_full_name(pass_id)
+def logout(requestBody):
+    passId = requestBody["passId"]
+    data_access.logVisitorOut(passId)
+    fullName = data_access.getVisitorFullName(passId)
 
-    return full_name
+    return fullName
 
 
-def get_unique_pass_code():
-    last_pass_id = data_access.get_last_pass_id()
+def generatePassId():
+    lastPassId = data_access.getLastPassId()
 
-    number = int(last_pass_id[:-1])
+    number = int(lastPassId[:-1])
     if number == 99999:
         number = "00000"
-        char = chr(ord(last_pass_id[-1]) + 1)
-        pass_code = number + char
+        char = chr(ord(lastPassId[-1]) + 1)
+        passId = number + char
     else:
         number += 1
-        char = last_pass_id[-1]
-        pass_code = str(number).zfill(5) + char
+        char = lastPassId[-1]
+        passId = str(number).zfill(5) + char
 
-    data_access.update_last_pass_id(pass_code)
+    data_access.updateLastPassId(passId)
 
-    return pass_code
+    return passId

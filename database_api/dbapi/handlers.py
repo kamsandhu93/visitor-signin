@@ -7,20 +7,20 @@ def createResponse(msg, status):
     return jsonify({'message': msg}), status
 
 @app.route("/status")
-def status_handler():
+def statusHandler():
     return "OK"
 
 #testing push
 @app.route("/login", methods=["POST"])
-def login_handler():
+def loginHandler():
     try:
-        request_form = request.get_json()['body']
-        validate_request_form_keys(request_form, valid_keys=["name", "surname", "visiting", "company"])
-        validate_login_form_values(request_form)
-        pass_id = services.login(request_form)
+        requestBody = request.get_json()
+        validateRequestBodyKeys(requestBody, validKeys=["name", "surname", "visiting", "company"])
+        validateLoginRequestValues(requestBody)
+        passId = services.login(requestBody)
         app.logger.info("User logged in")
 
-        return jsonify({'passId': pass_id}), 200
+        return jsonify({'passId': passId}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
         return createResponse("Missing or invalid request body", 400)
@@ -33,18 +33,19 @@ def login_handler():
 
 
 @app.route("/logout", methods=["POST"])
-def logout_handler():
+def logoutHandler():
     try:
-        request.form = request.get_json()['body']
-        validate_request_form_keys(request.form, valid_keys=["pass_id"])
-        validate_pass_id(request.form["pass_id"])
-        full_name = services.logout(request.form)
+        requestBody = request.get_json()
+        validateRequestBodyKeys(requestBody, validKeys=["passId"])
+        validatePassId(requestBody["passId"])
+        fullName = services.logout(requestBody)
         app.logger.info("User logged out")
 
         response = {
-            'firstName': full_name[0],
-            'surname': full_name[1]
+            'firstName': fullName[0],
+            'surname': fullName[1]
         }
+
         return jsonify(response), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
@@ -57,21 +58,21 @@ def logout_handler():
         return createResponse("{0}".format(ex), 500)
 
 
-def validate_request_form_keys(request_form, valid_keys):
-    given_keys = list(request_form.keys())
-    if given_keys != valid_keys:
+def validateRequestBodyKeys(requestBody, validKeys):
+    requestBodyKeys = list(requestBody.keys())
+    if requestBodyKeys != validKeys:
         raise exceptions.InvalidRequestBodyKeysEx
 
 
-def validate_login_form_values(request_form):
+def validateLoginRequestValues(requestBody):
     regex = r"^[A-Za-z]{1,32}$"
-    optional_fields = ['company']
-    for key in request_form:
-        if key not in optional_fields and not re.match(regex, request_form[key]):
+    optionalKeys = ['company']
+    for key in requestBody:
+        if key not in optionalKeys and not re.match(regex, requestBody[key]):
             raise exceptions.InvalidRequestBodyValuesEx
 
 
-def validate_pass_id(pass_id):
+def validatePassId(passId):
     regex = "^[0-9]{5}[a-z]$"
-    if not re.match(regex, pass_id):
+    if not re.match(regex, passId):
         raise exceptions.InvalidRequestBodyValuesEx

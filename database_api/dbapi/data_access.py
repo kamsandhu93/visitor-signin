@@ -3,7 +3,7 @@ import sqlite3
 from dbapi import app, exceptions
 
 
-def execute_modification_sql(sql, params=()):
+def executeModificationSql(sql, params=()):
     try:
         conn = sqlite3.connect(app.config["DB_PATH"])
         cursor = conn.cursor()
@@ -14,7 +14,7 @@ def execute_modification_sql(sql, params=()):
         raise exceptions.DatabaseAccessEx(ex)
 
 
-def execute_select_sql(sql, params=()):
+def executeSelectSql(sql, params=()):
     try:
         conn = sqlite3.connect(app.config["DB_PATH"])
         cursor = conn.cursor()
@@ -26,43 +26,43 @@ def execute_select_sql(sql, params=()):
         raise exceptions.DatabaseAccessEx(ex)
 
 
-def log_visitor_in(pass_id, first_name, surname, visiting, company):
+def logVisitorIn(passId, firstName, surname, visiting, company):
     sql = "INSERT INTO visitors (pass_id, first_name, surname, visiting, company, time_in) " \
           "VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)"
 
-    execute_modification_sql(sql, params=[pass_id, first_name, surname, visiting, company])
+    executeModificationSql(sql, params=[passId, firstName, surname, visiting, company])
 
 
-def log_visitor_out(pass_id):
+def logVisitorOut(passId):
     sql = "UPDATE visitors " \
           "SET time_out = CURRENT_TIMESTAMP " \
           "WHERE pass_id = ?"
 
-    execute_modification_sql(sql, params=[pass_id])
+    executeModificationSql(sql, params=[passId])
 
 
-def get_visitor_full_name(pass_id):
+def getVisitorFullName(passId):
     sql = "SELECT first_name, surname " \
           "FROM visitors " \
           "WHERE pass_id = ?"
 
-    full_name = execute_select_sql(sql, params=[pass_id])
+    full_name = executeSelectSql(sql, params=[passId])
 
     return full_name
 
 
-def get_last_pass_id():
+def getLastPassId():
     sql = "SELECT last_pass " \
           "FROM settings"
 
-    last_pass_id = execute_select_sql(sql)[0]
+    lastPassId = executeSelectSql(sql)[0]
 
-    return last_pass_id
+    return lastPassId
 
 
-def update_last_pass_id(pass_code):
+def updateLastPassId(passId):
     sql = "UPDATE settings " \
           "SET last_pass = ? " \
           "WHERE pass = 1"
 
-    execute_modification_sql(sql, [pass_code])
+    executeModificationSql(sql, [passId])

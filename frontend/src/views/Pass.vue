@@ -36,7 +36,7 @@
         mixins: [RouteHelper, NotificationHelper],
         methods: {
             printPage() {
-                axios.post(this.$store.getters.printer, { body: this.$route.query })
+                axios.post(this.$store.getters.printer, this.$route.query)
                 .then((response) => {
                     var query = {
                         transitionType: 'signin',

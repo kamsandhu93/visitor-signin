@@ -91,7 +91,7 @@
                 this.formData[field] = this.formData[field].charAt(0).toUpperCase() + this.formData[field].slice(1);
             },
             sendSigninRequest() {
-                axios.post(`${this.$store.getters.url}/login`, { body: this.formData })
+                axios.post(`${this.$store.getters.url}/login`, this.formData)
                 .then((response) => {
                     var query = {
                         name: this.getFullName(),

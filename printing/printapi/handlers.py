@@ -26,7 +26,7 @@ def statusHandler():
 def printHandler():
     try:
         app.logger.info("Received printing request")
-        passData = request.get_json()['body']
+        passData = request.get_json()
         generatePass(passData)
         convertToPdf()
         return printPass()

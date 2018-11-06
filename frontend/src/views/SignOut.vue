@@ -9,7 +9,7 @@
         <el-row type="flex" justify="center">
             <el-col :span="20">
                 <el-form :model="formData" :rules="rules" ref="signOutForm">
-                    <form-item label="Pass ID" prop="pass_id" v-model="formData['pass_id']"></form-item>
+                    <form-item label="Pass ID" prop="passId" v-model="formData['passId']"></form-item>
                     <el-form-item>
                         <el-button type="primary" icon="el-icon-check" @click="submitForm('signOutForm')">Sign Out</el-button>
                         <el-button type="info" icon="el-icon-refresh" @click="resetForm('signOutForm')" plain>Reset</el-button>
@@ -40,10 +40,10 @@
         data () {
             return {
                 formData: {
-                    pass_id: ""
+                    passId: ""
                 },
                 rules: {
-                    pass_id: [
+                    passId: [
                         { required: true, message: 'Please input Pass ID', trigger: 'blur' },
                         { min: 6, max: 6, message: 'Pass ID should be 6 characters long', trigger: 'blur' }
                     ]
@@ -55,7 +55,7 @@
         },
         methods: {
             submitQR(decodedQr) {
-                this.formData["pass_id"] = decodedQr
+                this.formData["passId"] = decodedQr
                 this.readerPaused = true
                 this.submitForm('signOutForm')
             },
@@ -67,7 +67,7 @@
                 })
             },
             sendSignoutRequest() {
-                axios.post(`${this.$store.getters.url}/logout`, {body: this.formData})
+                axios.post(`${this.$store.getters.url}/logout`, this.formData)
                 .then((response) => {
                     var name = `${response.data.firstName} ${response.data.surname}`
                     var query = {
