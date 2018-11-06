@@ -2,6 +2,10 @@
 dbName="visitor_db.db"
 hostIp=$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep 192.)
 
+rootPath="/opt/visitorsignin"
+offlineBackupPath="$rootPath/offline_backup"
+rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBackupPath")
+
 red='\033[0;31m'
 end='\033[0m'
 green='\033[0;32m'
@@ -33,39 +37,21 @@ function createDirectories () {
     done
 }
 
-function downloadDatabase () {
-    if [[ ! -f $dbPath ]]; then
-        printMsg "Database not found, downloading database..."
-        sudo curl -X POST https://content.dropboxapi.com/2/files/download \
-        --header "Authorization: Bearer $token" \
-        --header "Dropbox-API-Arg: {\"path\": \"/$dbName\"}" \
-        --output "$dbPath"
-        checkSuccess "Database download"
-    fi
-}
-
-
 # Start of main script
-while getopts ":t: :c: :f: :H: :hbdr" opt; do
+while getopts ":t: :f: :H: :hdr" opt; do
     case ${opt} in
         h )
             echo "Usage:"
             echo "    -h        Display help"
             echo "    -t        Dropbox API token (Mandatory)"
             echo "    -H        Host IP address"
-            echo "    -b        Force rebuild"
             echo "    -d        Start in debug mode"
             echo "    -r        Force recreate containers"
             echo "    -f        File name of sqlite database"
-            echo "    -c        Name of container to build for building single container"
             exit 0
             ;;
         t )
             token=$OPTARG
-            ;;
-        b )
-            rebuild=true
-            recreate=true
             ;;
         d )
             debug=true
@@ -75,9 +61,6 @@ while getopts ":t: :c: :f: :H: :hbdr" opt; do
             ;;
         f )
             dbName=$OPTARG
-            ;;
-        c )
-            container=$OPTARG
             ;;
         H )
             hostIp=$OPTARG
@@ -99,34 +82,17 @@ if [[ -z $token ]]; then
     exit 1
 fi
 
-rootPath="/opt/visitorsignin"
-rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log")
-dbPath="$rootPath/database/$dbName"
-
 createDirectories ${rootDirectories[*]}
-
-downloadDatabase
 
 export DROPBOX_TOKEN=$token
 export DB_FILE=$dbName
 export REQUEST_HOST=$hostIp
+export OFFLINE_BACKUP_PATH=$offlineBackupPath
 
 cmd="sudo -E docker-compose up"
 
-#build command to run
-if [[ $rebuild = true ]]; then
-    printMsg "Rebuilding containers"
-    sudo -E docker-compose build --no-cache
-    checkSuccess "Container build"
-elif [[ ! -z $container ]]; then
-    printMsg "Rebuilding $container"
-    sudo -E docker-compose build --no-cache $container
-    checkSuccess "$container build"
-    cmd="sudo -E docker-compose up $container"
-fi
-
 if [[ $recreate = true ]]; then
-    cmd="sudo -E docker-compose up --force-recreate"
+    cmd+=" --force-recreate"
 fi
 
 if [[ ! $debug = true ]]; then

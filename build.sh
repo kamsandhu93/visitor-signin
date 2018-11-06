@@ -1,7 +1,4 @@
 #!/bin/bash
-
-dbName="visitor_db.db"
-
 while getopts ":s: :h" opt; do
     case ${opt} in
         h )
@@ -24,3 +21,9 @@ while getopts ":s: :h" opt; do
     esac
 done
 shift $((OPTIND -1))
+
+if [[ -z $container ]]; then
+    sudo docker-compose build --no-cache
+else
+    sudo docker-compose build --no-cache $container
+fi

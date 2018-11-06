@@ -1,12 +1,10 @@
 FROM python:3.7-alpine
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
-#declare arguments
-ARG API_TOKEN
-ARG DB_FILE
-
 ARG WORK_DIR=/backupservice
-ARG CONFIG_NAME=$WORK_DIR/database_operations.cfg
+
+ENV DB_PATH $WORK_DIR/database
+ENV LOG_PATH $WORK_DIR/log/backup_restore.log
 
 COPY . $WORK_DIR/.
 
@@ -22,14 +20,11 @@ RUN apk -q update && apk -q upgrade \
  #create work directory structure
  && mkdir $WORK_DIR/log \
  && mkdir $WORK_DIR/database \
- #create config for service
- && touch $CONFIG_NAME \
- && echo [DEFAULT] >> $CONFIG_NAME \
- && echo DropboxToken=$API_TOKEN >> $CONFIG_NAME \
- && echo DatabaseFile=$DB_FILE >> $CONFIG_NAME \
- && echo DatabaseDir=$WORK_DIR/database >> $CONFIG_NAME \
- && echo LogDir=$WORK_DIR/log >> $CONFIG_NAME
+ && mkdir $WORK_DIR/offline_backup
 
 WORKDIR $WORK_DIR
 
-CMD ["python", "database_operations.py", "-s", "-o", "backup"]
+HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
+    CMD curl --fail http://$HOST:$PORT/status || exit 1
+
+CMD ["python", "main.py"]

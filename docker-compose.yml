@@ -4,12 +4,17 @@ services:
         restart: always
         build:
             context: './backup/'
-            args:
-                API_TOKEN: "${DROPBOX_TOKEN}"
-                DB_FILE: "${DB_FILE}"
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5004
+            - DB_FILE
+            - DROPBOX_TOKEN
+        ports:
+            - 5004:5004
         volumes:
             - /opt/visitorsignin/database:/backupservice/database
             - /opt/visitorsignin/log:/backupservice/log
+            - ${OFFLINE_BACKUP_PATH}:/backupservice/offline_backup
     database-api:
         restart: always
         build:
@@ -23,6 +28,8 @@ services:
         volumes:
             - /opt/visitorsignin/database:/databaseapi/database
             - /opt/visitorsignin/log:/databaseapi/log
+        depends_on:
+            - backup
     database-admin:
         restart: always
         build:
@@ -35,6 +42,8 @@ services:
             - 5001:5001
         volumes:
             - /opt/visitorsignin/database:/databaseadmin/database
+        depends_on:
+            - backup
     print:
         restart: always
         build:

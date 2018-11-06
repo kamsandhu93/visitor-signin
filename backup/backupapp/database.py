@@ -1,48 +1,57 @@
 import hashlib
 import os
-import logging
 import dropbox
-from dropbox.exceptions import ApiError, AuthError
 from dropbox.files import WriteMode
+from dropbox.exceptions import ApiError, AuthError
+from shutil import copyfile
 
 class Database(object):
-    def __init__(self, config):
-        self.dbx = dropbox.Dropbox(config["DropboxToken"])
-        self.localPath = os.path.join(config["DatabaseDir"], config["DatabaseFile"])
-        self.backupPath = os.path.join("/", config["DatabaseFile"])
+    def __init__(self, config, logger):
+        self.dbx = dropbox.Dropbox(config["DROPBOX_TOKEN"])
+        self.localPath = os.path.join(config["DB_PATH"], config["DB_FILE"])
+        self.backupPath = os.path.join("/", config["DB_FILE"])
+        self.offlineBackupPath = os.path.join(config["OFFLINE_BACKUP_PATH"], config["DB_FILE"])
+        self.logger = logger
         self.operations = {
             "backup": self.backup,
+            "backupOffline": self.backupOffline,
             "restore": self.restore,
-            "restore_force": self.force_restore
+            "restoreForce": self.restoreForce
         }
 
     def backup(self):
         with open(self.localPath, "rb") as f:
             self.dbx.files_upload(f.read(), self.backupPath, mode=WriteMode("overwrite"))
-            logging.info("Backed up {0} to dropbox {1}".format(self.localPath, self.backupPath))
+            self.logger.info("Backed up {0} to dropbox {1}".format(self.localPath, self.backupPath))
+
+    def backupOffline(self):
+        copyfile(self.localPath, self.offlineBackupPath)
+        self.logger.info("Offline backup up {0} to {1}".format(self.localPath, self.offlineBackupPath))
 
     def restore(self):
         if not os.path.exists(self.localPath):
             self.dbx.files_download_to_file(self.localPath, self.backupPath)
-            logging.info("Normal restore {0} from dropbox {1}".format(self.localPath, self.backupPath))
+            self.logger.info("Normal restore {0} from dropbox {1}".format(self.localPath, self.backupPath))
 
-    def force_restore(self):
+    def restoreForce(self):
         self.dbx.files_download_to_file(self.localPath, self.backupPath)
-        logging.info("Forced restore {0} from dropbox {1}".format(self.localPath, self.backupPath))
+        self.logger.info("Forced restore {0} from dropbox {1}".format(self.localPath, self.backupPath))
 
-    def run_operation(self, operationType):
+    def runOperation(self, operationType):
         try:
             self.operations[operationType]()
+            return True
         except ApiError as err:
-            self._report_api_error(err)
+            self._reportApiError(err)
+            return False
         except AuthError as err:
-            logging.error(err)
-            sys.exit()
+            self.logger.error(err)
+            return False
         except IOError as err:
-            logging.error(err)
-            sys.exit()
+            self.logger.error(err)
+            return False
 
-    def get_hash(self, bufferSize=65536):
+    def getHash(self, bufferSize=65536):
         sha1 = hashlib.sha1()
         md5 = hashlib.md5()
 
@@ -59,12 +68,11 @@ class Database(object):
             "sha1": sha1.hexdigest()
         }
 
-    def _report_api_error(err):
+    def _reportApiError(err):
         insufficientSpace = err.error.is_path() and err.error.get_path().reason.is_insufficient_space()
         if (insufficientSpace):
-            logging.error("Cannot back up; insufficient space.")
+            self.logger.error("Cannot back up; insufficient space.")
         elif err.user_message_text:
-            logging.error(err.user_message_text)
+            self.logger.error(err.user_message_text)
         else:
-            logging.error(err)
-        sys.exit()
+            self.logger.error(err)
