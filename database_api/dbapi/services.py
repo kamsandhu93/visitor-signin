@@ -1,3 +1,4 @@
+import requests
 from dbapi import app, data_access
 
 
@@ -37,3 +38,8 @@ def generatePassId():
     data_access.updateLastPassId(passId)
 
     return passId
+
+
+def sendBackupRequest():
+    url = "http://{0}:5004/backup".format(app.config["REQUEST_HOST"])
+    r = requests.post(url)

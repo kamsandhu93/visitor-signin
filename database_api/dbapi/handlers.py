@@ -19,6 +19,7 @@ def loginHandler():
         validateLoginRequestValues(requestBody)
         passId = services.login(requestBody)
         app.logger.info("User logged in")
+        services.sendBackupRequest()
 
         return jsonify({'passId': passId}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
@@ -40,6 +41,8 @@ def logoutHandler():
         validatePassId(requestBody["passId"])
         fullName = services.logout(requestBody)
         app.logger.info("User logged out")
+
+        services.sendBackupRequest()
 
         response = {
             'firstName': fullName[0],
