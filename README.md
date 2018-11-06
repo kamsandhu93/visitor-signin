@@ -25,27 +25,36 @@ Note: Only tested on Raspbian
  ```
  git clone https://github.com/kamsandhu93/visitor-signin.git
  cd visitor-signin
- chmod +x ./deploy.sh
+ chmod +x ./run.sh
+ chmod +x ./build.sh
+ ./build.sh [OPTIONAL_COMMANDS]
  ./deploy.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
  <enter root password as docker needs to run as root>
  ```
 
 ### Optional commands
+#### build.sh
+```
+-h
+    show help
+-s [CONTAINER_NAME_IN_COMPOSE]
+    Allow a single selected container to be built. Without this option all containers are built
+```
+
+#### deploy.sh
 ```
 -h
     Show help
--H
-    Host IP address the frontend will send request to (default is the first 192. IP address of ifconfig)
 -d
     Start all containers in debug mode
--b
-    Force rebuild of all images and recreate all containers even when there are no changes
 -r
     Force recreate all containers even when there are no changes
+-H
+    Host IP address the frontend will send request to (default is the first 192. IP address of ifconfig)
+-b
+    Directory of database offline backup (default: /opt/visitorsignin/offline_backup)
 -f
     Name of database file (default: visitor_db.db)
--c [CONTAINER_NAME_IN_COMPOSE]
-    Allow a single selected container to be started. The -b option will overwrite this option
 ```
 
 After deployment has finished
@@ -87,9 +96,10 @@ During deployment `deploy.sh` creates the following file structure on the host s
 └─── database
 |   └─── visitor_db.db
 └─── log
-    |
-    └─── database_api.log
-    └─── backup.log
-    └─── print.log
+|   |
+|   └─── database_api.log
+|   └─── backup_restore.log
+|   └─── print.log
+└─── offline_backup
 ```
 The database file `visitor_db.db` is persisted to all three containers.
