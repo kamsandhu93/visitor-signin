@@ -4,7 +4,7 @@ from flask import request, jsonify
 from backupapp import app
 from backupapp.database import Database
 
-status = {
+health = {
     "msg": "OK",
     "code": 200
 }
@@ -17,23 +17,13 @@ if not database.runOperation("restore"):
 
 @app.route("/status")
 def statusHandler():
-    return status["msg"], status["code"]
+    return health["msg"], health["code"]
 
 @app.route("/backup", methods=["POST"])
 def backupHandler():
     backup = database.runOperation("backup")
     offlineBackup = database.runOperation("backupOffline")
-
-    if not backup and not offlineBackup:
-        status['msg'] = "ERROR"
-        status['code'] = 500
-        return "Backup FAIL", 500
-    elif not backup or not offlineBackup:
-        app.logger.warning("One of the backup service is down")
-        status['msg'] = "WARNING"
-        status['code'] = 200
-        return "Backup WARNING", 200
-    return "Backup OK", 200
+    return backupStatus(backup, offlineBackup)
 
 @app.route("/restore", methods=["POST"])
 def restoreHandler():
@@ -46,3 +36,17 @@ def restoreHandler():
     if database.runOperation("restore"):
         return "Restore OK", 200
     return "Restore FAIL", 500
+
+def backupStatus(backup, offlineBackup):
+    if not backup and not offlineBackup:
+        setHealth("ERROR", 500)
+        return "Backup FAIL", 500
+    elif not backup or not offlineBackup:
+        app.logger.warning("One of the backup service is down")
+        setHealth("WARNING", 200)
+        return "Backup WARNING", 200
+    return "Backup OK", 200
+
+def setHealth(msg, code):
+    health['msg'] = msg
+    health['code'] = code

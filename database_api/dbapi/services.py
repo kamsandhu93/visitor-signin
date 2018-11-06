@@ -41,5 +41,8 @@ def generatePassId():
 
 
 def sendBackupRequest():
-    url = "http://{0}:5004/backup".format(app.config["REQUEST_HOST"])
-    r = requests.post(url)
+    try:
+        url = "http://{0}:5004/backup".format(app.config["REQUEST_HOST"])
+        r = requests.post(url)
+    except Exception as e:
+        app.logger.warning(e)

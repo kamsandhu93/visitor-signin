@@ -31,6 +31,13 @@ function checkNoOrig () {
     done
 }
 
+function checkRequiredPackages () {
+    apt list $1 | grep installed
+    if [[ $? = 1 ]]; then
+        sudo apt-get install -y $1
+    fi
+}
+
 while getopts ":t: :p: :h" opt; do
     case ${opt} in
         h )
@@ -68,7 +75,8 @@ if [[ ! $startScript =~ ^[Yy]$ ]]; then
     exit 0
 fi
 
-sudo apt-get install -y dnsmasq hostapd
+checkRequiredPackages "hostapd"
+checkRequiredPackages "dnsmasq"
 
 interfaces=/etc/network/interfaces
 interfacesOrig="${interfaces}.orig"
