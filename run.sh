@@ -1,6 +1,6 @@
 #!/bin/bash
 dbName="visitor_db.db"
-hostIp=$(sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep 192.)
+hostIp="127.0.0.1"
 
 rootPath="/opt/visitorsignin"
 offlineBackupPath="$rootPath/offline_backup"

@@ -50,7 +50,7 @@ Note: Only tested on Raspbian
 -r
     Force recreate all containers even when there are no changes
 -H
-    Host IP address the frontend will send request to (default is the first 192. IP address of ifconfig)
+    Host IP address the frontend will send request to (default: 127.0.0.1)
 -b
     Directory of database offline backup (default: /opt/visitorsignin/offline_backup)
 -f
@@ -70,6 +70,7 @@ The system is made up of five docker containers
 
 ### database-api
  - Hosts the flask app that serves the api for sign in and sign out
+ - Communicates with backup service
 
 ### database-admin
  - Hosts the database admin website
@@ -78,18 +79,10 @@ The system is made up of five docker containers
  - Hosts print service
 
 ### backup
- - Hosts the backup and restore scripts
- - Database is checked every 30 seconds for changes and is backed up if there are changes
-To perform a forced restore, run:
-```
-sudo docker ps
-<copy the container id of the backup container>
-sudo docker exec -it <container id> /bin/sh
-cd /backupservice
-python database_operations.py -o "restore_force"
-```
+ - Hosts the backup and restore service
+ - The database-api services send request to backup service after database is updated
 
-During deployment `deploy.sh` creates the following file structure on the host system:
+During deployment `run.sh` creates the following file structure on the host system:
 ```
 /opt/visitorsignin
 |
