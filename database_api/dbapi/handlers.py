@@ -68,12 +68,21 @@ def validateRequestBodyKeys(requestBody, validKeys):
 
 
 def validateLoginRequestValues(requestBody):
-    regex = r"^[A-Za-z]{1,32}$"
-    optionalKeys = ['company']
-    for key in requestBody:
-        if key not in optionalKeys and not re.match(regex, requestBody[key]):
-            raise exceptions.InvalidRequestBodyValuesEx
+    regex = {
+        "name": r"^[A-Za-z]{1,32}$",
+        "surname": r"^[A-Za-z]{1,32}$",
+        "visiting": r"^[A-Za-z ]{1,32}$",
+        "company": r"^[A-Za-z0-9 ]{1,32}$"
+    }
 
+    optionalKeys = ['company']
+
+    for key in regex:
+        if not re.match(regex[key], requestBody[key]):
+            if key not in optionalKeys:
+                raise exceptions.InvalidRequestBodyValuesEx
+            if requestBody[key] and key in optionalKeys:
+                raise exceptions.InvalidRequestBodyValuesEx
 
 def validatePassId(passId):
     regex = "^[0-9]{5}[a-z]$"

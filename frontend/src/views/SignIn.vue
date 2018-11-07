@@ -6,10 +6,10 @@
         <el-row type="flex" justify="center">
             <el-col :span="20">
                 <el-form :model="formData" :rules="rules" ref="signInForm">
-                    <form-item label="First Name" prop="name" v-model="formData['name']"></form-item>
-                    <form-item label="Surname" prop="surname" v-model="formData['surname']"></form-item>
-                    <form-item label="Visiting" prop="visiting" v-model="formData['visiting']"></form-item>
-                    <form-item label="Company" prop="company" v-model="formData['company']"></form-item>
+                    <form-item maxlength="32" label="First Name" prop="name" v-model="formData['name']"></form-item>
+                    <form-item maxlength="32" label="Surname" prop="surname" v-model="formData['surname']"></form-item>
+                    <form-item maxlength="32" label="Visiting" prop="visiting" v-model="formData['visiting']"></form-item>
+                    <form-item maxlength="32" label="Company" prop="company" v-model="formData['company']"></form-item>
                     <el-form-item>
                         <el-button type="primary" icon="el-icon-check" @click="submitForm('signInForm')">Sign In</el-button>
                         <el-button type="info" icon="el-icon-refresh" @click="resetForm('signInForm')" plain>Reset</el-button>
@@ -57,21 +57,10 @@
                     company: ""
                 },
                 rules: {
-                    name: [
-                        { required: true, message: "Please input your first name", trigger: "blur" },
-                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
-                    ],
-                    surname: [
-                        { required: true, message: "Please input your surname", trigger: "blur" },
-                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
-                    ],
-                    visiting: [
-                        { required: true, message: "Please input who you are visiting", trigger: "blur" },
-                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
-                    ],
-                    company: [
-                        { min: 1, max: 32, message: 'Length should be 1 to 32 characters', trigger: 'blur' }
-                    ]
+                    name: [{ validator: this.checkFirstName, trigger: "blur" }],
+                    surname: [{ validator: this.checkLastName, trigger: "blur" }],
+                    visiting: [{ validator: this.checkVisiting, trigger: "blur" }],
+                    company: [{ validator: this.checkCompany, trigger: "blur" }]
                 },
                 confirmDialog: false
             }
@@ -80,15 +69,15 @@
             submitForm(formName) {
                 this.validateForm(formName, (valid) => {
                     if (valid) {
-                        this.captializeField('name')
-                        this.captializeField('surname')
-                        this.captializeField('visiting')
+                        this.removeSpaces()
                         this.confirmDialog = true
                     }
                 })
             },
-            captializeField(field) {
-                this.formData[field] = this.formData[field].charAt(0).toUpperCase() + this.formData[field].slice(1);
+            removeSpaces() {
+                for (var key in this.formData) {
+                    this.formData[key] = this.formData[key].trim()
+                }
             },
             sendSigninRequest() {
                 axios.post(`${this.$store.getters.url}/login`, this.formData)
@@ -111,6 +100,28 @@
             },
             getFullName() {
                 return `${this.formData["name"]} ${this.formData["surname"]}`
+            },
+            checkFirstName(rule, value, callback) {
+                var regex = new RegExp("^[A-Za-z]{1,32}$")
+                this.checkFormValueEmpty(value, "Please input your first name", callback)
+                this.checkFormValue(value, regex, "Accepted characters: A-Z, a-z", callback)
+            },
+            checkLastName(rule, value, callback) {
+                var regex = new RegExp("^[A-Za-z]{1,32}$")
+                this.checkFormValueEmpty(value, "Please input your last name", callback)
+                this.checkFormValue(value, regex, "Accepted characters: A-Z, a-z", callback)
+            },
+            checkVisiting(rule, value, callback) {
+                var regex = new RegExp("^[A-Za-z ]{1,32}$")
+                this.checkFormValueEmpty(value, "Please input who you are visiting", callback)
+                this.checkFormValue(value, regex, "Accepted characters: A-Z, a-z and space", callback)
+            },
+            checkCompany(rule, value, callback) {
+                var regex = new RegExp("^[A-Za-z0-9 ]{1,32}$")
+                if (!value) {
+                    return callback()
+                }
+                this.checkFormValue(value, regex, "Accepted characters: A-Z, a-z, 0-9 and space", callback)
             }
         }
     }

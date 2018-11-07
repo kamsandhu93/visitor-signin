@@ -1,13 +1,13 @@
 <template>
     <el-form-item :prop="prop" ref="test">
         <span slot="label"><b>{{ label }}</b></span>
-        <el-input v-model="body" clearable></el-input>
+        <el-input v-model="body" :maxlength="maxlength" clearable></el-input>
     </el-form-item>
 </template>
 
 <script>
     export default {
-        props: ["label", "prop", "value"],
+        props: ["label", "prop", "value", "maxlength"],
         data() {
             return {
                 body: this.value

@@ -9,7 +9,7 @@
         <el-row type="flex" justify="center">
             <el-col :span="20">
                 <el-form :model="formData" :rules="rules" ref="signOutForm">
-                    <form-item label="Pass ID" prop="passId" v-model="formData['passId']"></form-item>
+                    <form-item maxlength="6" label="Pass ID" prop="passId" v-model="formData['passId']"></form-item>
                     <el-form-item>
                         <el-button type="primary" icon="el-icon-check" @click="submitForm('signOutForm')">Sign Out</el-button>
                         <el-button type="info" icon="el-icon-refresh" @click="resetForm('signOutForm')" plain>Reset</el-button>
@@ -43,10 +43,7 @@
                     passId: ""
                 },
                 rules: {
-                    passId: [
-                        { required: true, message: 'Please input Pass ID', trigger: 'blur' },
-                        { min: 6, max: 6, message: 'Pass ID should be 6 characters long', trigger: 'blur' }
-                    ]
+                    passId: [{ validator: this.checkPassId, trigger: "blur" }]
                 },
                 qrVideoOptions: {
                     facingMode: 'user'
@@ -84,6 +81,11 @@
                         this.notifyError("An error occured when signing out. Please try again. If problem persists, please inform the receptionist.")
                     }
                 })
+            },
+            checkPassId(rule, value, callback) {
+                var regex = new RegExp("^[0-9]{5}[a-z]$")
+                this.checkFormValueEmpty(value, "Please input Pass ID", callback)
+                this.checkFormValue(value, regex, "Pass ID has format: 0000a", callback)
             }
         }
     }
