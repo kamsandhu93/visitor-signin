@@ -2,7 +2,6 @@
 
 ## Prerequisites
 ### Common
- - curl
  - A [Dropbox](https://www.dropbox.com) account
  - Created a dropbox app and generated a dropbox api token in [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
  - A copy of sqlite database in either:
