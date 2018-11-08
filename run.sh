@@ -4,7 +4,7 @@ hostIp="127.0.0.1"
 
 rootPath="/opt/visitorsignin"
 offlineBackupPath="$rootPath/offline_backup"
-rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBackupPath")
+
 
 red='\033[0;31m'
 end='\033[0m'
@@ -85,6 +85,8 @@ if [[ -z $token ]]; then
     printMsg "${red}Did not supply dropbox token${end}"
     exit 1
 fi
+
+rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBackupPath")
 
 createDirectories ${rootDirectories[*]}
 
