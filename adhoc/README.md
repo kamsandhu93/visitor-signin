@@ -1,15 +1,18 @@
-# ad-hoc connection on raspberry pi
-
-## Prerequisites
+# Ad-Hoc Connection On Raspberry Pi
+Scripts and configs to setup ad-hoc connection on raspberry pi
+## Project Dependencies
  - hostapd
  - dnsmasq
 
-## setup adhoc network
+## Setup or Un-setup Ad-Hoc network
 MAKE SURE YOU ARE IN THE ADHOC FOLDER
+ONLY USE THIS SCRIPT ON RASPBERRY PI
 ```
 ./setup_adhoc.sh -t [operation type] -p [network passphrase]
 <will ask for confirmation, press y to continue>
 ```
+To setup ad-hoc, use operation type `set`
+To un-setup ad-hoc, use operation type `unset`
 
 ## How it works
 The setup script does a few things.

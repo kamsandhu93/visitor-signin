@@ -1,6 +1,6 @@
 # visitor-signin frontend
-
-## Prerequisites
+Frontend Progressive Web Application of visitor signin system
+## Project Dependencies
  - [Node.js](https://nodejs.org/en/)
 
 ## Project setup
@@ -16,6 +16,12 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build
+```
+
+### Hosting for production
+```
+npm install -g http-server
+http-server dist -a <IP> -p <Port>
 ```
 
 ## Infrastructure
