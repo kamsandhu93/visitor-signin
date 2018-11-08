@@ -5,7 +5,7 @@ Website to view and edit database data
  - Python 3
  - pip
 ### Packages
- - sqlite-web
+ - [sqlite-web](https://github.com/coleifer/sqlite-web)
 
 ## Infrastructure
 Hosts [sqlite-web](https://github.com/coleifer/sqlite-web) package in the container.

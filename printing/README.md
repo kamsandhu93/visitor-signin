@@ -8,12 +8,12 @@ Print service of visitor signin system
  - CUPS
 
 ### Packages
- - flask
- - weasyprint
- - beautifulsoup4
- - qrcode[pil]
- - pycups
- - flask-cors
+ - [flask](http://flask.pocoo.org/)
+ - [weasyprint](https://weasyprint.org/)
+ - [beautifulsoup4](https://www.crummy.com/software/BeautifulSoup/)
+ - [qrcode[pil]](https://github.com/lincolnloop/python-qrcode)
+ - [pycups](https://github.com/zdohnal/pycups)
+ - [flask-cors](https://github.com/corydolphin/flask-cors)
 
 ## Infrastructure
 The system is a flask application with a single POST endpoint `/print`.
