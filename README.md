@@ -7,9 +7,11 @@
  - A copy of sqlite database in either:
    - `/opt/visitorsigin/database` or
    - Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
+
 ### Normal System
  - Install [Docker](https://docs.docker.com/install/)
  - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
+
 ### Raspberry Pi
 Note: Only tested on Raspbian
  - Install Docker
@@ -21,13 +23,23 @@ Note: Only tested on Raspbian
  ```
 
 ## Deployment
+Clone repo and ensure both build and run scripts are executable:
  ```
  git clone https://github.com/kamsandhu93/visitor-signin.git
  cd visitor-signin
  chmod +x ./run.sh
  chmod +x ./build.sh
+ ```
+
+ To build images:
+ ```
  ./build.sh [OPTIONAL_COMMANDS]
- ./deploy.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
+ <enter root password as docker needs to run as root>
+ ```
+
+ To run containers:
+ ```
+ ./run.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
  <enter root password as docker needs to run as root>
  ```
 
@@ -40,7 +52,7 @@ Note: Only tested on Raspbian
     Allow a single selected container to be built. Without this option all containers are built
 ```
 
-#### deploy.sh
+#### run.sh
 ```
 -h
     Show help
