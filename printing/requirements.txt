@@ -1,0 +1,6 @@
+weasyprint
+flask
+beautifulsoup4
+qrcode[pil]
+pycups
+flask-cors

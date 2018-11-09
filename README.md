@@ -1,83 +1,109 @@
 # visitor-signin
 
 ## Prerequisites
- - curl
- - Install [Docker](https://docs.docker.com/install/)
- - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
+### Common
  - A [Dropbox](https://www.dropbox.com) account
  - Created a dropbox app and generated a dropbox api token in [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
  - A copy of sqlite database in either:
-   - `/opt/visitor-db/database` or
+   - `/opt/visitorsigin/database` or
    - Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
 
+### Normal System
+ - Install [Docker](https://docs.docker.com/install/)
+ - Install [Docker-Compose](https://docs.docker.com/compose/install/#prerequisites)
+
+### Raspberry Pi
+Note: Only tested on Raspbian
+ - Install Docker
+ `curl -sSL https://get.docker.com | sh`
+ - Install Docker-Compose:
+ ```
+ sudo apt-get install python-pip
+ sudo pip install docker-compose
+ ```
+
 ## Deployment
+Clone repo and ensure both build and run scripts are executable:
  ```
  git clone https://github.com/kamsandhu93/visitor-signin.git
  cd visitor-signin
- chmod +x ./deploy.sh
- ./deploy.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
+ chmod +x ./run.sh
+ chmod +x ./build.sh
+ ```
+
+ To build images:
+ ```
+ ./build.sh [OPTIONAL_COMMANDS]
+ <enter root password as docker needs to run as root>
+ ```
+
+ To run containers:
+ ```
+ ./run.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
  <enter root password as docker needs to run as root>
  ```
 
 ### Optional commands
+#### build.sh
+```
+-h
+    show help
+-s [CONTAINER_NAME_IN_COMPOSE]
+    Allow a single selected container to be built. Without this option all containers are built
+```
+
+#### run.sh
 ```
 -h
     Show help
 -d
     Start all containers in debug mode
--b
-    Force rebuild of all images and recreate all containers even when there are no changes
 -r
     Force recreate all containers even when there are no changes
+-H
+    Host IP address the frontend will send request to (default: 127.0.0.1)
+-b
+    Directory of database offline backup (default: /opt/visitorsignin/offline_backup)
 -f
     Name of database file (default: visitor_db.db)
 ```
 
 After deployment has finished
-visitor app api will be available at: `http://localhost:5000`
-sqlite database control panel will be available at: `http://localhost:5001`
+frontend will be available at: `http://localhost:5003`
+database admin panel will be available at: `http://localhost:5001`
 
 ## System Infrastructure
-The system is made up of three docker containers and a front end electron application.
+The system is made up of five docker containers
 
-### Front End
- - Talks to flask api to add and change the sqlite database
- - Please see the readme in frontend directory for more details
+### frontend
+ - Progressive web application served by node http-server
+ - Communicates with both `print` and `database-api` containers
 
-### Visitor-Flask
- - Hosts the flask app that serves the api for frontend to talk to.
- - Flask app writes to `/visitor-app/database/visitor_db.db` inside the container.
+### database-api
+ - Hosts the flask app that serves the api for sign in and sign out
+ - Communicates with backup service
 
-### Visitor-Database
- - Hosts the database control panel web app for the sqlite database.
- - Reads and writes to `/visitor-db/database/visitor_db.db` inside the container.
+### database-admin
+ - Hosts the database admin website
 
-### Visitor-Back
- - Hosts the backup and restore scripts.
- - Database is backedup to dropbox every day at 01:00 server time.
- - Reads and writes to `/visitor-back/database/visitor_db.db` inside the container.
-To perform a forced restore, run:
+### print
+ - Hosts print service
+
+### backup
+ - Hosts the backup and restore service
+ - The database-api services send request to backup service after database is updated
+
+During deployment `run.sh` creates the following file structure on the host system:
 ```
-sudo docker ps
-<copy the container id of the backup container>
-sudo docker exec -it <container id> /bin/sh
-cd /visitor-back
-python database_operations.py -o "restore_force"
-```
-
-During deployment `deploy.sh` creates the following file structure on the host system:
-```
-/opt/visitor-db
+/opt/visitorsignin
 |
 └─── database
 |   └─── visitor_db.db
 └─── log
-    |
-    └─── flask
-    |   └─── visitor.log
-    └─── backup
-        └─── backup.log
+|   |
+|   └─── database_api.log
+|   └─── backup_restore.log
+|   └─── print.log
+└─── offline_backup
 ```
 The database file `visitor_db.db` is persisted to all three containers.
-`visitor.log` contains all logs from the flask app.
-`backup.log` contains all logs from the backup and restore script.

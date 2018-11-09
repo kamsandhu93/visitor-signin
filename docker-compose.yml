@@ -1,30 +1,67 @@
 version: '3'
 services:
-    visitor-backup:
+    backup:
+        restart: always
         build:
             context: './backup/'
-            args:
-                API_TOKEN: "${DROPBOX_TOKEN}"
-                DB_FILE: "${DB_FILE}"
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5004
+            - DB_FILE
+            - DROPBOX_TOKEN
+        ports:
+            - 5004:5004
         volumes:
-            - /opt/visitor-db/database:/visitor-back/database
-            - /opt/visitor-db/log/backup:/visitor-back/log
-    visitor-flask:
+            - /opt/visitorsignin/database:/backupservice/database
+            - /opt/visitorsignin/log:/backupservice/log
+            - ${OFFLINE_BACKUP_PATH}:/backupservice/offline_backup
+    database-api:
+        restart: always
         build:
-            context: ./flask_app/
-            args:
-                DB_FILE: "${DB_FILE}"
+            context: ./database_api/
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5000
+            - DB_FILE
         ports:
             - 5000:5000
         volumes:
-            - /opt/visitor-db/database:/app/visitor_app/database
-            - /opt/visitor-db/log/flask:/app/visitor_app/log
-    visitor-database:
+            - /opt/visitorsignin/database:/databaseapi/database
+            - /opt/visitorsignin/log:/databaseapi/log
+        depends_on:
+            - backup
+    database-admin:
+        restart: always
         build:
-            context: ./database/
-            args:
-                DB_FILE: "${DB_FILE}"
+            context: ./database_admin/
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5001
+            - DB_FILE
         ports:
             - 5001:5001
         volumes:
-            - /opt/visitor-db/database:/visitor-db/database
+            - /opt/visitorsignin/database:/databaseadmin/database
+        depends_on:
+            - backup
+    print:
+        restart: always
+        build:
+            context: './printing'
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5002
+        ports:
+            - 5002:5002
+        volumes:
+            - /opt/visitorsignin/log:/printservice/log
+    frontend:
+        restart: always
+        build:
+            context: './frontend'
+        environment:
+            - HOST=0.0.0.0
+            - PORT=5003
+            - REQUEST_HOST
+        ports:
+            - 5003:5003
