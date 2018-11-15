@@ -6,7 +6,7 @@ from dbapi import app, exceptions, services
 
 @app.route("/status")
 def status_handler():
-    return "OK", 200
+    return jsonify("OK"), 200
 
 
 @app.route("/login", methods=["POST"])
@@ -14,12 +14,12 @@ def login_handler():
     try:
         request_body = request.get_json()
         validate_request_body_keys(request_body, valid_keys=["name", "surname", "visiting"], optional_keys=["company"])
-        validate_login_request_values(request_body)
+        validate_request_body_values(request_body)
         pass_id = services.login(request_body)
         app.logger.info("User logged in")
         services.send_backup_request()
 
-        return jsonify({'passId': pass_id}), 200
+        return jsonify({"passId": pass_id}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
         return jsonify("Bad Request", 400)
@@ -36,15 +36,15 @@ def logout_handler():
     try:
         request_body = request.get_json()
         validate_request_body_keys(request_body, valid_keys=["passId"])
-        validate_pass_id(request_body["passId"])
+        validate_request_body_values(request_body)
         full_name = services.logout(request_body)
         app.logger.info("User logged out")
 
         services.send_backup_request()  #TODO should this be here
 
         response = {
-            'firstName': full_name[0],
-            'surname': full_name[1]
+            "firstName": full_name[0],
+            "surname": full_name[1]
         }
 
         return jsonify(response), 200
@@ -71,12 +71,13 @@ def validate_request_body_keys(request_body, valid_keys, optional_keys=[]):
             raise exceptions.InvalidRequestBodyKeysEx
 
 
-def validate_login_request_values(request_body):
+def validate_request_body_values(request_body):
     regex = {
         "name": r"^[A-Za-z]{1,32}$",
         "surname": r"^[A-Za-z]{1,32}$",
         "visiting": r"^[A-Za-z ]{1,32}$",
-        "company": r"^[A-Za-z0-9 ]{1,32}$"
+        "company": r"^[A-Za-z0-9 ]{1,32}$",
+        "passID": r"^[0-9]{5}[a-z]$"
     }
 
     for key, value in request_body.items():
@@ -84,7 +85,3 @@ def validate_login_request_values(request_body):
             raise exceptions.InvalidRequestBodyValuesEx
 
 
-def validate_pass_id(pass_id):
-    regex = "^[0-9]{5}[a-z]$"
-    if not re.match(regex, pass_id):
-        raise exceptions.InvalidRequestBodyValuesEx
