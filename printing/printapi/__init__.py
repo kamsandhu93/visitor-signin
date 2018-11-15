@@ -5,16 +5,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 app.config.from_pyfile('config.cfg')
-from printapi.handlers import statusHandler, printHandler
+from printapi.handlers import status_handler, print_handler
 
-logPath = app.config["LOG_PATH"]
+log_path = app.config["LOG_PATH"]
+log_format = "%(asctime)s | Print Service | %(levelname)s | %(message)s"
+formatter = logging.Formatter(log_format)
 
-logFormat = "%(asctime)s | PrintService | %(levelname)s | %(message)s"
-formatter = logging.Formatter(logFormat)
-
-fileHandler = logging.FileHandler(logPath)
-fileHandler.setFormatter(formatter)
-app.logger.addHandler(fileHandler)
+file_handler = logging.FileHandler(log_path)
+file_handler.setFormatter(formatter)
+app.logger.addHandler(file_handler)
 
 consoleHandler = logging.StreamHandler()
 consoleHandler.setFormatter(formatter)
