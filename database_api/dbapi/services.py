@@ -1,48 +1,60 @@
 import requests
-from dbapi import app, data_access
+
+from dbapi import app, data_access, exceptions
 
 
-def login(requestBody):
-    passId = generatePassId()
-    firstName = requestBody["name"]
-    surname = requestBody["surname"]
-    visiting = requestBody["visiting"]
-    company = requestBody["company"]
+def login(request_body):
+    pass_id = generate_pass_id()
+    first_name = request_body["name"]
+    surname = request_body["surname"]
+    visiting = request_body["visiting"]
+    company = request_body["company"]
 
-    data_access.logVisitorIn(passId, firstName, surname, visiting, company)
+    data_access.log_visitor_in(pass_id, first_name, surname, visiting, company)
 
-    return passId
-
-
-def logout(requestBody):
-    passId = requestBody["passId"]
-    data_access.logVisitorOut(passId)
-    fullName = data_access.getVisitorFullName(passId)
-
-    return fullName
+    return pass_id
 
 
-def generatePassId():
-    lastPassId = data_access.getLastPassId()
+def logout(request_body):
+    pass_id = request_body["passId"]
+    time_out = data_access.get_logout_time(pass_id)
+    if time_out is not None:
+        raise exceptions.AlreadyLoggedOutException
 
-    number = int(lastPassId[:-1])
+    data_access.log_visitor_out(pass_id)
+    full_name = data_access.get_visitor_full_name(pass_id)
+
+    return full_name
+
+
+def generate_pass_id():
+    last_pass_id = data_access.get_last_pass_id()
+
+    number = int(last_pass_id[:-1])
     if number == 99999:
         number = "00000"
-        char = chr(ord(lastPassId[-1]) + 1)
-        passId = number + char
+        char = chr(ord(last_pass_id[-1]) + 1)
+        pass_id = number + char
     else:
         number += 1
-        char = lastPassId[-1]
-        passId = str(number).zfill(5) + char
+        char = last_pass_id[-1]
+        pass_id = str(number).zfill(5) + char
 
-    data_access.updateLastPassId(passId)
+    data_access.update_last_pass_id(pass_id)
 
-    return passId
+    return pass_id
 
 
-def sendBackupRequest():
-    try:
-        url = "http://{0}:5004/backup".format(app.config["REQUEST_HOST"])
-        r = requests.post(url)
-    except Exception as e:
-        app.logger.warning(e)
+def send_backup_request():
+        try:
+            url = app.config["BACKUP_ENDPOINT"]
+            request = requests.post(url)
+
+            if request.status_code != 200:
+                raise exceptions.DatabaseBackupException
+
+        except Exception as e:
+            app.logger.warn(e)
+
+
+

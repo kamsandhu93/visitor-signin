@@ -8,15 +8,16 @@ from dbapi import app, exceptions, services
 def status_handler():
     return "OK", 200
 
+
 @app.route("/login", methods=["POST"])
 def login_handler():
     try:
         request_body = request.get_json()
-        validate_request_body_keys(request_body, validKeys=["name", "surname", "visiting"], optional_keys=["company"])
+        validate_request_body_keys(request_body, valid_keys=["name", "surname", "visiting"], optional_keys=["company"])
         validate_login_request_values(request_body)
         pass_id = services.login(request_body)
         app.logger.info("User logged in")
-        services.sendBackupRequest()
+        services.send_backup_request()
 
         return jsonify({'passId': pass_id}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
@@ -34,16 +35,16 @@ def login_handler():
 def logout_handler():
     try:
         request_body = request.get_json()
-        validate_request_body_keys(request_body, validKeys=["passId"])
+        validate_request_body_keys(request_body, valid_keys=["passId"])
         validate_pass_id(request_body["passId"])
-        fullName = services.logout(request_body)
+        full_name = services.logout(request_body)
         app.logger.info("User logged out")
 
-        services.sendBackupRequest() #TODO should this be here
+        services.send_backup_request()  #TODO should this be here
 
         response = {
-            'firstName': fullName[0],
-            'surname': fullName[1]
+            'firstName': full_name[0],
+            'surname': full_name[1]
         }
 
         return jsonify(response), 200
@@ -81,6 +82,7 @@ def validate_login_request_values(request_body):
     for key, value in request_body.items():
         if not re.match(regex[key], value):
             raise exceptions.InvalidRequestBodyValuesEx
+
 
 def validate_pass_id(pass_id):
     regex = "^[0-9]{5}[a-z]$"

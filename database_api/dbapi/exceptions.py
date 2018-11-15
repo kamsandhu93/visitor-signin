@@ -6,3 +6,9 @@ class InvalidRequestBodyValuesEx(Exception):
 
 class DatabaseAccessEx(Exception):
     pass
+
+class DatabaseBackupException(Exception):
+    pass
+
+class AlreadyLoggedOutException(Exception):
+    pass
