@@ -30,22 +30,22 @@ def restoreHandler():
     request_body = request.get_json()
     if request_body.get('forced'):
         if database.runOperation("restoreForce"):
-            return "Force restore OK", 200
-        return "Force restore FAIL", 500
+            return jsonify({"Force restore": "OK"}), 200
+        return jsonify({"Force restore": "FAIL"}), 500
 
     if database.runOperation("restore"):
-        return "Restore OK", 200
-    return "Restore FAIL", 500
+        return jsonify({"Restore": "OK"}), 200
+    return jsonify({"Restore": "FAIL"}), 500
 
 def backupStatus(backup, offlineBackup):
     if not backup and not offlineBackup:
         setHealth("ERROR", 500)
-        return "Backup FAIL", 500
+        return jsonify({"Backup": "FAIL"}), 500
     elif not backup or not offlineBackup:
         app.logger.warning("One of the backup service is down")
         setHealth("WARNING", 200)
-        return "Backup WARNING", 200
-    return "Backup OK", 200
+        return jsonify({"Backup": "WARNING"}), 200
+    return jsonify({"Backup": "OK"}), 200
 
 def setHealth(msg, code):
     health['msg'] = msg

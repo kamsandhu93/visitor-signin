@@ -4,6 +4,7 @@ import dropbox
 from dropbox.files import WriteMode
 from dropbox.exceptions import ApiError, AuthError
 from shutil import copyfile
+from exceptions import ApiErrorEx, AuthErrorEx, IOErrorEx
 
 class Database(object):
     def __init__(self, config, logger):
@@ -40,16 +41,15 @@ class Database(object):
     def runOperation(self, operationType):
         try:
             self.operations[operationType]()
-            return True
-        except ApiError as err:
-            self._reportApiError(err)
-            return False
-        except AuthError as err:
-            self.logger.error(err)
-            return False
-        except IOError as err:
-            self.logger.error(err)
-            return False
+        except ApiError as ex:
+            self._reportApiError(ex)
+            raise ApiErrorEx(ex)
+        except AuthError as ex:
+            self.logger.error(ex)
+            raise AuthErrorEx(ex)
+        except IOError as ex:
+            self.logger.error(ex)
+            raise IOErrorEx(ex)
 
     def getHash(self, bufferSize=65536):
         sha1 = hashlib.sha1()
