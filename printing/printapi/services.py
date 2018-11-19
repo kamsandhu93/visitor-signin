@@ -10,8 +10,9 @@ from printapi import app, exceptions
 
 def print_pass(pass_data):
     name = pass_data["name"]
-    company = pass_data["company"]
     pass_id = pass_data["passId"]
+    # Because optional
+    company = pass_data.get("company", "")
 
     generate_html_pass(name, company, pass_id)
     convert_html_pass_to_pdf()
@@ -49,7 +50,7 @@ def generate_qr(pass_id):
 
 
 def append_text(identifier, text, soup):
-    element = soup.find(identifier=identifier)
+    element = soup.find(id=identifier)
     element.append(text)
     app.logger.info("Replaced id={0} field with text={1}".format(identifier, text))
 

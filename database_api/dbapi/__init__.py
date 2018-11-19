@@ -1,12 +1,13 @@
 import logging
-
-
 from flask import Flask
 from flask_cors import CORS
+from flask.logging import default_handler
 
 app = Flask(__name__)
 CORS(app)
 app.config.from_pyfile('config.cfg')
+
+app.logger.removeHandler(default_handler)
 
 log_path = app.config["LOG_PATH"]
 log_format = "%(asctime)s | Database API | %(levelname)s | %(message)s"
