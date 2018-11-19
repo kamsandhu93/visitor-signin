@@ -72,6 +72,6 @@ def get_logout_time(pass_id):
           "FROM visitors " \
           "WHERE pass_id = ?"
 
-    time_out = execute_select_sql(sql)
+    time_out = execute_select_sql(sql, [pass_id])
 
     return time_out

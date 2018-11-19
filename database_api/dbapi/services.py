@@ -8,7 +8,8 @@ def login(request_body):
     first_name = request_body["name"]
     surname = request_body["surname"]
     visiting = request_body["visiting"]
-    company = request_body["company"]
+    # Because optional
+    company = request_body.get('company', None)
 
     data_access.log_visitor_in(pass_id, first_name, surname, visiting, company)
 
@@ -18,7 +19,7 @@ def login(request_body):
 def logout(request_body):
     pass_id = request_body["passId"]
     time_out = data_access.get_logout_time(pass_id)
-    if time_out is not None:
+    if time_out[0] is not None:
         raise exceptions.AlreadyLoggedOutException
 
     data_access.log_visitor_out(pass_id)
@@ -55,6 +56,3 @@ def send_backup_request():
 
         except Exception as e:
             app.logger.warn(e)
-
-
-

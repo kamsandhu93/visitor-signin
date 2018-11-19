@@ -22,13 +22,13 @@ def login_handler():
         return jsonify({"passId": pass_id}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
-        return jsonify("Bad Request", 400)
+        return jsonify("Bad Request"), 400
     except exceptions.DatabaseAccessEx as ex:
         app.log_exception(ex)
-        return jsonify("Service Unavailable", 503)
+        return jsonify("Service Unavailable"), 503
     except Exception as ex:
         app.logger.exception(ex)
-        return jsonify("Internal Server Error", 500)
+        return jsonify("Internal Server Error"), 500
 
 
 @app.route("/logout", methods=["POST"])
@@ -50,13 +50,16 @@ def logout_handler():
         return jsonify(response), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:
         app.log_exception(ex)
-        return jsonify("Bad Request", 400)
+        return jsonify("Bad Request"), 400
+    except exceptions.AlreadyLoggedOutException as ex:
+        app.log_exception(ex)
+        return jsonify("Conflict"), 409
     except exceptions.DatabaseAccessEx as ex:
         app.log_exception(ex)
-        return jsonify("Service Unavailable", 503)
+        return jsonify("Service Unavailable"), 503
     except Exception as ex:
         app.logger.exception(ex)
-        return jsonify("Internal Server Error", 500)
+        return jsonify("Internal Server Error"), 500
 
 
 def validate_request_body_keys(request_body, valid_keys, optional_keys=[]):
@@ -64,11 +67,11 @@ def validate_request_body_keys(request_body, valid_keys, optional_keys=[]):
 
     for key in valid_keys:
         if key not in request_body_keys:
-            raise exceptions.InvalidRequestBodyKeysEx
+            raise exceptions.InvalidRequestBodyKeysEx("Missing key: {0}".format(key))
 
     for key in request_body_keys:
-        if key not in valid_keys or key not in optional_keys:
-            raise exceptions.InvalidRequestBodyKeysEx
+        if key not in valid_keys and key not in optional_keys:
+            raise exceptions.InvalidRequestBodyKeysEx("Unexpected key: {0}".format(key))
 
 
 def validate_request_body_values(request_body):
@@ -77,11 +80,11 @@ def validate_request_body_values(request_body):
         "surname": r"^[A-Za-z]{1,32}$",
         "visiting": r"^[A-Za-z ]{1,32}$",
         "company": r"^[A-Za-z0-9 ]{1,32}$",
-        "passID": r"^[0-9]{5}[a-z]$"
+        "passId": r"^[0-9]{5}[a-z]$"
     }
 
     for key, value in request_body.items():
         if not re.match(regex[key], value):
-            raise exceptions.InvalidRequestBodyValuesEx
+            raise exceptions.InvalidRequestBodyValuesEx("Invalid value: {0} for key: {1}".format(value, key))
 
 
