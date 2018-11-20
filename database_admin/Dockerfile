@@ -1,30 +1,30 @@
 FROM python:3.7-alpine
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
-ARG WORK_DIR=/backupservice
+ARG WORK_DIR=/databaseadmin
 
 ENV DB_PATH $WORK_DIR/database
-ENV LOG_PATH $WORK_DIR/log/backup_restore.log
 
 COPY . $WORK_DIR/.
 
-#install packages
 RUN apk -q update && apk -q upgrade \
  && apk -q add curl \
  && apk -q add bash \
  && apk -q add bash-completion \
- #install pip packages
+ #install python packages
  && pip install -qr $WORK_DIR/requirements.txt \
  #purge cache
  && rm -rf /var/cache/apk/* \
- #create work directory structure
+ #make work directory
  && mkdir $WORK_DIR/log \
- && mkdir $WORK_DIR/database \
- && mkdir $WORK_DIR/offline_backup
+ && mkdir $WORK_DIR/database
 
 WORKDIR $WORK_DIR
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
-    CMD curl --fail http://$HOST:$PORT/status || exit 1
+    CMD /bin/bash healthcheck.sh
 
-CMD ["python", "main.py"]
+EXPOSE $PORT
+
+CMD sqlite_web -H $HOST -p $PORT "$DB_PATH/$DB_FILE"
+

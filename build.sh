@@ -23,7 +23,7 @@ done
 shift $((OPTIND -1))
 
 if [[ -z $container ]]; then
-    sudo docker-compose build --no-cache
+    sudo docker-compose build
 else
-    sudo docker-compose build --no-cache $container
+    sudo docker-compose build $container
 fi

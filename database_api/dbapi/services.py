@@ -9,7 +9,7 @@ def login(request_body):
     surname = request_body["surname"]
     visiting = request_body["visiting"]
     # Because optional
-    company = request_body.get('company', None)
+    company = request_body.get("company", None)
 
     data_access.log_visitor_in(pass_id, first_name, surname, visiting, company)
 
@@ -53,6 +53,8 @@ def send_backup_request():
 
             if request.status_code != 200:
                 raise exceptions.DatabaseBackupException
+
+            app.logger.info("Backup successful")
 
         except Exception as e:
             app.logger.warn(e)

@@ -1,29 +1,27 @@
 import sqlite3
 
-from dbapi import app, exceptions
+from dbapi import app
 
 
 def execute_modification_sql(sql, params=()):
-    try:
-        conn = sqlite3.connect(app.config["DB_PATH"])
+        conn = sqlite3.connect(app.config["DATABASE"])
         cursor = conn.cursor()
         cursor.execute(sql, params)
+        app.logger.info("SQL to be committed {}, {}".format(sql, params))
         conn.commit()
         conn.close()
-    except Exception as ex:
-        raise exceptions.DatabaseAccessEx(ex)
+        app.logger.info("Database commit successful")
 
 
 def execute_select_sql(sql, params=()):
-    try:
-        conn = sqlite3.connect(app.config["DB_PATH"])
+        conn = sqlite3.connect(app.config["DATABASE"])
         cursor = conn.cursor()
+        app.logger.info("SQL to be committed {}, {}".format(sql, params))
         cursor.execute(sql, params)
         res = cursor.fetchone()
         conn.close()
+        app.logger.info("Database commit successful")
         return res
-    except Exception as ex:
-        raise exceptions.DatabaseAccessEx(ex)
 
 
 def log_visitor_in(pass_id, first_name, surname, visiting, company):

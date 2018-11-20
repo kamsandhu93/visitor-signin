@@ -1,19 +1,11 @@
-class InvalidRequestBodyKeysEx(Exception):
-    def __init__(self, message=""):
-        super().__init__(message)
+class InvalidRequestBodyKeysException(Exception):
+    pass
 
-class InvalidRequestBodyValuesEx(Exception):
-    def __init__(self, message=""):
-        super().__init__(message)
-
-class DatabaseAccessEx(Exception):
-    def __init__(self, message=""):
-        super().__init__(message)
+class InvalidRequestBodyValuesException(Exception):
+    pass
 
 class DatabaseBackupException(Exception):
-    def __init__(self, message=""):
-        super().__init__(message)
+    pass
 
 class AlreadyLoggedOutException(Exception):
-    def __init__(self, message=""):
-        super().__init__(message)
+    pass

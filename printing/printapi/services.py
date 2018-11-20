@@ -63,5 +63,6 @@ def send_job_to_printer():
     bash_command = "lp {0}".format(app.config["PASS_PDF_PATH"])
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
+    app.logger.info("Print job output {}".format(output))
     if error:
         raise exceptions.UnableToPrintException(error)

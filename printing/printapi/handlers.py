@@ -22,7 +22,7 @@ def print_handler():
     except exceptions.UnableToPrintException as e:
         app.log_exception(e)
         return jsonify("Service Unavailable"), 503
-    except( exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx):
+    except(exceptions.InvalidRequestBodyKeysException, exceptions.InvalidRequestBodyValuesException):
         return jsonify("Bad Request"), 400
     except Exception as e:
         app.log_exception(e)
@@ -34,11 +34,11 @@ def validate_request_body_keys(request_body, valid_keys, optional_keys=[]):
 
     for key in valid_keys:
         if key not in request_body_keys:
-            raise exceptions.InvalidRequestBodyKeysEx("Missing key: {0}".format(key))
+            raise exceptions.InvalidRequestBodyKeysException("Missing key: {0}".format(key))
 
     for key in request_body_keys:
         if key not in valid_keys and key not in optional_keys:
-            raise exceptions.InvalidRequestBodyKeysEx("Unexpected key: {0}".format(key))
+            raise exceptions.InvalidRequestBodyKeysException("Unexpected key: {0}".format(key))
 
 
 def validate_request_body_values(request_body):
@@ -50,4 +50,4 @@ def validate_request_body_values(request_body):
 
     for key, value in request_body.items():
         if not re.match(regex[key], value):
-            raise exceptions.InvalidRequestBodyValuesEx("Invalid value: {0} for key: {1}".format(value, key))
+            raise exceptions.InvalidRequestBodyValuesException("Invalid value: {0} for key: {1}".format(value, key))
