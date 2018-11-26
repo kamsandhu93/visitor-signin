@@ -48,6 +48,8 @@ This is a Single Page Progressive Web Application created using [Vue.js](https:/
  - QR code image generator for visitor pass example page
 ##### [axios](https://github.com/axios/axios)
  - Promise based request library for http requests
+##### [cypress](https://docs.cypress.io/guides/overview/why-cypress.html#In-a-nutshell)
+ - Test runner
 
 ## Workflow
 ```
