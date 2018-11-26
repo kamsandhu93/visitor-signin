@@ -78,6 +78,7 @@
                 }
             },
             sendSigninRequest() {
+                this.checkEmptyOptionalKeys(['company'])
                 axios.post(`${this.$store.getters.url}/login`, this.formData)
                 .then((response) => {
                     var query = {
@@ -95,6 +96,13 @@
                         this.notifyError("An error occured when signing in. Please try again. If problem persists, please inform the receptionist.")
                     }
                 })
+            },
+            checkEmptyOptionalKeys(keys) {
+                for (var key of keys) {
+                    if (!this.formData[key]) {
+                        delete this.formData[key]
+                    }
+                }
             },
             getFullName() {
                 return `${this.formData["name"]} ${this.formData["surname"]}`
