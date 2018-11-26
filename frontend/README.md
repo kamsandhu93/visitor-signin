@@ -18,9 +18,15 @@ npm run serve
 npm run build
 ```
 
+### Run tests
+```
+npm run test
+```
+
 ### Hosting for production
 ```
 npm install -g http-server
+npm build
 http-server dist -a <IP> -p <Port>
 ```
 
