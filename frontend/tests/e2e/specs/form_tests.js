@@ -133,6 +133,18 @@ describe('Form Tests', () => {
         cy.get('#confirmCompany').contains('company')
     })
 
+    it('Test white space trim', () => {
+        cy.visit('/#/signin')
+        getFormInput('#name').type('   firstname  ')
+        getFormInput('#surname').type('   surname   ')
+        getFormInput('#visiting').type('   visiting   ')
+        getFormInput('#company').type(' test company ')
+        cy.get('#btnConfirm').click()
+        cy.get('#confirmName').contains('firstname surname')
+        cy.get('#confirmVisiting').contains('visiting')
+        cy.get('#confirmCompany').contains('test company')
+    })
+
     //SignOut tests
     it('Test empty fields sign out', () => {
         cy.visit('/#/signout')
