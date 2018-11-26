@@ -9,12 +9,8 @@
         <el-row type="flex" justify="center">
             <el-col :span="20">
                 <el-form :model="formData" :rules="rules" ref="signOutForm">
-                    <form-item maxlength="6" label="Pass ID" prop="passId" v-model="formData['passId']"></form-item>
-                    <el-form-item>
-                        <el-button type="primary" icon="el-icon-check" @click="submitForm('signOutForm')">Sign Out</el-button>
-                        <el-button type="info" icon="el-icon-refresh" @click="resetForm('signOutForm')" plain>Reset</el-button>
-                        <el-button type="danger" icon="el-icon-close" @click="changeRoute('home')" plain>Cancel</el-button>
-                    </el-form-item>
+                    <form-item id="passId" maxlength="6" label="Pass ID" prop="passId" v-model="formData['passId']"></form-item>
+                    <form-button formName="signOutForm" @submitForm="submitForm($event)" @resetForm="resetForm($event)" @changeRoute="changeRoute($event)"></form-button>
                 </el-form>
             </el-col>
         </el-row>
@@ -23,18 +19,20 @@
 
 <script>
     import axios from 'axios'
-    import FormItem from '../components/common/FormItem.vue'
-    import RouteHelper from '../mixins/route-helper.js'
-    import NotificationHelper from '../mixins/notification-helper.js'
-    import FormHelper from '../mixins/form-helper.js'
-    import FailureTracker from '../mixins/failure-tracker.js'
+    import FormItem from '@/components/common/FormItem.vue'
+    import FormButton from '@/components/common/FormButton.vue'
+    import RouteHelper from '@/mixins/route-helper.js'
+    import NotificationHelper from '@/mixins/notification-helper.js'
+    import FormHelper from '@/mixins/form-helper.js'
+    import FailureTracker from '@/mixins/failure-tracker.js'
     import { QrcodeReader } from 'vue-qrcode-reader'
     import 'vue-qrcode-reader/dist/vue-qrcode-reader.css'
 
     export default {
         components: {
             FormItem,
-            QrcodeReader
+            QrcodeReader,
+            FormButton
         },
         mixins: [RouteHelper, NotificationHelper, FormHelper, FailureTracker],
         data () {
@@ -66,7 +64,7 @@
             sendSignoutRequest() {
                 axios.post(`${this.$store.getters.url}/logout`, this.formData)
                 .then((response) => {
-                    var name = `${response.data.firstName} ${response.data.surname}`
+                    var name = `${response.data.firstname} ${response.data.surname}`
                     var query = {
                         transitionType: 'signout',
                         name: name

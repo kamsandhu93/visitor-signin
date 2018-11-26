@@ -19,12 +19,12 @@
 
 <script>
     import axios from 'axios'
-    import RouteHelper from '../mixins/route-helper.js'
-    import NotificationHelper from '../mixins/notification-helper.js'
+    import RouteHelper from '@/mixins/route-helper.js'
+    import NotificationHelper from '@/mixins/notification-helper.js'
     import QrcodeVue from 'qrcode.vue'
-    import PassExample from '../components/pass/PassExample.vue'
-    import PassWelcome from '../components/pass/PassWelcome.vue'
-    import PassFire from '../components/pass/PassFire.vue'
+    import PassExample from '@/components/pass/PassExample.vue'
+    import PassWelcome from '@/components/pass/PassWelcome.vue'
+    import PassFire from '@/components/pass/PassFire.vue'
 
     export default {
         components: {

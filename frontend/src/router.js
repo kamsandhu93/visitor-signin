@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
-import SignIn from './views/SignIn.vue'
-import SignOut from './views/SignOut.vue'
-import Pass from './views/Pass.vue'
-import ErrorPage from './views/Error.vue'
-import TransitionPage from './views/TransitionPage.vue'
-import PrintError from './views/PrintError.vue'
+import Home from '@/views/Home.vue'
+import SignIn from '@/views/SignIn.vue'
+import SignOut from '@/views/SignOut.vue'
+import Pass from '@/views/Pass.vue'
+import ErrorPage from '@/views/Error.vue'
+import TransitionPage from '@/views/TransitionPage.vue'
+import PrintError from '@/views/PrintError.vue'
 
 Vue.use(Router)
 

@@ -9,7 +9,7 @@
                     <qrcode-vue :value="query.passId" :size="75"></qrcode-vue>
                 </div>
                 <div class="logoContainer">
-                    <img class="logo" src="../../assets/img/pass_logo.png"/>
+                    <img class="logo" src="@/assets/img/pass_logo.png"/>
                 </div>
             </div>
             <div class="visitor">VISITOR</div>

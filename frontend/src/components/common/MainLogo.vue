@@ -1,6 +1,6 @@
 <template>
     <el-row class="imgContainer">
-        <img src="../../assets/img/nhs_digital_logo.png" />
+        <img src="@/assets/img/nhs_digital_logo.png" />
     </el-row>
 </template>
 
