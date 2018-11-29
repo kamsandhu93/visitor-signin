@@ -1,4 +1,4 @@
-describe('HTTP request tests', () => {
+describe('Notification Tests', () => {
     it('Test sign in error message', () => {
         cy.server()
         cy.route({
