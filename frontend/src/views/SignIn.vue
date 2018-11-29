@@ -78,7 +78,7 @@
                 }
             },
             sendSigninRequest() {
-                this.checkEmptyOptionalKeys(['company'])
+                this.removeEmptyOptionalKeys(['company'])
                 axios.post(`${this.$store.getters.url}/login`, this.formData)
                 .then((response) => {
                     var query = {
@@ -97,7 +97,7 @@
                     }
                 })
             },
-            checkEmptyOptionalKeys(keys) {
+            removeEmptyOptionalKeys(keys) {
                 for (var key of keys) {
                     if (!this.formData[key]) {
                         delete this.formData[key]

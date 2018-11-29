@@ -152,7 +152,7 @@ describe('Form Tests', () => {
         getFormError('#passId').contains('Please input Pass ID')
     })
 
-    it('Test input field length sign in', () => {
+    it('Test input field length sign out', () => {
         cy.visit('/#/signout')
         getFormInput('#passId').type('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         getFormInput('#passId').should('have.value', 'aaaaaa')
