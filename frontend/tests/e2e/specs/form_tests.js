@@ -132,9 +132,10 @@ describe('Form Tests', () => {
         cy.formInput('#visiting').type('   visiting   ')
         cy.formInput('#company').type(' test company ')
         cy.get('#btnConfirm').click()
-        cy.get('#confirmName').contains('firstname surname')
-        cy.get('#confirmVisiting').contains('visiting')
-        cy.get('#confirmCompany').contains('test company')
+        cy.formInput('#name').should('have.value', 'firstname')
+        cy.formInput('#surname').should('have.value', 'surname')
+        cy.formInput('#visiting').should('have.value', 'visiting')
+        cy.formInput('#company').should('have.value', 'test company')
     })
 
     //SignOut tests
