@@ -6,7 +6,8 @@ export default {
                 message: msg,
                 type: "success",
                 customClass: "notificationBanner",
-                duration: 8000
+                duration: 8000,
+                showClose: true
             })
         },
         notifyError(msg) {
@@ -15,7 +16,8 @@ export default {
                 message: msg,
                 customClass: "notificationBanner",
                 type: "error",
-                duration: 8000
+                duration: 8000,
+                showClose: true
             })
         }
     }
