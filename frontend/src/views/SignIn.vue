@@ -89,12 +89,7 @@
                     this.changeRouteQuery('pass', query)
                 })
                 .catch((e) => {
-                    if (e["response"]) {
-                        this.notifyError(`${e.response.data.message}`)
-                    }
-                    else {
-                        this.notifyError("An error occured when signing in. Please try again. If problem persists, please inform the receptionist.")
-                    }
+                    this.notifyError("An error occured when signing in - please try again. If problem persists, please inform the receptionist.")
                 })
             },
             removeEmptyOptionalKeys(keys) {

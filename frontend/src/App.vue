@@ -13,6 +13,10 @@
 <style>
     @import './assets/css/colors.css';
 
+    body {
+        font-family: Arial;
+    }
+
     #app {
         font-family: Arial;
         -webkit-font-smoothing: antialiased;
@@ -32,6 +36,10 @@
 
     h2 {
         color: var(--nhs-blue);
+    }
+
+    .notificationBanner p {
+        font-size: 12pt;
     }
 </style>
 

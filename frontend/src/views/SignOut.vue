@@ -72,12 +72,7 @@
                     this.changeRouteQuery('transition', query)
                 })
                 .catch((e) => {
-                    if (e['response']) {
-                        this.notifyError(`${e.response.data.message}`)
-                    }
-                    else {
-                        this.notifyError("An error occured when signing out. Please try again. If problem persists, please inform the receptionist.")
-                    }
+                    this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
                 })
             },
             checkPassId(rule, value, callback) {

@@ -1,11 +1,3 @@
-function getFormInput(id) {
-    return cy.get(`${id} .el-form-item__content .el-input input`)
-}
-
-function getFormError(id) {
-    return cy.get(`${id} .el-form-item__content .el-form-item__error`)
-}
-
 describe('Scenario Tests', () => {
     it('End to end sign in no error', () => {
         cy.server()
@@ -24,10 +16,10 @@ describe('Scenario Tests', () => {
         cy.visit('/')
         cy.contains('Sign In').click()
         cy.url().should('eq', `${Cypress.config().baseUrl}/#/signin`)
-        getFormInput('#name').type('firstname')
-        getFormInput('#surname').type('surname')
-        getFormInput('#visiting').type('visiting person')
-        getFormInput('#company').type('company')
+        cy.formInput('#name').type('firstname')
+        cy.formInput('#surname').type('surname')
+        cy.formInput('#visiting').type('visiting person')
+        cy.formInput('#company').type('company')
         cy.get('#btnConfirm').click()
         cy.get('#btnDialogConfirm').click()
         cy.url().should('eq', `${Cypress.config().baseUrl}/#/pass?name=firstname%20surname&company=company&passId=00045a`)
@@ -55,10 +47,10 @@ describe('Scenario Tests', () => {
         cy.visit('/')
         cy.contains('Sign In').click()
         cy.url().should('eq', `${Cypress.config().baseUrl}/#/signin`)
-        getFormInput('#name').type('firstname')
-        getFormInput('#surname').type('surname')
-        getFormInput('#visiting').type('visiting person')
-        getFormInput('#company').type('company')
+        cy.formInput('#name').type('firstname')
+        cy.formInput('#surname').type('surname')
+        cy.formInput('#visiting').type('visiting person')
+        cy.formInput('#company').type('company')
         cy.get('#btnConfirm').click()
         cy.get('#btnDialogConfirm').click()
         cy.url().should('eq', `${Cypress.config().baseUrl}/#/pass?name=firstname%20surname&company=company&passId=00045a`)
@@ -82,7 +74,7 @@ describe('Scenario Tests', () => {
         cy.visit('/')
         cy.contains('Sign Out').click()
         cy.url().should('eq', `${Cypress.config().baseUrl}/#/signout`)
-        getFormInput('#passId').type('00045a')
+        cy.formInput('#passId').type('00045a')
         cy.get('#btnConfirm').click()
         cy.url().should('eq', `${Cypress.config().baseUrl}/#/transition?transitionType=signout&name=test%20user`)
         cy.wait(6000)

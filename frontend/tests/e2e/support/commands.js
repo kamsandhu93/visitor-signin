@@ -23,3 +23,15 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('formInput', (id) => {
+    return cy.get(`${id} .el-form-item__content .el-input input`)
+})
+
+Cypress.Commands.add('formError', (id) => {
+    return cy.get(`${id} .el-form-item__content .el-form-item__error`)
+})
+
+Cypress.Commands.add('notificationBanner', () => {
+    return cy.get(".notificationBanner .el-message__content")
+})
