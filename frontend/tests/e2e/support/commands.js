@@ -35,3 +35,7 @@ Cypress.Commands.add('formError', (id) => {
 Cypress.Commands.add('notificationBanner', () => {
     return cy.get(".notificationBanner .el-message__content")
 })
+
+Cypress.Commands.add('notificationClose', () => {
+    cy.get(".notificationBanner .el-message__closeBtn").click()
+})
