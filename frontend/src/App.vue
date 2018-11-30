@@ -18,7 +18,6 @@
     }
 
     #app {
-        font-family: Arial;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
