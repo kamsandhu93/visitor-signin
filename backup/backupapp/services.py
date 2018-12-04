@@ -51,23 +51,6 @@ class Database(object):
             self.logger.error(ex)
             raise IOErrorEx(ex)
 
-    def getHash(self, bufferSize=65536):
-        sha1 = hashlib.sha1()
-        md5 = hashlib.md5()
-
-        with open(self.localPath, "rb") as f:
-            while True:
-                data = f.read(bufferSize)
-                if not data:
-                    break
-                md5.update(data)
-                sha1.update(data)
-
-        return {
-            "md5": md5.hexdigest(),
-            "sha1": sha1.hexdigest()
-        }
-
     def _reportApiError(err):
         insufficientSpace = err.error.is_path() and err.error.get_path().reason.is_insufficient_space()
         if (insufficientSpace):
