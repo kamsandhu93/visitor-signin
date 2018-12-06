@@ -1,6 +1,6 @@
 describe('Form Tests', () => {
     //Signin tests
-    it('Test empty fields sign in', () => {
+    it('Test empty fields error message sign in', () => {
         cy.visit('/#/signin')
         cy.get('#btnConfirm').click()
         cy.formError('#name').contains('Please input your first name')
@@ -139,7 +139,7 @@ describe('Form Tests', () => {
     })
 
     //SignOut tests
-    it('Test empty fields sign out', () => {
+    it('Test empty fields error message sign out', () => {
         cy.visit('/#/signout')
         cy.get('#btnConfirm').click()
         cy.formError('#passId').contains('Please input Pass ID')
