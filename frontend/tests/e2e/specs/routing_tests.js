@@ -51,7 +51,7 @@ describe('Routing Tests', () => {
     it('Check transition page dynamic fields', () => {
         //Sign in with name test
         cy.visit('/#/transition?transitionType=signin&name=test')
-        cy.contains('.name', 'test')
+        cy.contains('#name', 'test')
         cy.contains('.blueFont', ' sign in success')
         cy.contains('Home').click()
         cy.contains('h1', 'Visitor Registration')
@@ -59,7 +59,7 @@ describe('Routing Tests', () => {
 
         //Sign out with name test
         cy.visit('/#/transition?transitionType=signout&name=test')
-        cy.contains('.name', 'test')
+        cy.contains('#name', 'test')
         cy.contains('.blueFont', ' sign out success')
         cy.contains('Home').click()
         cy.contains('h1', 'Visitor Registration')
@@ -67,7 +67,7 @@ describe('Routing Tests', () => {
 
         //no query parameter
         cy.visit('/#/transition?name=test')
-        cy.get('.name').should('not.exist')
+        cy.get('#name').should('not.exist')
         cy.get('.blueFont').should('not.exist')
         cy.contains('Home').click()
         cy.contains('h1', 'Visitor Registration')
