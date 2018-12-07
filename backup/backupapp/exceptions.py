@@ -1,8 +1,8 @@
-class InvalidRequestBodyKeysEx(Exception):
+class ApiErrorEx(Exception):
     pass
 
-class InvalidRequestBodyValuesEx(Exception):
+class AuthErrorEx(Exception):
     pass
 
-class DatabaseAccessEx(Exception):
+class IOErrorEx(Exception):
     pass
