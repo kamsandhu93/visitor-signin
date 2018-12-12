@@ -40,9 +40,9 @@ def generatePassId():
     return passId
 
 
-def sendBackupRequest(backup+type):
+def sendBackupRequest(backup_type):
     try:
-        url = "http://{0}:5004/backup-{1}".format(app.config["REQUEST_HOST"], backup)
-        r = requests.post(url)
+        url = "http://{0}:5004/backup-{1}".format(app.config["REQUEST_HOST"], backup_type)
+        requests.post(url)
     except Exception as e:
         app.logger.warning(e)
