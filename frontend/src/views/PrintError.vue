@@ -3,7 +3,7 @@
         <main-logo></main-logo>
         <el-row>
             <h1>Visitor pass print failed</h1>
-            <span class="blueFont">Please note down your Pass ID: </span><span>{{ $route.query.passId }}</span>
+            <span class="blueFont">Please note down your Pass ID: </span><span id="passId">{{ $route.query.passId }}</span>
             <h1>and inform the reception</h1>
         </el-row>
         <el-row>
@@ -13,8 +13,8 @@
 </template>
 
 <script>
-    import RouteHelper from '../mixins/route-helper.js'
-    import MainLogo from '../components/common/MainLogo.vue'
+    import RouteHelper from '@/mixins/route-helper.js'
+    import MainLogo from '@/components/common/MainLogo.vue'
 
     export default {
         components: {

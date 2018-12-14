@@ -6,7 +6,7 @@ ARG WORK_DIR=/printservice
 
 ENV LOG_PATH $WORK_DIR/log/print.log
 
-COPY . $WORK_DIR/.
+COPY /requirements.txt $WORK_DIR/requirements.txt
 
 RUN apt-get -qq update \
  && apt-get -qq install -y \
@@ -31,6 +31,8 @@ RUN apt-get -qq update \
  #make working directories
  && mkdir $WORK_DIR/log \
  && touch /etc/cups/client.conf
+
+COPY . $WORK_DIR/.
 
 WORKDIR $WORK_DIR
 

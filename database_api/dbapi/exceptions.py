@@ -1,8 +1,11 @@
-class InvalidRequestBodyKeysEx(Exception):
+class InvalidRequestBodyKeysException(Exception):
     pass
 
-class InvalidRequestBodyValuesEx(Exception):
+class InvalidRequestBodyValuesException(Exception):
     pass
 
-class DatabaseAccessEx(Exception):
+class DatabaseBackupException(Exception):
+    pass
+
+class AlreadyLoggedOutException(Exception):
     pass

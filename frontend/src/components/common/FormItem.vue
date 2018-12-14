@@ -1,5 +1,5 @@
 <template>
-    <el-form-item :prop="prop" ref="test">
+    <el-form-item :prop="prop">
         <span slot="label"><b>{{ label }}</b></span>
         <el-input v-model="body" :maxlength="maxlength" clearable></el-input>
     </el-form-item>

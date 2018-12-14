@@ -1,3 +1,10 @@
-class PrintError(Exception):
-    def __init__(self, message):
-        super(PrintError, self).__init__(message)
+class UnableToPrintException(Exception):
+    pass
+
+
+class InvalidRequestBodyKeysException(Exception):
+    pass
+
+
+class InvalidRequestBodyValuesException(Exception):
+    pass
