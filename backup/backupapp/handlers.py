@@ -12,14 +12,15 @@ def statusHandler():
     return health["msg"], health["code"]
 
 @app.route("/backup-online", methods=["POST"])
-def online_backuph_andler():
+def online_backup_handler():
     try:
         services.backup()
         return jsonify({"Online Backup": "OK"}), 200
     except Exception as ex:
-        app.logge.error("backup-online operation failed")
-        app.logge.error(ex)
+        app.logger.error("backup-online operation failed")
+        app.log_exception(ex)
         health["msg"] = "Latest backup-online operation failed"
+        health["code"] = 500
         return jsonify({"Online Backup": "FAIL"}), 500
 
 
@@ -30,7 +31,8 @@ def offline_backup_handler():
         services.backup_offline()
         return jsonify({"Offline Backup": "OK"}), 200
     except Exception as ex:
-        app.logge.error("backup-offline operation failed")
-        app.logge.error(ex)
+        app.logger.error("backup-offline operation failed")
+        app.log_exception(ex)
         health["msg"] = "Latest backup-offline operation failed"
+        health["code"] = 500
         return jsonify({"Offline Backup": "FAIL"}), 500

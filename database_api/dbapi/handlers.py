@@ -19,8 +19,8 @@ def loginHandler():
         validateLoginRequestValues(requestBody)
         passId = services.login(requestBody)
         app.logger.info("User logged in")
-        services.sendBackupRequest("online")
-        services.sendBackupRequest("offline")
+        services.send_backup_request("online")
+        services.send_backup_request("offline")
 
         return jsonify({'passId': passId}), 200
     except(exceptions.InvalidRequestBodyKeysEx, exceptions.InvalidRequestBodyValuesEx) as ex:

@@ -7,24 +7,24 @@ from backupapp import app
 
 
 dbx = dropbox.Dropbox(app.config["DROPBOX_TOKEN"])
-localPath = app.config["LOCAL_PATH"]
-backupPath = app.config["BACKUP_PATH"]
-offlineBackupPath = app.config["OFFLINE_BACKUP_PATH"]
+local_path = app.config["LOCAL_PATH"]
+backup_path = app.config["BACKUP_PATH"]
+offline_backup_path = app.config["OFFLINE_BACKUP_PATH"]
 
 def backup():
-    with open(localPath, "rb") as f:
-        dbx.files_upload(f.read(), backupPath, mode=WriteMode("overwrite"))
-        app.logge.info("Backed up {0} to dropbox {1}".format(localPath, backupPath))
+    with open(local_path, "rb") as f:
+        dbx.files_upload(f.read(), backup_path, mode=WriteMode("overwrite"))
+        app.logger.info("Backed up {0} to dropbox {1}".format(local_path, backup_path))
 
 def backup_offline():
-    copyfile(localPath, offlineBackupPath)
-    app.logge.info("Offline backup up {0} to {1}".format(localPath, offlineBackupPath))
+    copyfile(local_path, offline_backup_path)
+    app.logger.info("Offline backup up {0} to {1}".format(local_path, offline_backup_path))
 
 def restore():
-    if not os.path.exists(localPath):
-        dbx.files_download_to_file(localPath, backupPath)
-        app.logge.info("Normal restore {0} from dropbox {1}".format(localPath,backupPath))
+    if not os.path.exists(local_path):
+        dbx.files_download_to_file(local_path, backup_path)
+        app.logger.info("Normal restore {0} from dropbox {1}".format(local_path,backup_path))
 
 def restore_force():
-    dbx.files_download_to_file(localPath, backupPath)
-    app.logge.info("Forced restore {0} from dropbox {1}".format(localPath, backupPath))
+    dbx.files_download_to_file(local_path, backup_path)
+    app.logger.info("Forced restore {0} from dropbox {1}".format(local_path, backup_path))

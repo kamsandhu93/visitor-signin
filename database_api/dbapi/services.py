@@ -3,7 +3,7 @@ from dbapi import app, data_access
 
 
 def login(requestBody):
-    passId = generatePassId()
+    passId = generate_pass_id()
     firstName = requestBody["name"]
     surname = requestBody["surname"]
     visiting = requestBody["visiting"]
@@ -22,7 +22,7 @@ def logout(requestBody):
     return fullName
 
 
-def generatePassId():
+def generate_pass_id():
     lastPassId = data_access.getLastPassId()
 
     number = int(lastPassId[:-1])
@@ -40,7 +40,7 @@ def generatePassId():
     return passId
 
 
-def sendBackupRequest(backup_type):
+def send_backup_request(backup_type):
     try:
         url = "http://{0}:5004/backup-{1}".format(app.config["REQUEST_HOST"], backup_type)
         requests.post(url)
