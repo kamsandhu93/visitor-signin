@@ -24,4 +24,4 @@ app.logger.addHandler(consoleHandler)
 
 app.logger.setLevel(logging.DEBUG)
 
-from backupapp.handlers import backupHandler, restoreHandler, statusHandler
+from backupapp.handlers import online_backup_handler, offline_backup_handler, status_handler

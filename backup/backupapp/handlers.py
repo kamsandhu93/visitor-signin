@@ -8,7 +8,7 @@ health = {
 }
 
 @app.route("/status")
-def statusHandler():
+def status_handler():
     return health["msg"], health["code"]
 
 @app.route("/backup-online", methods=["POST"])
