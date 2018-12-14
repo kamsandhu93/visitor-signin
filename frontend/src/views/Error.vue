@@ -9,9 +9,9 @@
 </template>
 
 <script>
-    import FailureTracker from '../mixins/failure-tracker.js'
-    import RouteHelper from '../mixins/route-helper.js'
-    import MainLogo from '../components/common/MainLogo.vue'
+    import FailureTracker from '@/mixins/failure-tracker.js'
+    import RouteHelper from '@/mixins/route-helper.js'
+    import MainLogo from '@/components/common/MainLogo.vue'
 
     export default {
         mixins: [FailureTracker, RouteHelper],

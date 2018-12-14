@@ -1,4 +1,12 @@
 #!/bin/bash
+
+function buildFrontend() {
+    pushd ./frontend
+    npm install
+    npm run build
+    popd
+}
+
 while getopts ":s: :h" opt; do
     case ${opt} in
         h )
@@ -23,7 +31,11 @@ done
 shift $((OPTIND -1))
 
 if [[ -z $container ]]; then
+    buildFrontend
     sudo docker-compose build
 else
+    if [[ $container = "frontend" ]]; then
+        buildFrontend
+    fi
     sudo docker-compose build $container
 fi

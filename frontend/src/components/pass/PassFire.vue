@@ -16,7 +16,7 @@
         <div class="header">
             Emergency Assembly Point
         </div>
-        <img src="../../assets/img/diagram.png">
+        <img src="@/assets/img/diagram.png">
     </div>
 </template>
 

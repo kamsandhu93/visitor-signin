@@ -18,9 +18,15 @@ npm run serve
 npm run build
 ```
 
+### Run tests
+```
+npm run test
+```
+
 ### Hosting for production
 ```
 npm install -g http-server
+npm build
 http-server dist -a <IP> -p <Port>
 ```
 
@@ -42,6 +48,8 @@ This is a Single Page Progressive Web Application created using [Vue.js](https:/
  - QR code image generator for visitor pass example page
 ##### [axios](https://github.com/axios/axios)
  - Promise based request library for http requests
+##### [cypress](https://docs.cypress.io/guides/overview/why-cypress.html#In-a-nutshell)
+ - Test runner
 
 ## Workflow
 ```

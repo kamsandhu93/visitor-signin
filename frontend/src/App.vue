@@ -13,8 +13,11 @@
 <style>
     @import './assets/css/colors.css';
 
-    #app {
+    body {
         font-family: Arial;
+    }
+
+    #app {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
@@ -32,6 +35,10 @@
 
     h2 {
         color: var(--nhs-blue);
+    }
+
+    .notificationBanner p {
+        font-size: 12pt;
     }
 </style>
 
