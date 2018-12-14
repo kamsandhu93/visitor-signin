@@ -43,7 +43,7 @@ def validate_request_body_keys(request_body, valid_keys, optional_keys=[]):
 
 def validate_request_body_values(request_body):
     regex = {
-        "name": r"^[A-Za-z ]{1,32}$",
+        "name": r"^[A-Za-z ]{1,64}$",
         "company": r"^[A-Za-z0-9 ]{1,32}$",
         "passId": r"^[0-9]{5}[a-z]$"
     }

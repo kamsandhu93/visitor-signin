@@ -20,13 +20,8 @@ file_handler = logging.FileHandler(log_path)
 file_handler.setFormatter(formatter)
 app.logger.addHandler(file_handler)
 
-consoleHandler = logging.StreamHandler()
-consoleHandler.setFormatter(formatter)
-app.logger.addHandler(consoleHandler)
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+app.logger.addHandler(console_handler)
 
 app.logger.setLevel(logging.DEBUG)
-
-
-
-
-

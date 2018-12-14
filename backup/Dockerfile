@@ -6,7 +6,7 @@ ARG WORK_DIR=/backupservice
 ENV DB_PATH $WORK_DIR/database
 ENV LOG_PATH $WORK_DIR/log/backup_restore.log
 
-COPY /requirements.txt .$WORK_DIR/
+COPY /requirements.txt $WORK_DIR/requirements.txt
 
 #install packages
 RUN apk -q update && apk -q upgrade \

@@ -6,7 +6,7 @@ ARG WORK_DIR=/printservice
 
 ENV LOG_PATH $WORK_DIR/log/print.log
 
-COPY /requirements.txt .$WORK_DIR/
+COPY /requirements.txt $WORK_DIR/requirements.txt
 
 RUN apt-get -qq update \
  && apt-get -qq install -y \

@@ -7,7 +7,7 @@ ARG WORK_DIR=/databaseapi
 ENV DB_PATH $WORK_DIR/database
 ENV LOG_PATH $WORK_DIR/log/database_api.log
 
-COPY /requirements.txt .$WORK_DIR/
+COPY /requirements.txt $WORK_DIR/requirements.txt
 
 RUN apk -q update && apk -q upgrade \
  && apk -q add curl \
