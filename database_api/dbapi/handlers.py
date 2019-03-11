@@ -46,7 +46,7 @@ def logout_handler():
         services.send_backup_request()  #TODO should this be here
 
         response = {
-            "firstName": full_name[0],
+            "firstname": full_name[0],
             "surname": full_name[1]
         }
 
@@ -89,5 +89,3 @@ def validate_request_body_values(request_body):
     for key, value in request_body.items():
         if not re.match(regex[key], value):
             raise exceptions.InvalidRequestBodyValuesException("Invalid value: {0} for key: {1}".format(value, key))
-
-
