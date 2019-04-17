@@ -1,6 +1,6 @@
 @page {
-    size: A4;
-    margin: 0.1cm;
+    size: 38cm 6.2cm;
+    margin: -0.15cm;
 }
 
 body {
@@ -9,9 +9,9 @@ body {
 
 .box {
     width: 9.3cm;
-    height: 6.2cm;
+    height: 6cm;
     border: 2px solid black;
-    padding: 0.3cm;
+    float: left;
 }
 
 .p1Header {
@@ -27,6 +27,8 @@ body {
     height: 4cm;
     text-align: center;
     word-wrap: break-word;
+    padding-right: 0.3cm;
+    padding-left: 0.3cm;
 }
 
 .p1Img {
@@ -37,7 +39,7 @@ body {
 .p1LogoContainer {
     width: 50%;
     height: 100%;
-    float: left;
+    float: right;
 }
 
 .p1QrContainer {
@@ -63,6 +65,8 @@ body {
     width: 100%;
     font-size: 11pt;
     margin-top: 0.1cm;
+    padding-right: 0.3cm;
+    padding-left: 0.3cm;
 }
 
 .visitorDetails {
@@ -99,9 +103,9 @@ body {
 }
 
 .p2Main {
-    font-size: 8.8pt;
+    font-size: 8pt;
     text-align: justify;
-    width: 100%;
+    padding: 0.1cm;
 }
 
 .p3Header {
@@ -112,19 +116,20 @@ body {
 
 .p3Main {
     text-align: justify;
-    font-size: 11pt;
+    font-size: 10.5pt;
+    padding: 0.1cm;
 }
 
 .p4Header {
-    margin-top: -5px;
     font-size: 12pt;
     color: #ff0000;
     text-align: center;
 }
 
 .p4Main {
-    width: 100%;
+    width: 90%;
     text-align: center;
+    margin: auto;   
 }
 
 h3 {
@@ -142,8 +147,4 @@ ul {
 
 .blueFont {
     color: #0000ff;
-}
-
-.rotate{
-    transform: rotate(180deg);
 }
