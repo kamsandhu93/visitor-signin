@@ -2,10 +2,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router.js'
 import store from './store.js'
+import NhsukFrontendVue from 'nhsuk-frontend-vue'
+import Notifications from 'vue-notification'
 
 import './registerServiceWorker'
-import './plugins/element.js'
 
+Vue.use(NhsukFrontendVue)
+Vue.use(Notifications)
 Vue.config.productionTip = false
 
 new Vue({

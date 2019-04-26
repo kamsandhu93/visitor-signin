@@ -21,6 +21,7 @@
 <style scoped>
     .header {
         width: 100%;
+        text-align: center;
     }
 
     .main {

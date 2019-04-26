@@ -16,7 +16,9 @@
         <div class="header">
             Emergency Assembly Point
         </div>
-        <img src="@/assets/img/diagram.png">
+        <div class="imgContainer">
+            <img src="@/assets/img/diagram.png">
+        </div>
     </div>
 </template>
 
@@ -24,6 +26,7 @@
     .header {
         font-size: 14pt;
         color: red;
+        text-align: center;
     }
 
     .main {
@@ -37,5 +40,9 @@
 
     li {
         margin-bottom: 5px;
+    }
+
+    .imgContainer {
+        text-align: center;
     }
 </style>

@@ -1,13 +1,16 @@
 <template>
-    <el-form-item :prop="prop">
-        <span slot="label"><b>{{ label }}</b></span>
-        <el-input v-model="body" :maxlength="maxlength" clearable></el-input>
-    </el-form-item>
+    <nhs-input
+        v-model="body" :name="name"
+        @blur="$emit('blur')" :id="id" :maxlength="maxlength"
+    >
+        <nhs-error-text slot="error" v-if="error">{{error}}</nhs-error-text>
+        <nhs-label slot="label">{{label}}</nhs-label>
+    </nhs-input>
 </template>
 
 <script>
     export default {
-        props: ["label", "prop", "value", "maxlength"],
+        props: ["label", "value", "error", "id", "name", "maxlength"],
         data() {
             return {
                 body: this.value
@@ -23,15 +26,3 @@
         }
     }
 </script>
-
-<style scoped>
-    span {
-        font-size: 14pt;
-    }
-
-    .el-input {
-        font-size: 12pt;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-</style>
