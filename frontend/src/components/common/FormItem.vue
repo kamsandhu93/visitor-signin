@@ -1,8 +1,11 @@
 <template>
     <nhs-input
-        v-model="body" :label="label" :error="error" :name="name"
+        v-model="body" :name="name"
         @blur="$emit('blur')" :id="id" :maxlength="maxlength"
-    ></nhs-input>
+    >
+        <nhs-error-text slot="error" v-if="error">{{error}}</nhs-error-text>
+        <nhs-label slot="label">{{label}}</nhs-label>
+    </nhs-input>
 </template>
 
 <script>
@@ -31,7 +34,3 @@
         }
     }
 </script>
-
-<style scoped>
-    
-</style>

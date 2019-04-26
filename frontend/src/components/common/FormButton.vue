@@ -11,9 +11,3 @@
         </nhs-col>
     </nhs-row>
 </template>
-
-<script>
-    export default {
-        props: ["formName"]
-    }
-</script>

@@ -14,7 +14,7 @@
             <nhs-col>
                 <form-item
                     id="passId" name="passId" :maxlength="6"
-                    :label="labels['passId']" :error="errors['passId']"
+                    label="Pass ID" :error="errors['passId']"
                     v-model.trim="formData['passId']"
                     @blur="checkPassId()"
                 ></form-item>
@@ -48,10 +48,7 @@
                     passId: ""
                 },
                 errors: {
-                    passId: { text: "" }
-                },
-                labels: {
-                    passId: { text: "Pass ID" }
+                    passId: ""
                 },
                 qrVideoOptions: {
                     facingMode: 'user'
@@ -73,7 +70,7 @@
             },
             isFormValid() {
                 for (var key in this.errors) {
-                    if (this.errors[key].text) {
+                    if (this.errors[key]) {
                         return false
                     }
                 }
@@ -95,13 +92,13 @@
             },
             checkFormData(name, regex, emptyErr, valueErr) {
                 if (!this.formData[name]) {
-                    this.errors[name].text = emptyErr
+                    this.errors[name] = emptyErr
                 }
                 else if (!regex.test(this.formData[name])) {
-                    this.errors[name].text = valueErr
+                    this.errors[name] = valueErr
                 }
                 else {
-                    this.errors[name].text = ""
+                    this.errors[name] = ""
                 }
             },
             checkPassId() {
@@ -115,7 +112,7 @@
                     this.formData[field] = ""
                 }
                 for (var error in this.errors) {
-                    this.errors[error].text = ""
+                    this.errors[error] = ""
                 }
             }
         }

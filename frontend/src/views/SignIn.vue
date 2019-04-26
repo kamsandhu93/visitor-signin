@@ -7,27 +7,27 @@
         </nhs-row>
         <nhs-row>
             <nhs-col>
-                <form-item 
-                    :label="labels['name']" :error="errors['name']"
+                <form-item
+                    label="First Name" :error="errors['name']"
                     v-model.trim="formData['name']" id="name" name="name" :maxlength="32"
                     @blur="checkFirstName()"
                 ></form-item>
 
-                <form-item 
-                    :label="labels['surname']" :error="errors['surname']"
+                <form-item
+                    label="Surname" :error="errors['surname']"
                     v-model.trim="formData['surname']" id="surname" name="surname" :maxlength="32"
                     @blur="checkLastName()"
                 ></form-item>
 
                 <form-item
-                    :label="labels['visiting']" :error="errors['visiting']"
+                    label="Visiting" :error="errors['visiting']"
                     v-model.trim="formData['visiting']" id="visiting" name="visiting" :maxlength="32"
                     @blur="checkVisiting()"
                 ></form-item>
 
 
                 <form-item
-                    :label="labels['company']" :error="errors['company']"
+                    label="Company" :error="errors['company']"
                     v-model.trim="formData['company']" id="company" name="company" :maxlength="32"
                     @blur="checkCompany()"
                 ></form-item>
@@ -92,16 +92,10 @@
                 },
                 confirmDialog: false,
                 errors: {
-                    name: { text: "" },
-                    surname: { text: "" } ,
-                    visiting: { text: "" },
-                    company: { text: "" }
-                },
-                labels: {
-                    name: { text: "First Name" },
-                    surname: { text: "Surname" },
-                    visiting: { text: "Visiting" },
-                    company: { text: "Company" }
+                    name: "",
+                    surname: "" ,
+                    visiting: "",
+                    company: ""
                 }
             }
         },
@@ -111,13 +105,13 @@
                 this.checkLastName()
                 this.checkVisiting()
                 this.checkCompany()
-                if (this.isFormValid()) {   
+                if (this.isFormValid()) {
                     this.confirmDialog = true
                 }
             },
             isFormValid() {
                 for (var key in this.errors) {
-                    if (this.errors[key].text) {
+                    if (this.errors[key]) {
                         return false
                     }
                 }
@@ -153,20 +147,20 @@
                     this.formData[field] = ""
                 }
                 for (var error in this.errors) {
-                    this.errors[error].text = ""
+                    this.errors[error] = ""
                 }
             },
             checkFormData(name, regex, emptyErr, valueErr) {
                 if (!this.formData[name]) {
-                    this.errors[name].text = emptyErr
+                    this.errors[name] = emptyErr
                 }
                 else if (!regex.test(this.formData[name])) {
-                    this.errors[name].text = valueErr
+                    this.errors[name] = valueErr
                 }
                 else {
-                    this.errors[name].text = ""
+                    this.errors[name] = ""
                 }
-            },       
+            },
             checkFirstName() {
                 var regex = new RegExp("^[A-Za-z]{1,32}$")
                 var emptyErr = "Please input your first name"
@@ -188,10 +182,10 @@
             checkCompany(rule, value, callback) {
                 var regex = new RegExp("^[A-Za-z0-9 ]{1,32}$")
                 if (this.formData["company"] && !regex.test(this.formData["company"])) {
-                    this.errors["company"].text = "Accepted characters: A-Z, a-z, 0-9 and space"
+                    this.errors["company"] = "Accepted characters: A-Z, a-z, 0-9 and space"
                 }
                 else {
-                    this.errors["company"].text = ""
+                    this.errors["company"] = ""
                 }
             }
         }
