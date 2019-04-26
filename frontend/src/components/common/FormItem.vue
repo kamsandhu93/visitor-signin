@@ -23,14 +23,6 @@
             value(val) {
                 this.body = val
             }
-        },
-        computed: {
-            showError() {
-                if (this.error) {
-                    return true
-                }
-                return false
-            }
         }
     }
 </script>

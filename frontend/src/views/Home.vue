@@ -24,8 +24,3 @@
         mixins: [RouteHelper, FailureTracker]
     }
 </script>
-
-<style scoped>
-
-
-</style>

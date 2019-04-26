@@ -120,11 +120,6 @@
 </script>
 
 <style scoped>
-    button {
-        font-size: 16pt;
-        padding: 20px;
-    }
-
     .qrContainer {
         text-align: center;
     }
