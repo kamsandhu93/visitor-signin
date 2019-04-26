@@ -1,5 +1,5 @@
 <template>
-    <el-card class="passContainer">
+    <div>
         <div class="header">
             <b>Whitehall II Security: 0113 866 5735</b>
         </div>
@@ -22,7 +22,7 @@
         <div class="footer">
             IMPORTANT: <br>Please read the health &amp; safety regulations on this pass and return pass to reception on departure
         </div>
-    </el-card>
+    </div>
 </template>
 
 <script>
@@ -59,6 +59,7 @@
         height: 0.5cm;
         line-height: 0.5cm;
         font-size: 11pt;
+        text-align: center;
     }
 
     .main {
@@ -66,6 +67,7 @@
         height: 5cm;
         text-align: center;
         word-wrap: break-word;
+        text-align: center;
     }
 
     .imgContainer {
@@ -102,6 +104,7 @@
         width: 100%;
         font-size: 11pt;
         margin-top: 0.1cm;
+        text-align: center;
     }
 
     .date {
@@ -120,6 +123,7 @@
         color: red;
         font-size: 9pt;
         font-weight: bold;
+        text-align: center;
     }
 
     h3 {

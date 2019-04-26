@@ -25,17 +25,21 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('formInput', (id) => {
-    return cy.get(`${id} .el-form-item__content .el-input input`)
+    return cy.get(id)
 })
 
 Cypress.Commands.add('formError', (id) => {
-    return cy.get(`${id} .el-form-item__content .el-form-item__error`)
+    return cy.get(`${id}-error`)
 })
 
 Cypress.Commands.add('notificationBanner', () => {
-    return cy.get(".notificationBanner .el-message__content")
+    return cy.get(".notification-content")
 })
 
 Cypress.Commands.add('notificationClose', () => {
-    cy.get(".notificationBanner .el-message__closeBtn").click()
+    cy.get(".notification-content").click()
+})
+
+Cypress.Commands.add('clickButton', (name) => {
+    cy.get(`button[name=${name}]`).click()
 })

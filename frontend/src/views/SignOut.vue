@@ -1,20 +1,28 @@
 <template>
-    <el-main>
-        <el-row>
-            <h1>Sign Out</h1>
-        </el-row>
-        <el-row>
-            <qrcode-reader @decode="submitQR" :camera="qrVideoOptions"></qrcode-reader>
-        </el-row>
-        <el-row type="flex" justify="center">
-            <el-col :span="20">
-                <el-form :model="formData" :rules="rules" ref="signOutForm">
-                    <form-item id="passId" maxlength="6" label="Pass ID" prop="passId" v-model="formData['passId']"></form-item>
-                    <form-button formName="signOutForm" @submitForm="submitForm($event)" @resetForm="resetForm($event)" @changeRoute="changeRoute($event)"></form-button>
-                </el-form>
-            </el-col>
-        </el-row>
-    </el-main>
+    <nhs-main>
+        <nhs-row>
+            <nhs-col>
+                <nhs-heading size="xl">Sign Out</nhs-heading>
+            </nhs-col>
+        </nhs-row>
+        <nhs-row v-if="qron">
+            <nhs-col>
+                <qrcode-reader @decode="submitQR" :camera="qrVideoOptions"></qrcode-reader>
+            </nhs-col>
+        </nhs-row>
+        <nhs-row>
+            <nhs-col>
+                <form-item
+                    id="passId" name="passId" :maxlength="6"
+                    label="Pass ID" :error="errors['passId']"
+                    v-model.trim="formData['passId']"
+                    @blur="checkPassId()"
+                ></form-item>
+
+                <form-button @submitForm="submitForm()" @resetForm="resetForm()"></form-button>
+            </nhs-col>
+        </nhs-row>
+    </nhs-main>
 </template>
 
 <script>
@@ -23,7 +31,6 @@
     import FormButton from '@/components/common/FormButton.vue'
     import RouteHelper from '@/mixins/route-helper.js'
     import NotificationHelper from '@/mixins/notification-helper.js'
-    import FormHelper from '@/mixins/form-helper.js'
     import FailureTracker from '@/mixins/failure-tracker.js'
     import { QrcodeReader } from 'vue-qrcode-reader'
     import 'vue-qrcode-reader/dist/vue-qrcode-reader.css'
@@ -34,18 +41,19 @@
             QrcodeReader,
             FormButton
         },
-        mixins: [RouteHelper, NotificationHelper, FormHelper, FailureTracker],
+        mixins: [RouteHelper, NotificationHelper, FailureTracker],
         data () {
             return {
                 formData: {
                     passId: ""
                 },
-                rules: {
-                    passId: [{ validator: this.checkPassId, trigger: "blur" }]
+                errors: {
+                    passId: ""
                 },
                 qrVideoOptions: {
                     facingMode: 'user'
-                }
+                },
+                qron: false
             }
         },
         methods: {
@@ -55,11 +63,18 @@
                 this.submitForm('signOutForm')
             },
             submitForm(formName) {
-                this.validateForm(formName, (valid) => {
-                    if (valid) {
-                        this.sendSignoutRequest()
+                this.checkPassId()
+                if (this.isFormValid()) {
+                    this.sendSignoutRequest()
+                }
+            },
+            isFormValid() {
+                for (var key in this.errors) {
+                    if (this.errors[key]) {
+                        return false
                     }
-                })
+                }
+                return true
             },
             sendSignoutRequest() {
                 axios.post(`${this.$store.getters.url}/logout`, this.formData)
@@ -75,21 +90,36 @@
                     this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
                 })
             },
-            checkPassId(rule, value, callback) {
+            checkFormData(name, regex, emptyErr, valueErr) {
+                if (!this.formData[name]) {
+                    this.errors[name] = emptyErr
+                }
+                else if (!regex.test(this.formData[name])) {
+                    this.errors[name] = valueErr
+                }
+                else {
+                    this.errors[name] = ""
+                }
+            },
+            checkPassId() {
                 var regex = new RegExp("^[0-9]{5}[a-z]$")
-                this.checkFormValueEmpty(value, "Please input Pass ID", callback)
-                this.checkFormValue(value, regex, "Pass ID has format: 0000a", callback)
+                var emptyErr = "Please input Pass ID"
+                var valueErr = "Pass ID has format: 00000a"
+                this.checkFormData("passId", regex, emptyErr, valueErr)
+            },
+            resetForm() {
+                for (var field in this.formData) {
+                    this.formData[field] = ""
+                }
+                for (var error in this.errors) {
+                    this.errors[error] = ""
+                }
             }
         }
     }
 </script>
 
 <style scoped>
-    button {
-        font-size: 16pt;
-        padding: 20px;
-    }
-
     .qrContainer {
         text-align: center;
     }

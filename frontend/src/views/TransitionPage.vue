@@ -1,29 +1,30 @@
 <template>
-    <el-main>
-        <main-logo></main-logo>
-        <el-row v-if="$route.query.transitionType == 'signout'">
-            <span id="name">{{ $route.query.name }}</span><span class="blueFont"> sign out success</span>
-            <h1>Please return your visitor pass to reception</h1>
-        </el-row>
-        <el-row v-if="$route.query.transitionType == 'signin'">
-            <span id="name">{{ $route.query.name }}</span><span class="blueFont"> sign in success</span>
-            <h1>Please collect your visitor pass from reception</h1>
-        </el-row>
-        <el-row>
-            <el-button type="primary" @click="changeRoute('home')">Home</el-button>
-        </el-row>
-    </el-main>
+    <nhs-main>
+        <nhs-row v-if="$route.query.transitionType == 'signout'">
+            <nhs-col>
+                <nhs-heading id="name" size="xl">{{ $route.query.name }} sign out success</nhs-heading>
+                <nhs-heading>Please return your visitor pass to reception</nhs-heading>
+            </nhs-col>
+        </nhs-row>
+        <nhs-row v-if="$route.query.transitionType == 'signin'">
+            <nhs-col>
+                <nhs-heading id="name" size="xl">{{ $route.query.name }} sign in success</nhs-heading>
+                <nhs-heading>Please return your visitor pass to reception</nhs-heading>
+            </nhs-col>
+        </nhs-row>
+        <nhs-row>
+            <nhs-col>
+                <nhs-button type="primary" @click="changeRoute('home')" name="home-button">Home</nhs-button>
+            </nhs-col>
+        </nhs-row>
+    </nhs-main>
 </template>
 
 <script>
     import FailureTracker from '@/mixins/failure-tracker.js'
     import RouteHelper from '@/mixins/route-helper.js'
-    import MainLogo from '@/components/common/MainLogo.vue'
 
     export default {
-        components: {
-            MainLogo
-        },
         mixins: [FailureTracker, RouteHelper],
         mounted() {
             setTimeout(() => {
@@ -32,23 +33,3 @@
         }
     }
 </script>
-
-<style scoped>
-    h1 {
-        font-size: 36pt;
-    }
-
-    span {
-        font-size: 36pt;
-        font-weight: bold;
-    }
-
-    .blueFont {
-        color: var(--nhs-blue);
-    }
-
-    button {
-        padding: 20px;
-        font-size: 16pt;
-    }
-</style>
