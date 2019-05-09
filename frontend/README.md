@@ -40,7 +40,7 @@ This is a Single Page Progressive Web Application created using [Vue.js](https:/
  - Central store:
    - Service status
    - Printer and database api host/port
-##### [Element-UI](https://element.eleme.io/#/en-US)
+##### [nhsuk-frontend-vue](https://github.com/xLasercut/nhsuk-frontend-vue)
  - UI library
 ##### [vue-qrcode-reader](https://github.com/gruhn/vue-qrcode-reader)
  - QR code reader for web cam for sign out page
