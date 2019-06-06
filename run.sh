@@ -86,7 +86,7 @@ if [[ -z $token ]]; then
     exit 1
 fi
 
-rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBackupPath")
+rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBackupPath" "$rootPath/template")
 
 createDirectories ${rootDirectories[*]}
 
