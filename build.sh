@@ -1,21 +1,5 @@
 #!/bin/bash
 
-function loadNvm() {
-    if [[ -d ~/.nvm ]]; then
-        echo "Node install from NVM found. Using NVM installed node"
-        export NVM_DIR=~/.nvm
-        source ~/.nvm/nvm.sh
-    fi
-}
-
-function buildFrontend() {
-    loadNvm
-    pushd ./frontend
-    npm install
-    npm run build
-    popd
-}
-
 while getopts ":s: :hn" opt; do
     case ${opt} in
         h )
