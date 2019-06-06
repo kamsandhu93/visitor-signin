@@ -90,6 +90,8 @@ rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBacku
 
 createDirectories ${rootDirectories[*]}
 
+sudo cp -r ./printing/template/. "$rootPath/template/."
+
 export DROPBOX_TOKEN=$token
 export DB_FILE=$dbName
 export REQUEST_HOST=$hostIp
