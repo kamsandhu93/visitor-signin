@@ -19,9 +19,9 @@ RUN apk -q update && apk -q upgrade \
 
 WORKDIR $WORK_DIR
 
-COPY pi-build/package.json $WORK_DIR/package.json
+COPY package.json $WORK_DIR/package.json
 
-RUN npm install
+RUN npm install --no-optional
 
 COPY public/. $WORK_DIR/public/.
 COPY src/. $WORK_DIR/src/.
