@@ -23,10 +23,7 @@ COPY package.json $WORK_DIR/package.json
 
 RUN npm install --no-optional
 
-COPY public/. $WORK_DIR/public/.
-COPY src/. $WORK_DIR/src/.
-COPY healthcheck.sh $WORK_DIR/.
-COPY start.sh $WORK_DIR/.
+COPY . $WORK_DIR/.
 
 RUN npm run build
 
