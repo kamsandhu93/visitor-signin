@@ -1,18 +1,20 @@
 @page {
-    size: 10cm 5.7cm;
+    size: 10cm 6.2cm;
     margin: 0;
-    padding: 0;
+    padding: 0.3cm;
 }
 
 body {
+    height: 100%;
+    width: 100%;
     font-family: Arial;
     margin: 0;
     padding: 0;
 }
 
 .box {
-    width: calc(100% - 0.6cm);
-    height: calc(100% - 0.6cm);
+    width: calc(100% - 0.7cm);
+    height: calc(100% - 0.7cm);
     border: 1px solid black;
     float: left;
     margin: 0.3cm;
