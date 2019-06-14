@@ -1,75 +1,73 @@
 @page {
-    size: 9.3cm 6.2cm;
-    margin: 0cm;
+    size: 10cm 5.7cm;
+    margin: 0;
+    padding: 0;
 }
 
 body {
     font-family: Arial;
-    margin: 0cm;
+    margin: 0;
+    padding: 0;
 }
 
 .box {
-    width: 9.18cm;
-    height: 6.08cm;
-    border: 0.5mm solid black;
+    width: calc(100% - 0.6cm);
+    height: calc(100% - 0.6cm);
+    border: 1px solid black;
     float: left;
+    margin: 0.3cm;
 }
 
-.p1Header {
+.header {
     width: 100%;
-    height: 0.5cm;
-    line-height: 0.5cm;
     font-size: 11pt;
     text-align: center;
 }
 
-.p1Main {
+.content-main {
+    height: 1.8cm;
+    float: left;
     width: 100%;
-    text-align: center;
     word-wrap: break-word;
 }
 
-.p1Img {
-    width: 100%;
-    height: 2cm;
-    margin-right: 0.5cm;
-    margin-left: 0.5cm;
-}
-
-.p1LogoContainer {
-    width: 20%;
+.logo {
+    margin-left: 0.3cm;
     height: 100%;
     float: left;
 }
 
-.logo {
-    margin: 0;
-    height: 100%;
-}
-
 .visitor{
-    font-size: 40pt;
+    height: 100%;
+    font-size: 36pt;
     font-weight: 900;
-    color: #000000;
+    float: right;
+    margin-right: 0.3cm;
 }
 
-.p1Secondary {
-    height: 0.7cm;
-    line-height: 0.7cm;
+#name {
+    width: 100%;
+    float: left;
+    font-size: 30pt;
+    font-weight: 600;
+    text-align: center;
+}
+
+#company {
+    font-size: 20pt;
+    font-weight: 600;
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+
+.content-secondary {
     width: 100%;
     font-size: 11pt;
-    margin-top: 0.1cm;
-    padding-right: 0.3cm;
-    padding-left: 0.3cm;
+    float: left;
+    text-align: center;
 }
 
-.visitorDetailsName {
-    font-size: 30pt;
-}
-
-.visitorDetailsCompany {
-    font-size: 20pt;
-}
 
 #date {
     width: 50%;
@@ -82,16 +80,17 @@ body {
 }
 
 
-.p1Footer {
+.footer {
     width: 100%;
     color: #ff0000;
     font-size: 8pt;
     font-weight: bold;
     text-align: center;
+    float: left;
 }
 
 h3 {
-    margin: 0.1cm;
+    margin: 0;
     font-size: 12pt;
 }
 
