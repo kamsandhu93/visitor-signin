@@ -3,13 +3,13 @@
         <nhs-row v-if="$route.query.transitionType == 'signout'">
             <nhs-col>
                 <nhs-heading id="name" size="xl">{{ $route.query.name }} sign out success</nhs-heading>
-                <nhs-heading>Please return your visitor pass to reception</nhs-heading>
+                <nhs-heading id="msg">Please return your visitor pass to reception</nhs-heading>
             </nhs-col>
         </nhs-row>
         <nhs-row v-if="$route.query.transitionType == 'signin'">
             <nhs-col>
                 <nhs-heading id="name" size="xl">{{ $route.query.name }} sign in success</nhs-heading>
-                <nhs-heading>Please return your visitor pass to reception</nhs-heading>
+                <nhs-heading id="msg">Please collect your visitor pass from reception</nhs-heading>
             </nhs-col>
         </nhs-row>
         <nhs-row>
