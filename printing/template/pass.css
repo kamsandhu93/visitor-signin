@@ -64,10 +64,12 @@ body {
 }
 
 .content-secondary {
+    position: absolute;
     width: 100%;
     font-size: 11pt;
-    float: left;
     text-align: center;
+    left: 0;
+    bottom: 1.3cm;
 }
 
 
@@ -83,12 +85,14 @@ body {
 
 
 .footer {
+    position: absolute;
     width: 100%;
     color: #ff0000;
     font-size: 8pt;
     font-weight: bold;
     text-align: center;
-    float: left;
+    left: 0;
+    bottom: 0.5cm;
 }
 
 h3 {
