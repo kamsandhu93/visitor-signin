@@ -1,7 +1,7 @@
 @page {
     size: 10cm 6.2cm;
     margin: 0;
-    padding: 0.3cm;
+    padding: 0;
 }
 
 body {
@@ -13,8 +13,8 @@ body {
 }
 
 .box {
-    width: calc(100% - 0.7cm);
-    height: calc(100% - 0.7cm);
+    width: 9.2cm;
+    height: 5.5cm;
     border: 1px solid black;
     float: left;
     margin: 0.3cm;
@@ -72,12 +72,12 @@ body {
 
 
 #date {
-    width: 50%;
+    width: 49%;
     float: left;
 }
 
 #passId {
-    width: 50%;
+    width: 49%;
     float: left;
 }
 
