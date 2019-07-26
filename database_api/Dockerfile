@@ -2,10 +2,10 @@ FROM python:3.7-alpine
 
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
-ARG WORK_DIR=/databaseapi
+ARG WORK_DIR=/home/databaseapi
 
-ENV DB_PATH $WORK_DIR/database
-ENV LOG_PATH $WORK_DIR/log/database_api.log
+ENV DB_PATH /home/database
+ENV LOG_PATH /home/log/database_api.log
 
 COPY /requirements.txt $WORK_DIR/requirements.txt
 
@@ -17,8 +17,8 @@ RUN apk -q update && apk -q upgrade \
  #purge cache
  && rm -rf /var/cache/apk/* \
  #create work directory
- && mkdir $WORK_DIR/log \
- && mkdir $WORK_DIR/database
+ && mkdir /home/log \
+ && mkdir /home/database
 
 COPY . $WORK_DIR/.
 

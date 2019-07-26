@@ -66,6 +66,6 @@ def send_job_to_printer():
     printid = conn.printFile('Brother_QL-820NWB',app.config["PASS_PDF_PATH"],"",{})
     while printid in conn.getJobs():
         time.sleep(0.5)
-        counter+=1
-	    if counter >= 20:
-            raise exceptions.UnableToPrintException("Print failed for user name={0} printid with passId={1}".format(name,pass_id))
+        counter += 1
+        if counter >= 20:
+            raise exceptions.UnableToPrintException("Print failed for user name={0} printid with passId={1}".format(name, pass_id))

@@ -1,20 +1,5 @@
 version: '3'
 services:
-    backup:
-        restart: unless-stopped
-        build:
-            context: './backup/'
-        environment:
-            - HOST=0.0.0.0
-            - PORT=5004
-            - DB_FILE
-            - DROPBOX_TOKEN
-        ports:
-            - 5004:5004
-        volumes:
-            - /opt/visitorsignin/database:/backupservice/database
-            - /opt/visitorsignin/log:/backupservice/log
-            - ${OFFLINE_BACKUP_PATH}:/backupservice/offline_backup
     database-api:
         restart: unless-stopped
         build:
@@ -26,10 +11,9 @@ services:
         ports:
             - 5000:5000
         volumes:
-            - /opt/visitorsignin/database:/databaseapi/database
-            - /opt/visitorsignin/log:/databaseapi/log
-        depends_on:
-            - backup
+            - ./production/database:/home/database
+            - ./production/log:/home/log
+            - ./database_api:/home/databaseapi
     database-admin:
         restart: unless-stopped
         build:
@@ -41,9 +25,7 @@ services:
         ports:
             - 5001:5001
         volumes:
-            - /opt/visitorsignin/database:/databaseadmin/database
-        depends_on:
-            - backup
+            - ./production/database:/home/database
     print:
         restart: unless-stopped
         build:
@@ -54,8 +36,8 @@ services:
         ports:
             - 5002:5002
         volumes:
-            - /opt/visitorsignin/log:/printservice/log
-            - /opt/visitorsignin/template:/printservice/template
+            - ./production/log:/home/log
+            - ./printing:/home/printservice
     frontend:
         restart: unless-stopped
         build:
