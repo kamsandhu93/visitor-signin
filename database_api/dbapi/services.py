@@ -44,17 +44,3 @@ def generate_pass_id():
     data_access.update_last_pass_id(pass_id)
 
     return pass_id
-
-
-def send_backup_request():
-        try:
-            url = app.config["BACKUP_ENDPOINT"]
-            request = requests.post(url)
-
-            if request.status_code != 200:
-                raise exceptions.DatabaseBackupException
-
-            app.logger.info("Backup successful")
-
-        except Exception as e:
-            app.logger.warn(e)

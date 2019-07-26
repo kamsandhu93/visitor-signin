@@ -4,6 +4,8 @@ from datetime import datetime
 
 import subprocess
 import qrcode
+import cups
+import time
 
 from printapi import app, exceptions
 
@@ -13,7 +15,6 @@ def print_pass(pass_data):
     pass_id = pass_data["passId"]
     # Because optional
     company = pass_data.get("company", "")
-
     generate_html_pass(name, company, pass_id)
     convert_html_pass_to_pdf()
     send_job_to_printer()
@@ -60,9 +61,11 @@ def convert_html_pass_to_pdf():
 
 
 def send_job_to_printer():
-    bash_command = "lp {0}".format(app.config["PASS_PDF_PATH"])
-    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
-    output, error = process.communicate()
-    app.logger.info("Print job output {}".format(output))
-    if error:
-        raise exceptions.UnableToPrintException(error)
+    conn = cups.Connection ()
+    counter = 0
+    printid = conn.printFile('Brother_QL-820NWB',app.config["PASS_PDF_PATH"],"",{})
+    while printid in conn.getJobs():
+        time.sleep(0.5)
+        counter+=1
+	    if counter >= 20:
+            raise exceptions.UnableToPrintException("Print failed for user name={0} printid with passId={1}".format(name,pass_id))
