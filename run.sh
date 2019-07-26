@@ -86,9 +86,11 @@ if [[ -z $token ]]; then
     exit 1
 fi
 
-rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBackupPath")
+rootDirectories=("$rootPath" "$rootPath/database" "$rootPath/log" "$offlineBackupPath" "$rootPath/template")
 
 createDirectories ${rootDirectories[*]}
+
+sudo cp -r ./printing/template/. "$rootPath/template/."
 
 export DROPBOX_TOKEN=$token
 export DB_FILE=$dbName

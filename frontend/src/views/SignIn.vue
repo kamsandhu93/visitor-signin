@@ -57,10 +57,14 @@
 
                 <nhs-row>
                     <nhs-col :span="50">
-                        <nhs-button name="dialog-confirm-button" @click="sendSigninRequest()">Confirm</nhs-button>
+                        <nhs-button name="dialog-confirm-button" :disabled="disableBtn" @click="sendSigninRequest()">
+                            Confirm
+                        </nhs-button>
                     </nhs-col>
                     <nhs-col :span="50">
-                        <nhs-button color="secondary" name="dialog-cancel-button" @click="confirmDialog = false">Cancel</nhs-button>
+                        <nhs-button color="secondary" name="dialog-cancel-button" :disabled="disableBtn" @click="confirmDialog = false">
+                            Cancel
+                        </nhs-button>
                     </nhs-col>
                 </nhs-row>
             </nhs-care-card>
@@ -96,7 +100,8 @@
                     surname: "" ,
                     visiting: "",
                     company: ""
-                }
+                },
+                disableBtn: false
             }
         },
         methods: {
@@ -119,6 +124,7 @@
             },
             sendSigninRequest() {
                 this.removeEmptyOptionalKeys(['company'])
+                this.disableBtn = true
                 axios.post(`${this.$store.getters.url}/login`, this.formData)
                 .then((response) => {
                     var query = {
@@ -126,9 +132,11 @@
                         company: this.formData['company'],
                         passId: response.data.passId
                     }
+                    this.disableBtn = false
                     this.changeRouteQuery('pass', query)
                 })
                 .catch((e) => {
+                    this.disableBtn = false
                     this.notifyError("An error occured when signing in - please try again. If problem persists, please inform the receptionist.")
                 })
             },

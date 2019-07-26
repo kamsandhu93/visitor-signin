@@ -19,9 +19,13 @@ RUN apk -q update && apk -q upgrade \
 
 WORKDIR $WORK_DIR
 
-COPY dist $WORK_DIR/dist/.
-COPY healthcheck.sh $WORK_DIR/.
-COPY start.sh $WORK_DIR/.
+COPY package.json $WORK_DIR/package.json
+
+RUN npm install --no-optional
+
+COPY . $WORK_DIR/.
+
+RUN npm run build
 
 HEALTHCHECK --interval=1m30s --timeout=10s --retries=10 \
      CMD /bin/bash healthcheck.sh

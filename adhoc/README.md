@@ -14,6 +14,19 @@ ONLY USE THIS SCRIPT ON RASPBERRY PI
 To setup ad-hoc, use operation type `set`
 To un-setup ad-hoc, use operation type `unset`
 
+**NOTE: Due to an update to hostapd. raspberry pi will automatically mask hostapd if an invalid country code is detected.**
+To check for this issue run:
+`sudo systemctl start hostapd`
+The following message should appear:
+`Failed to start hostapd.service: Unit hostapd.service is masked.`
+
+To fix, run the following commands:
+```
+sudo systemctl unmask hostapd
+sudo systemctl enable hostapd
+sudo systemctl start hostapd
+```
+
 ## How it works
 The setup script does a few things.
 ### Disable Wifi

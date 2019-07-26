@@ -55,6 +55,7 @@ services:
             - 5002:5002
         volumes:
             - /opt/visitorsignin/log:/printservice/log
+            - /opt/visitorsignin/template:/printservice/template
     frontend:
         restart: unless-stopped
         build:

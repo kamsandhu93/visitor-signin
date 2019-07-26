@@ -19,7 +19,7 @@
                     @blur="checkPassId()"
                 ></form-item>
 
-                <form-button @submitForm="submitForm()" @resetForm="resetForm()"></form-button>
+                <form-button @submitForm="submitForm()" @resetForm="resetForm()" :disabled="disableBtn"></form-button>
             </nhs-col>
         </nhs-row>
     </nhs-main>
@@ -53,7 +53,8 @@
                 qrVideoOptions: {
                     facingMode: 'user'
                 },
-                qron: false
+                qron: false,
+                disableBtn: false
             }
         },
         methods: {
@@ -77,6 +78,7 @@
                 return true
             },
             sendSignoutRequest() {
+                this.disableBtn = true
                 axios.post(`${this.$store.getters.url}/logout`, this.formData)
                 .then((response) => {
                     var name = `${response.data.firstname} ${response.data.surname}`
@@ -84,9 +86,11 @@
                         transitionType: 'signout',
                         name: name
                     }
+                    this.disableBtn = false
                     this.changeRouteQuery('transition', query)
                 })
                 .catch((e) => {
+                    this.disableBtn = false
                     this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
                 })
             },

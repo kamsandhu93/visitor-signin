@@ -1,147 +1,102 @@
 @page {
-    size: A4;
-    margin: 0.1cm;
+    size: 10cm 6.2cm;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: Arial;
-}
-
-.row {
-    float: left;
+    height: 100%;
     width: 100%;
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
 }
 
 .box {
-    width: 9.3cm;
-    height: 7.5cm;
-    border: 2px solid black;
-    padding: 0.3cm;
+    width: 9.2cm;
+    height: 5.5cm;
+    border: 1px solid black;
     float: left;
+    margin: 0.3cm;
 }
 
-.p1Header {
+.header {
     width: 100%;
-    height: 0.5cm;
-    line-height: 0.5cm;
     font-size: 11pt;
     text-align: center;
 }
 
-.p1Main {
+.content-main {
+    height: 1.8cm;
+    float: left;
     width: 100%;
-    height: 5cm;
-    text-align: center;
     word-wrap: break-word;
 }
 
-.p1Img {
-    width: 100%;
-    height: 2cm;
-}
-
-.p1LogoContainer {
-    width: 50%;
-    height: 100%;
-    float: left;
-}
-
-.p1QrContainer {
-    width: 50%;
-    height: 100%;
-    float: left;
-}
-
 .logo {
-    margin: 0;
+    margin-left: 0.3cm;
     height: 100%;
+    float: left;
 }
 
 .visitor{
-    font-size: 32pt;
+    height: 100%;
+    font-size: 36pt;
     font-weight: 900;
-    color: #000000;
+    float: right;
+    margin-right: 0.3cm;
 }
 
-.p1Secondary {
-    height: 0.7cm;
-    line-height: 0.7cm;
+#name {
+    width: 100%;
+    float: left;
+    font-size: 30pt;
+    font-weight: 600;
+    text-align: center;
+}
+
+#company {
+    font-size: 20pt;
+    font-weight: 600;
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+
+.content-secondary {
+    position: absolute;
     width: 100%;
     font-size: 11pt;
-    margin-top: 0.1cm;
+    text-align: center;
+    left: 0;
+    bottom: 1.3cm;
 }
 
+
 #date {
-    width: 50%;
+    width: 49%;
     float: left;
 }
 
 #passId {
-    width: 50%;
+    width: 49%;
     float: left;
 }
 
-#qr {
-    height: 100%;
-    margin: 0;
-}
 
-.p1Footer {
+.footer {
+    position: absolute;
     width: 100%;
-    height: 1.2cm;
     color: #ff0000;
-    font-size: 9pt;
+    font-size: 8pt;
     font-weight: bold;
     text-align: center;
-}
-
-.p2Header {
-    width: 100%;
-    font-size: 9pt;
-    text-align: center;
-}
-
-.p2Main {
-    font-size: 9.8pt;
-    text-align: justify;
-    width: 100%;
-}
-
-.p3Header {
-    font-size: 14pt;
-    color: #ff0000;
-    text-align: center;
-}
-
-.p3Main {
-    text-align: justify;
-    font-size: 11pt;
-}
-
-.p4Header {
-    font-size: 14pt;
-    color: #ff0000;
-    text-align: center;
-}
-
-.p4Main {
-    width: 100%;
-    text-align: center;
+    left: 0;
+    bottom: 0.5cm;
 }
 
 h3 {
-    margin: 0.2cm;
+    margin: 0;
     font-size: 12pt;
 }
 
-ul {
-    margin-left: -0.6cm;
-}
-
-.diagram {
-    width: 70%;
-}
-
-.blueFont {
-    color: #0000ff;
-}
