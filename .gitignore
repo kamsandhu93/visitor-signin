@@ -75,7 +75,7 @@ Docker/docker-data/
 **/share/
 **/include/
 .env
-
+.venv
 
 
 .DS_Store
