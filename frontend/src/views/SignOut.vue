@@ -75,7 +75,7 @@
                 this.disableBtn = true
                 axios.post(`${this.$store.getters.url}/logout`, this.formData)
                 .then((response) => {
-                    var name = `${response.data.firstname} ${response.data.surname}`
+                    var name = `${response.data.firstName} ${response.data.surname}`
                     var query = {
                         transitionType: 'signout',
                         name: name

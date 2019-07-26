@@ -1,9 +1,9 @@
 FROM python:3.7-alpine
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
-ARG WORK_DIR=/databaseadmin
+ARG WORK_DIR=/home/databaseadmin
 
-ENV DB_PATH $WORK_DIR/database
+ENV DB_PATH /home/database
 
 COPY . $WORK_DIR/.
 
@@ -16,8 +16,7 @@ RUN apk -q update && apk -q upgrade \
  #purge cache
  && rm -rf /var/cache/apk/* \
  #make work directory
- && mkdir $WORK_DIR/log \
- && mkdir $WORK_DIR/database
+ && mkdir /home/database
 
 WORKDIR $WORK_DIR
 

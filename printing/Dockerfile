@@ -2,9 +2,9 @@ FROM python:3.7-slim
 
 LABEL maintainer="NHS Digital Delivery Centre,  Team-Grads"
 
-ARG WORK_DIR=/printservice
+ARG WORK_DIR=/home/printservice
 
-ENV LOG_PATH $WORK_DIR/log/print.log
+ENV LOG_PATH /home/log/print.log
 
 COPY /requirements.txt $WORK_DIR/requirements.txt
 
@@ -29,7 +29,7 @@ RUN apt-get -qq update \
  libffi-dev \
  && rm -rf /var/lib/apt/lists/* \
  #make working directories
- && mkdir $WORK_DIR/log \
+ && mkdir /home/log \
  && touch /etc/cups/client.conf
 
 COPY . $WORK_DIR/.
