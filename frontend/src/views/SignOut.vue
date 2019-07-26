@@ -14,9 +14,9 @@
             <nhs-col>
                 <form-item
                     id="passId" name="passId" :maxlength="6"
-                    label="Pass ID" :error="errors['passId']"
+                    label="Pass ID" :rules="rules['passId']"
                     v-model.trim="formData['passId']"
-                    @blur="checkPassId()"
+                    ref="passId"
                 ></form-item>
 
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()" :disabled="disableBtn"></form-button>
@@ -47,8 +47,11 @@
                 formData: {
                     passId: ""
                 },
-                errors: {
-                    passId: ""
+                rules: {
+                    passId: [
+                        (v) => !!v.match(/^[0-9]{5}[a-z]$/) || 'Pass ID has format: 00000a',
+                        (v) => !!v || 'Please input Pass ID'
+                    ]
                 },
                 qrVideoOptions: {
                     facingMode: 'user'
@@ -61,27 +64,18 @@
             submitQR(decodedQr) {
                 this.formData["passId"] = decodedQr
                 this.readerPaused = true
-                this.submitForm('signOutForm')
+                this.submitForm()
             },
-            submitForm(formName) {
-                this.checkPassId()
-                if (this.isFormValid()) {
+            submitForm() {
+                if (!this.$refs.passId.validate()) {
                     this.sendSignoutRequest()
                 }
-            },
-            isFormValid() {
-                for (var key in this.errors) {
-                    if (this.errors[key]) {
-                        return false
-                    }
-                }
-                return true
             },
             sendSignoutRequest() {
                 this.disableBtn = true
                 axios.post(`${this.$store.getters.url}/logout`, this.formData)
                 .then((response) => {
-                    var name = `${response.data.firstname} ${response.data.surname}`
+                    var name = `${response.data.firstName} ${response.data.surname}`
                     var query = {
                         transitionType: 'signout',
                         name: name
@@ -91,32 +85,17 @@
                 })
                 .catch((e) => {
                     this.disableBtn = false
-                    this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
+                    if (e.response.status === 409) {
+                        this.notifyError(`PassID: ${this.formData['passId']} has already signed out`)
+                    }
+                    else {
+                        this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
+                    }
                 })
-            },
-            checkFormData(name, regex, emptyErr, valueErr) {
-                if (!this.formData[name]) {
-                    this.errors[name] = emptyErr
-                }
-                else if (!regex.test(this.formData[name])) {
-                    this.errors[name] = valueErr
-                }
-                else {
-                    this.errors[name] = ""
-                }
-            },
-            checkPassId() {
-                var regex = new RegExp("^[0-9]{5}[a-z]$")
-                var emptyErr = "Please input Pass ID"
-                var valueErr = "Pass ID has format: 00000a"
-                this.checkFormData("passId", regex, emptyErr, valueErr)
             },
             resetForm() {
                 for (var field in this.formData) {
                     this.formData[field] = ""
-                }
-                for (var error in this.errors) {
-                    this.errors[error] = ""
                 }
             }
         }

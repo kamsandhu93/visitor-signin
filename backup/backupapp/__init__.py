@@ -1,8 +1,7 @@
 import logging
-
-
 from flask import Flask
 from flask_cors import CORS
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +13,7 @@ logFormat = "%(asctime)s | Backup Restore Service | %(levelname)s | %(message)s"
 formatter = logging.Formatter(logFormat)
 logger = logging.getLogger()
 
-fileHandler = logging.FileHandler(logPath)
+fileHandler = RotatingFileHandler(logPath, maxBytes=5242880, backupCount=5)
 fileHandler.setFormatter(formatter)
 app.logger.addHandler(fileHandler)
 

@@ -19,7 +19,6 @@ def login_handler():
         validate_request_body_values(request_body)
         pass_id = services.login(request_body)
         app.logger.info("User logged in: {}".format(pass_id))
-        services.send_backup_request()
 
         return jsonify({"passId": pass_id}), 200
     except(exceptions.InvalidRequestBodyKeysException, exceptions.InvalidRequestBodyValuesException) as ex:
@@ -43,7 +42,6 @@ def logout_handler():
         full_name = services.logout(request_body)
         app.logger.info("User logged out: {} {}".format(full_name, request_body["passId"]))
 
-        services.send_backup_request()  #TODO should this be here
 
         response = {
             "firstName": full_name[0],
