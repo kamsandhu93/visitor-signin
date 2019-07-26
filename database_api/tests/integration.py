@@ -157,5 +157,92 @@ class HappyPathTestCase(BaseTestCase):
             self.assertTrue(datetime.datetime.strptime(row[5], '%Y-%m-%d %H:%M:%S'))# checking is valid date
 
 
+class BadRequestTestCase(BaseTestCase):
+
+    def test_bad_login_request_no_name(self):
+        login_request = {
+            "surname": "uhdnas",
+            "visiting": "anker"
+        }
+        with self.app_test_client as client:
+            result = client.post('/login',
+                                 data=json.dumps(login_request),
+                                 content_type='application/json')
+            self.assertEqual('400 BAD REQUEST', result.status)
+            self.assertEqual('Bad Request', result.json)
+
+    def test_bad_login_request_no_surname(self):
+        login_request = {
+            "name": "darb",
+            "visiting": "anker"
+        }
+        with self.app_test_client as client:
+            result = client.post('/login',
+                                 data=json.dumps(login_request),
+                                 content_type='application/json')
+            self.assertEqual('400 BAD REQUEST', result.status)
+            self.assertEqual('Bad Request', result.json)
+
+    def test_bad_login_request_no_visiting(self):
+        login_request = {
+            "name": "darb",
+            "surname": "anker"
+        }
+        with self.app_test_client as client:
+            result = client.post('/login',
+                                 data=json.dumps(login_request),
+                                 content_type='application/json')
+            self.assertEqual('400 BAD REQUEST', result.status)
+            self.assertEqual('Bad Request', result.json)
+
+    def test_bad_logout_request_no_pass_id(self):
+        logout_request = {}
+        with self.app_test_client as client:
+            result = client.post('/logout',
+                                 data=json.dumps(logout_request),
+                                 content_type='application/json')
+            self.assertEqual('400 BAD REQUEST', result.status)
+            self.assertEqual('Bad Request', result.json)
+
+
+class LoggedOutTwiceTestcase(BaseTestCase):
+
+    def test_already_logged_out(self):
+        login_request = {
+            "name": "darb",
+            "surname": "gnaw",
+            "visiting": "rekna",
+            "company": "digitalnhs"
+        }
+
+        with self.app_test_client as client:
+            result = client.post('/login',
+                                 data=json.dumps(login_request),
+                                 content_type='application/json')
+            self.assertEqual('200 OK', result.status)
+
+
+        # logout 1
+        logout_request = {
+            "passId": result.json['passId'],
+        }
+        with self.app_test_client as client:
+            result_2 = client.post('/logout',
+                                 data=json.dumps(logout_request),
+                                 content_type='application/json')
+            self.assertEqual('200 OK', result_2.status)
+
+        # logout 2
+        # logout
+        logout_request = {
+            "passId": result.json['passId'],
+        }
+        with self.app_test_client as client:
+            result_2 = client.post('/logout',
+                                 data=json.dumps(logout_request),
+                                 content_type='application/json')
+            self.assertEqual('409 CONFLICT', result_2.status)
+
+
 if __name__ == '__main__':
     unittest.main()
