@@ -33,16 +33,16 @@ The `qr.png` used by the template is generated using qrcode[pil].
 The full template is then converted to pdf via weasyprint.
 
 ### Pass Printing
-Python sends `lp <document>` command to bash. `lp` command prints to the default cups printer. Printing will fail if no default printer is set.
+Uses pycups to print document.
 
 When printing from container, `start.sh` adds the host IP address to `/etc/cups/client.conf`. This allows the cups server in the container to connect to the cups server on the host. The `lp` command will send print jobs to the default printer on the host instead.
 
 ### Logging
-Log location is `/printservice/log`. This is persisted to `/opt/visitorsignin/log` of the host
+Log location is `/home/log`. This is persisted to `./production/log` of the repository on host
 
 ### Configuration
 The flask application can be configured by setting environmental variables before running.
  - HOST - Host of flask application (default: 127.0.0.1)
  - PORT - Port of flask application (default: 5002)
- - LOG_PATH - Absolute path of log file (e.g. /printservice/log/print.log)
- - TEMPLATE_PATH - Absolute path of the template directory (e.g. /printservice/template)
+ - LOG_PATH - Absolute path of log file (e.g. /home/log/print.log)
+ - TEMPLATE_PATH - Absolute path of the template directory (e.g. /home/printservice/template)

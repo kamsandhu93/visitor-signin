@@ -11,7 +11,4 @@ Website to view and edit database data
 Hosts [sqlite-web](https://github.com/coleifer/sqlite-web) package in the container.
 
 ### Database
-Database file location is `/databaseadmin/database`. This is persisted to `/opt/visitorsignin/database` of the host.
-
-### Logging
-Log location is `/databaseadmin/log`. This is persisted to `/opt/visitorsignin/log` of the host
+Database file location is `/home/database`. This is persisted to `./production/database` of the repository on host.
