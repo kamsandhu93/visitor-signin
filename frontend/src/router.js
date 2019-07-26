@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from '@/views/Home.vue'
 import SignIn from '@/views/SignIn.vue'
 import SignOut from '@/views/SignOut.vue'
-import Pass from '@/views/Pass.vue'
+import PrintLoading from '@/views/PrintLoading.vue'
 import ErrorPage from '@/views/Error.vue'
 import TransitionPage from '@/views/TransitionPage.vue'
 import PrintError from '@/views/PrintError.vue'
@@ -32,9 +32,9 @@ export default new Router({
             redirect: '/'
         },
         {
-            path: '/pass',
-            name: 'pass',
-            component: Pass
+            path: '/loading',
+            name: 'loading',
+            component: PrintLoading
         },
         {
             path: '/error',
