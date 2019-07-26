@@ -17,7 +17,7 @@ def print_pass(pass_data):
     company = pass_data.get("company", "")
     generate_html_pass(name, company, pass_id)
     convert_html_pass_to_pdf()
-    send_job_to_printer(pass_id)
+    send_job_to_printer(print_id)
 
 
 def generate_html_pass(name, company, pass_id):
@@ -60,7 +60,7 @@ def convert_html_pass_to_pdf():
     HTML(app.config["GENERATED_HTML_PASS_PATH"]).write_pdf(app.config["PASS_PDF_PATH"])
 
 
-def send_job_to_printer(pass_id):
+def send_job_to_printer(print_id):
     conn = cups.Connection()
     counter = 0
     printid = conn.printFile('Brother_QL-820NWB',app.config["PASS_PDF_PATH"],"",{})
@@ -68,4 +68,4 @@ def send_job_to_printer(pass_id):
         time.sleep(0.5)
         counter += 1
         if counter >= 20:
-            raise exceptions.UnableToPrintException("Print failed for passId={0}".format(pass_id))
+            raise exceptions.UnableToPrintException("Print failed for printId={0}".format(print_id))
