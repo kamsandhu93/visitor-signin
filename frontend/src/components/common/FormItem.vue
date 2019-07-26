@@ -1,16 +1,15 @@
 <template>
     <nhs-input
-        v-model="body" :name="name"
-        @blur="$emit('blur')" :id="id" :maxlength="maxlength"
+        v-model="body" :label="label" :name="name"
+        :id="id" :maxlength="maxlength"
+        :rules="rules" ref="input"
     >
-        <nhs-error-text slot="error" v-if="error">{{error}}</nhs-error-text>
-        <nhs-label slot="label">{{label}}</nhs-label>
     </nhs-input>
 </template>
 
 <script>
     export default {
-        props: ["label", "value", "error", "id", "name", "maxlength"],
+        props: ["label", "value", "id", "name", "maxlength", "rules"],
         data() {
             return {
                 body: this.value
@@ -22,6 +21,11 @@
             },
             value(val) {
                 this.body = val
+            }
+        },
+        methods: {
+            validate() {
+                return this.$refs.input.validate()
             }
         }
     }

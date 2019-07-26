@@ -70,19 +70,4 @@ describe('Routing Tests', () => {
         cy.contains('h1', 'Visitor Registration')
         cy.url().should('eq', `${Cypress.config().baseUrl}#/`)
     })
-
-    it(' Check pass page dynamic fields', () => {
-        cy.server()
-        cy.route({
-            method: 'POST',
-            url: 'http://127.0.0.1:5002/print',
-            response: "Internal Server Error",
-            status: 500
-        })
-
-        cy.visit('/#/pass?name=testName&company=testCompany&passId=00045a')
-        cy.contains('#name', 'testName')
-        cy.contains('#company', 'testCompany')
-        cy.contains('.passId', '00045a')
-    })
 })

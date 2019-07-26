@@ -2,6 +2,7 @@ import logging
 from flask import Flask
 from flask_cors import CORS
 from flask.logging import default_handler
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +15,7 @@ log_format = "%(asctime)s | Database API | %(levelname)s | %(message)s"
 formatter = logging.Formatter(log_format)
 logger = logging.getLogger()
 
-file_handler = logging.FileHandler(log_path)
+file_handler = RotatingFileHandler(log_path, maxBytes=5242880, backupCount=5)
 file_handler.setFormatter(formatter)
 app.logger.addHandler(file_handler)
 

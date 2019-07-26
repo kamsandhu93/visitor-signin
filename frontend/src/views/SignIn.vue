@@ -8,28 +8,28 @@
         <nhs-row>
             <nhs-col>
                 <form-item
-                    label="First Name" :error="errors['name']"
+                    label="First Name" :rules="rules['name']"
                     v-model.trim="formData['name']" id="name" name="name" :maxlength="32"
-                    @blur="checkFirstName()"
+                    ref="name"
                 ></form-item>
 
                 <form-item
-                    label="Surname" :error="errors['surname']"
+                    label="Surname" :rules="rules['surname']"
                     v-model.trim="formData['surname']" id="surname" name="surname" :maxlength="32"
-                    @blur="checkLastName()"
+                    ref="surname"
                 ></form-item>
 
                 <form-item
-                    label="Visiting" :error="errors['visiting']"
+                    label="Visiting" :rules="rules['visiting']"
                     v-model.trim="formData['visiting']" id="visiting" name="visiting" :maxlength="32"
-                    @blur="checkVisiting()"
+                    ref="visiting"
                 ></form-item>
 
 
                 <form-item
-                    label="Company" :error="errors['company']"
+                    label="Company" :rules="rules['company']"
                     v-model.trim="formData['company']" id="company" name="company" :maxlength="32"
-                    @blur="checkCompany()"
+                    ref="company"
                 ></form-item>
 
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()"></form-button>
@@ -95,32 +95,40 @@
                     company: ""
                 },
                 confirmDialog: false,
-                errors: {
-                    name: "",
-                    surname: "" ,
-                    visiting: "",
-                    company: ""
-                },
-                disableBtn: false
+                disableBtn: false,
+                rules: {
+                    name: [
+                        (v) => !!v.match(/^[A-Za-z]{1,32}$/) || 'Accepted characters: A-Z, a-z',
+                        (v) => !!v || 'Please input your first name'
+                    ],
+                    surname: [
+                        (v) => !!v.match(/^[A-Za-z]{1,32}$/) || 'Accepted characters: A-Z, a-z',
+                        (v) => !!v || 'Please input your last name'
+                    ],
+                    visiting: [
+                        (v) => !!v.match(/^[A-Za-z ]{1,32}$/) || 'Accepted characters: A-Z, a-z and space',
+                        (v) => !!v || 'Please input who you are visiting'
+                    ],
+                    company: [
+                        (v) => !!v.match(/^[A-Za-z0-9 ]{0,32}$/) || 'Accepted characters: A-Z, a-z, 0-9 and space'
+                    ]
+                }
             }
         },
         methods: {
             submitForm() {
-                this.checkFirstName()
-                this.checkLastName()
-                this.checkVisiting()
-                this.checkCompany()
                 if (this.isFormValid()) {
                     this.confirmDialog = true
                 }
             },
             isFormValid() {
-                for (var key in this.errors) {
-                    if (this.errors[key]) {
-                        return false
+                var valid = true
+                for (var key in this.$refs) {
+                    if (this.$refs[key].validate()) {
+                        valid = false
                     }
                 }
-                return true
+                return valid
             },
             sendSigninRequest() {
                 this.removeEmptyOptionalKeys(['company'])
@@ -133,7 +141,7 @@
                         passId: response.data.passId
                     }
                     this.disableBtn = false
-                    this.changeRouteQuery('pass', query)
+                    this.changeRouteQuery('loading', query)
                 })
                 .catch((e) => {
                     this.disableBtn = false
@@ -153,47 +161,6 @@
             resetForm() {
                 for (var field in this.formData) {
                     this.formData[field] = ""
-                }
-                for (var error in this.errors) {
-                    this.errors[error] = ""
-                }
-            },
-            checkFormData(name, regex, emptyErr, valueErr) {
-                if (!this.formData[name]) {
-                    this.errors[name] = emptyErr
-                }
-                else if (!regex.test(this.formData[name])) {
-                    this.errors[name] = valueErr
-                }
-                else {
-                    this.errors[name] = ""
-                }
-            },
-            checkFirstName() {
-                var regex = new RegExp("^[A-Za-z]{1,32}$")
-                var emptyErr = "Please input your first name"
-                var valueErr = "Accepted characters: A-Z, a-z"
-                this.checkFormData("name", regex, emptyErr, valueErr)
-            },
-            checkLastName(rule, value, callback) {
-                var regex = new RegExp("^[A-Za-z]{1,32}$")
-                var emptyErr = "Please input your last name"
-                var valueErr = "Accepted characters: A-Z, a-z"
-                this.checkFormData("surname", regex, emptyErr, valueErr)
-            },
-            checkVisiting(rule, value, callback) {
-                var regex = new RegExp("^[A-Za-z ]{1,32}$")
-                var emptyErr = "Please input who you are visiting"
-                var valueErr = "Accepted characters: A-Z, a-z and space"
-                this.checkFormData("visiting", regex, emptyErr, valueErr)
-            },
-            checkCompany(rule, value, callback) {
-                var regex = new RegExp("^[A-Za-z0-9 ]{1,32}$")
-                if (this.formData["company"] && !regex.test(this.formData["company"])) {
-                    this.errors["company"] = "Accepted characters: A-Z, a-z, 0-9 and space"
-                }
-                else {
-                    this.errors["company"] = ""
                 }
             }
         }
