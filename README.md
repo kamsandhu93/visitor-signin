@@ -2,11 +2,8 @@
 
 ## Prerequisites
 ### Common
- - A [Dropbox](https://www.dropbox.com) account
- - Created a dropbox app and generated a dropbox api token in [Dropbox Developer Console](https://www.dropbox.com/developers/apps)
- - A copy of sqlite database in either:
-   - `/opt/visitorsigin/database` or
-   - Dropbox app root folder - e.g. if your app is called VisitorSignin, the database file should be in `Dropbox/Apps/VisitorSignin`
+ - A copy of sqlite database in:
+   - `./production/database`
 
 ### Normal System
  - Install [Docker](https://docs.docker.com/install/)
@@ -39,7 +36,7 @@ Clone repo and ensure both build and run scripts are executable:
 
  To run containers:
  ```
- ./run.sh -t [DROPBOX_TOKEN] [OPTIONAL_COMMANDS]
+ ./run.sh [OPTIONAL_COMMANDS]
  <enter root password as docker needs to run as root>
  ```
 
@@ -89,21 +86,15 @@ The system is made up of five docker containers
 ### print
  - Hosts print service
 
-### backup
- - Hosts the backup and restore service
- - The database-api services send request to backup service after database is updated
-
-During deployment `run.sh` creates the following file structure on the host system:
+Production file structure on the host system:
 ```
-/opt/visitorsignin
+./production
 |
 └─── database
 |   └─── visitor_db.db
 └─── log
-|   |
-|   └─── database_api.log
-|   └─── backup_restore.log
-|   └─── print.log
-└─── offline_backup
+    |
+    └─── database_api.log
+    └─── print.log
 ```
 The database file `visitor_db.db` is persisted to all three containers.

@@ -39,15 +39,15 @@ API for managing visitor sign in and sign out
    - Returns first and last names to the request sender
 
 ### Database
-Database location is `/databaseapi/database`. This is persisted to `/opt/visitorsignin/database` of the host
+Database location is `/home/database`. This is persisted to `./production/database` of the repository on host
 
 ### Logging
-Log location is `/databaseapi/log`. This is persisted to `/opt/visitorsignin/log` of the host
+Log location is `/home/log`. This is persisted to `./production/log` of the repository host
 
 ### Configuration
 The flask application can be configured by setting environmental variables before running.
  - HOST - Host of flask application (default: 127.0.0.1)
  - PORT - Port of flask application (default: 5000)
- - LOG_PATH - Absolute path of log file (e.g. /databaseapi/log/database_api.log)
- - DB_PATH - Absolute path of database file (e.g. /databaseapi/database/visitor_db.db)
+ - LOG_PATH - Absolute path of log file (e.g. /home/log/database_api.log)
+ - DB_PATH - Absolute path of database file (e.g. /home/database/visitor_db.db)
  - REQUEST_HOST - Host IP of backup service (default: 127.0.0.1) - The host is automatically set by `start.sh` to the bridge IP when running in a container.
