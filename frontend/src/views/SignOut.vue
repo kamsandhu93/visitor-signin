@@ -85,7 +85,12 @@
                 })
                 .catch((e) => {
                     this.disableBtn = false
-                    this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
+                    if (e.response.status === 409) {
+                        this.notifyError(`PassID: ${this.formData['passId']} has already signed out`)
+                    }
+                    else {
+                        this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
+                    }
                 })
             },
             resetForm() {
