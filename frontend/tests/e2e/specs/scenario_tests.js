@@ -10,7 +10,8 @@ describe('Scenario Tests', () => {
         cy.route({
             method: 'POST',
             url: 'http://127.0.0.1:5002/print',
-            response: "OK"
+            response: "OK",
+            delay: 1000
         })
 
         cy.visit('/')
@@ -22,8 +23,8 @@ describe('Scenario Tests', () => {
         cy.formInput('#company').type('company')
         cy.clickButton('confirm-button')
         cy.clickButton('dialog-confirm-button')
-        cy.url().should('eq', `${Cypress.config().baseUrl}#/pass?name=firstname%20surname&company=company&passId=00045a`)
-        cy.wait(6000)
+        cy.url().should('eq', `${Cypress.config().baseUrl}#/loading?name=firstname%20surname&company=company&passId=00045a`)
+        cy.wait(1000)
         cy.url().should('eq', `${Cypress.config().baseUrl}#/transition?transitionType=signin&name=firstname%20surname`)
         cy.get('#name').contains('firstname surname sign in success')
         cy.get('#msg').contains('Please collect your visitor pass from reception')
@@ -43,7 +44,8 @@ describe('Scenario Tests', () => {
             method: 'POST',
             url: 'http://127.0.0.1:5002/print',
             response: "Internal Server Error",
-            status: 500
+            status: 500,
+            delay: 1000
         })
 
         cy.visit('/')
@@ -55,8 +57,8 @@ describe('Scenario Tests', () => {
         cy.formInput('#company').type('company')
         cy.clickButton('confirm-button')
         cy.clickButton('dialog-confirm-button')
-        cy.url().should('eq', `${Cypress.config().baseUrl}#/pass?name=firstname%20surname&company=company&passId=00045a`)
-        cy.wait(6000)
+        cy.url().should('eq', `${Cypress.config().baseUrl}#/loading?name=firstname%20surname&company=company&passId=00045a`)
+        cy.wait(1000)
         cy.url().should('eq', `${Cypress.config().baseUrl}#/printerror?passId=00045a`)
         cy.get('#passId').contains('Please note down your Pass ID: 00045a')
         cy.contains('Home').click()

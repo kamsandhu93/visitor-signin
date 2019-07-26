@@ -2,18 +2,7 @@
     <nhs-main>
         <nhs-row>
             <nhs-col>
-                <nhs-heading>Please read the health and safety information while your visitor pass prints</nhs-heading>
-            </nhs-col>
-        </nhs-row>
-        <nhs-row>
-            <nhs-col :span="33">
-                <pass-welcome></pass-welcome>
-            </nhs-col>
-            <nhs-col :span="33">
-                <pass-example :query="$route.query"></pass-example>
-            </nhs-col>
-            <nhs-col :span="33">
-                <pass-fire></pass-fire>
+                <nhs-heading>Please wait while your pass prints...</nhs-heading>
             </nhs-col>
         </nhs-row>
     </nhs-main>
@@ -51,9 +40,7 @@
             }
         },
         mounted() {
-            setTimeout(() => {
-                this.printPage()
-            }, 5000)
+            this.printPage()
         }
     }
 </script>
