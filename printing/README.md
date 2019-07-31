@@ -15,6 +15,12 @@ Print service of visitor signin system
  - [pycups](https://github.com/zdohnal/pycups)
  - [flask-cors](https://github.com/corydolphin/flask-cors)
 
+## CUPS Host setup
+ - Download and install Brother printer driver [here](https://support.brother.com/g/b/downloadtop.aspx?c=gb&lang=en&prod=lpql820nwbeuk)
+ - Go to `http://localhost:631` on and allow `Share printers connected to this system`
+ - User and password should be the same user and password as root
+ - If forbidden, then run `sudo usermod -a -G lpadmin <username>` to add the user to cups admin group
+
 ## Infrastructure
 The system is a flask application with a single POST endpoint `/print`.
 The endpoint should receive a body with the following data structure:
