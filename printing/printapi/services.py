@@ -31,7 +31,9 @@ def generate_html_pass(name, company, pass_id):
         generate_qr(pass_id)
 
     append_text("name", name, soup)
+    format_font_size("name", name, soup)
     append_text("company", company, soup)
+    format_font_size("company", company, soup)
     append_text("date", "Date: {}".format(date), soup)
     append_text("passId", "Pass ID: {}".format(pass_id), soup)
 
@@ -42,6 +44,13 @@ def generate_html_pass(name, company, pass_id):
                                                                                           company,
                                                                                           date,
                                                                                           pass_id))
+
+def format_font_size(identifier, text, soup):
+    if (len(text) > 10):
+        size = "12pt"
+    else:
+        size = "14pt"
+    element = soup.find(id=identifier)["style"] = "font-size: {};".format(size)
 
 
 def generate_qr(pass_id):
