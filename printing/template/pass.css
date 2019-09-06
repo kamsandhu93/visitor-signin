@@ -48,6 +48,7 @@ body {
 }
 
 #name {
+    padding-top: 10px;
     width: 100%;
     float: left;
     font-size: 30pt;
@@ -100,3 +101,10 @@ h3 {
     font-size: 12pt;
 }
 
+.font__big {
+    font-size: 20pt !important;
+}
+
+.font__small {
+    font-size: 16pt !important;
+}

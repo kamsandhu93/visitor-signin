@@ -47,10 +47,10 @@ def generate_html_pass(name, company, pass_id):
 
 def format_font_size(identifier, text, soup):
     if (len(text) > 10):
-        size = "12pt"
+        font_class = "font__small"
     else:
-        size = "14pt"
-    element = soup.find(id=identifier)["style"] = "font-size: {};".format(size)
+        font_class = "font__big"
+    element = soup.find(id=identifier)["class"] = font_class
 
 
 def generate_qr(pass_id):
