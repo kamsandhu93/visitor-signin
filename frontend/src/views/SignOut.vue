@@ -16,7 +16,7 @@
                     id="passId" name="passId" :maxlength="6"
                     label="Pass ID" :rules="rules['passId']"
                     v-model.trim="formData['passId']"
-                    ref="passId"
+                    ref="passId" @keydown.enter.native="submitForm()"
                 ></form-item>
 
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()" :disabled="disableBtn"></form-button>
@@ -49,7 +49,7 @@
                 },
                 rules: {
                     passId: [
-                        (v) => !!v.match(/^[0-9]{5}[a-z]$/) || 'Pass ID has format: 00000a',
+                        (v) => this.validatePassId(v) || 'Pass ID has format: 00000a',
                         (v) => !!v || 'Please input Pass ID'
                     ]
                 },
@@ -67,7 +67,7 @@
                 this.submitForm()
             },
             submitForm() {
-                if (!this.$refs.passId.validate()) {
+                if (this.$refs.passId.validate()) {
                     this.sendSignoutRequest()
                 }
             },
@@ -97,7 +97,18 @@
                 for (var field in this.formData) {
                     this.formData[field] = ""
                 }
+            },
+            validatePassId(passId) {
+                if (passId.length < 6) {
+                    return !!passId.match(/^[0-9a-z]+$/i)
+                }
+                else {
+                    return !!passId.match(/^[0-9]{5}[a-z]$/)
+                }
             }
+        },
+        mounted() {
+            this.$refs.passId.focus()
         }
     }
 </script>

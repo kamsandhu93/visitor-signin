@@ -28,7 +28,9 @@
         mixins: [FailureTracker, RouteHelper],
         mounted() {
             setTimeout(() => {
-                this.changeRoute('home')
+                if (this.$route.name === 'transition') {
+                    this.changeRoute('home')
+                }
             }, 5000)
         }
     }

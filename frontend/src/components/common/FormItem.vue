@@ -3,6 +3,7 @@
         v-model="body" :label="label" :name="name"
         :id="id" :maxlength="maxlength"
         :rules="rules" ref="input"
+        v-bind="$attrs"
     >
     </nhs-input>
 </template>
@@ -26,6 +27,9 @@
         methods: {
             validate() {
                 return this.$refs.input.validate()
+            },
+            focus() {
+                this.$refs.input.focus()
             }
         }
     }

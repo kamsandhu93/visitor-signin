@@ -10,26 +10,26 @@
                 <form-item
                     label="First Name" :rules="rules['name']"
                     v-model.trim="formData['name']" id="name" name="name" :maxlength="32"
-                    ref="name"
+                    ref="name" @keydown.enter.native="switchFocus('surname')"
                 ></form-item>
 
                 <form-item
                     label="Surname" :rules="rules['surname']"
                     v-model.trim="formData['surname']" id="surname" name="surname" :maxlength="32"
-                    ref="surname"
+                    ref="surname" @keydown.enter.native="switchFocus('visiting')"
                 ></form-item>
 
                 <form-item
                     label="Visiting" :rules="rules['visiting']"
                     v-model.trim="formData['visiting']" id="visiting" name="visiting" :maxlength="32"
-                    ref="visiting"
+                    ref="visiting" @keydown.enter.native="switchFocus('company')"
                 ></form-item>
 
 
                 <form-item
                     label="Company" :rules="rules['company']"
                     v-model.trim="formData['company']" id="company" name="company" :maxlength="32"
-                    ref="company"
+                    ref="company" @keydown.enter.native="submitForm()"
                 ></form-item>
 
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()"></form-button>
@@ -124,7 +124,7 @@
             isFormValid() {
                 var valid = true
                 for (var key in this.$refs) {
-                    if (this.$refs[key].validate()) {
+                    if (!this.$refs[key].validate()) {
                         valid = false
                     }
                 }
@@ -162,7 +162,13 @@
                 for (var field in this.formData) {
                     this.formData[field] = ""
                 }
+            },
+            switchFocus(element) {
+                this.$refs[element].focus()
             }
+        },
+        mounted() {
+            this.$refs.name.focus()
         }
     }
 </script>
