@@ -1,5 +1,5 @@
 <template>
-    <nhs-main>
+    <nhs-main class="main-container">
         <nhs-row>
             <nhs-col>
                 <nhs-heading size="l">Sign In</nhs-heading>
@@ -147,7 +147,7 @@
 </script>
 
 <style scoped>
-    .confirmDialog {
-        width: 50vw;
+    .main-container {
+        height: calc(100vh - 172px);
     }
 </style>
