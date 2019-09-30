@@ -1,5 +1,21 @@
 describe('Form Tests', () => {
     //Signin tests
+
+    it('Test form input enter key behaviour sign in', () => {
+        cy.visit('/#/signin')
+        cy.formInput('#name').type('firstname{enter}')
+        cy.focused().should('have.attr', 'id', 'surname')
+        cy.formInput('#surname').type('surname{enter}')
+        cy.focused().should('have.attr', 'id', 'visiting')
+        cy.formInput('#visiting').type('visiting{enter}')
+        cy.focused().should('have.attr', 'id', 'company')
+        cy.formInput('#company').type('company{enter}')
+        cy.get('#confirmName').contains('Name: firstname surname')
+        cy.get('#confirmVisiting').contains('Visiting: visiting')
+        cy.get('#confirmCompany').contains('Company: company')
+    })
+
+
     it('Test empty fields error message sign in', () => {
         cy.visit('/#/signin')
         cy.clickButton('confirm-button')
@@ -139,6 +155,13 @@ describe('Form Tests', () => {
     })
 
     //SignOut tests
+    it('Test form input enter key behaviour sign out', () => {
+        cy.visit('/#/signout')
+        cy.formInput('#passId').type('firstname{enter}')
+        cy.formError('#passId').contains('Pass ID has format: 00000a')
+    })
+
+
     it('Test empty fields error message sign out', () => {
         cy.visit('/#/signout')
         cy.clickButton('confirm-button')

@@ -89,25 +89,25 @@
         data() {
             return {
                 formData: {
-                    name: "",
-                    surname: "",
-                    visiting: "",
-                    company: ""
+                    name: '',
+                    surname: '',
+                    visiting: '',
+                    company: ''
                 },
                 confirmDialog: false,
                 disableBtn: false,
                 rules: {
                     name: [
-                        (v) => !!v.match(/^[A-Za-z]{1,32}$/) || 'Accepted characters: A-Z, a-z',
-                        (v) => !!v || 'Please input your first name'
+                        (v) => !!v || 'Please input your first name',
+                        (v) => !!v.match(/^[A-Za-z]{1,32}$/) || 'Accepted characters: A-Z, a-z'
                     ],
                     surname: [
-                        (v) => !!v.match(/^[A-Za-z]{1,32}$/) || 'Accepted characters: A-Z, a-z',
-                        (v) => !!v || 'Please input your last name'
+                        (v) => !!v || 'Please input your last name',
+                        (v) => !!v.match(/^[A-Za-z]{1,32}$/) || 'Accepted characters: A-Z, a-z'
                     ],
                     visiting: [
-                        (v) => !!v.match(/^[A-Za-z ]{1,32}$/) || 'Accepted characters: A-Z, a-z and space',
-                        (v) => !!v || 'Please input who you are visiting'
+                        (v) => !!v || 'Please input who you are visiting',
+                        (v) => !!v.match(/^[A-Za-z ]{1,32}$/) || 'Accepted characters: A-Z, a-z and space'
                     ],
                     company: [
                         (v) => !!v.match(/^[A-Za-z0-9 ]{0,32}$/) || 'Accepted characters: A-Z, a-z, 0-9 and space'
@@ -156,11 +156,11 @@
                 }
             },
             getFullName() {
-                return `${this.formData["name"]} ${this.formData["surname"]}`
+                return `${this.formData['name']} ${this.formData['surname']}`
             },
             resetForm() {
-                for (var field in this.formData) {
-                    this.formData[field] = ""
+                for (var key in this.$refs) {
+                    this.$refs[key].reset()
                 }
             },
             switchFocus(element) {

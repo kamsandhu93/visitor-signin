@@ -10,7 +10,7 @@
 
 <script>
     export default {
-        props: ["label", "value", "id", "name", "maxlength", "rules"],
+        props: ['label', 'value', 'id', 'name', "maxlength", "rules"],
         data() {
             return {
                 body: this.value
@@ -18,7 +18,7 @@
         },
         watch: {
             body(val) {
-                this.$emit("input", val)
+                this.$emit('input', val)
             },
             value(val) {
                 this.body = val
@@ -30,6 +30,10 @@
             },
             focus() {
                 this.$refs.input.focus()
+            },
+            reset() {
+                this.body = ''
+                this.$refs.input.resetError()
             }
         }
     }

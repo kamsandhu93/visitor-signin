@@ -45,12 +45,12 @@
         data () {
             return {
                 formData: {
-                    passId: ""
+                    passId: ''
                 },
                 rules: {
                     passId: [
-                        (v) => this.validatePassId(v) || 'Pass ID has format: 00000a',
-                        (v) => !!v || 'Please input Pass ID'
+                        (v) => !!v || 'Please input Pass ID',
+                        (v) => this.validatePassId(v) || 'Pass ID has format: 00000a'
                     ]
                 },
                 qrVideoOptions: {
@@ -62,7 +62,7 @@
         },
         methods: {
             submitQR(decodedQr) {
-                this.formData["passId"] = decodedQr
+                this.formData['passId'] = decodedQr
                 this.readerPaused = true
                 this.submitForm()
             },
@@ -89,13 +89,13 @@
                         this.notifyError(`PassID: ${this.formData['passId']} has already signed out`)
                     }
                     else {
-                        this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
+                        this.notifyError('An error occured when signing out - please try again. If problem persists, please inform the receptionist.')
                     }
                 })
             },
             resetForm() {
-                for (var field in this.formData) {
-                    this.formData[field] = ""
+                for (var key in this.$refs) {
+                    this.$refs[key].reset()
                 }
             },
             validatePassId(passId) {
