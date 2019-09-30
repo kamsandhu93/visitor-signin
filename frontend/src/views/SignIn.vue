@@ -10,26 +10,26 @@
                 <form-item
                     label="First Name" :rules="rules['name']"
                     v-model.trim="formData['name']" id="name" name="name" :maxlength="32"
-                    ref="name" @keydown.enter.native="switchFocus('surname')"
+                    ref="name" @keydown:enter="switchFocus('surname')"
                 ></form-item>
 
                 <form-item
                     label="Surname" :rules="rules['surname']"
                     v-model.trim="formData['surname']" id="surname" name="surname" :maxlength="32"
-                    ref="surname" @keydown.enter.native="switchFocus('visiting')"
+                    ref="surname" @keydown:enter="switchFocus('visiting')"
                 ></form-item>
 
                 <form-item
                     label="Visiting" :rules="rules['visiting']"
                     v-model.trim="formData['visiting']" id="visiting" name="visiting" :maxlength="32"
-                    ref="visiting" @keydown.enter.native="switchFocus('company')"
+                    ref="visiting" @keydown:enter="switchFocus('company')"
                 ></form-item>
 
 
                 <form-item
                     label="Company" :rules="rules['company']"
                     v-model.trim="formData['company']" id="company" name="company" :maxlength="32"
-                    ref="company" @keydown.enter.native="submitForm()"
+                    ref="company" @keydown:enter="submitForm()"
                 ></form-item>
 
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()"></form-button>

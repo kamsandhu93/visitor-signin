@@ -3,7 +3,7 @@
         v-model="body" :label="label" :name="name"
         :id="id" :maxlength="maxlength"
         :rules="rules" ref="input"
-        v-bind="$attrs"
+        v-bind="$attrs" @keydown:enter="$emit('keydown:enter')"
     >
     </nhs-input>
 </template>

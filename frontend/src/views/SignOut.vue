@@ -16,7 +16,7 @@
                     id="passId" name="passId" :maxlength="6"
                     label="Pass ID" :rules="rules['passId']"
                     v-model.trim="formData['passId']"
-                    ref="passId" @keydown.enter.native="submitForm()"
+                    ref="passId" @keydown:enter="submitForm()"
                 ></form-item>
 
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()" :disabled="disableBtn"></form-button>
@@ -100,7 +100,7 @@
             },
             validatePassId(passId) {
                 if (passId.length < 6) {
-                    return !!passId.match(/^[0-9a-z]+$/i)
+                    return !!passId.match(/^[0-9]+$/)
                 }
                 else {
                     return !!passId.match(/^[0-9]{5}[a-z]$/)
