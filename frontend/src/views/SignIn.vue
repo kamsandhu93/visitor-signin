@@ -2,7 +2,7 @@
     <nhs-main>
         <nhs-row>
             <nhs-col>
-                <nhs-heading size="xl">Sign In</nhs-heading>
+                <nhs-heading size="l">Sign In</nhs-heading>
             </nhs-col>
         </nhs-row>
         <nhs-row>
@@ -35,40 +35,11 @@
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()"></form-button>
             </nhs-col>
         </nhs-row>
-        <div class="modal" v-show="confirmDialog">
-            <nhs-care-card heading="Confirm Details"  class="confirmDialog">
-                <nhs-row>
-                    <nhs-col>
-                        <p id="confirmName">Name: {{formData['name']}} {{formData['surname']}}</p>
-                    </nhs-col>
-                </nhs-row>
-
-                <nhs-row>
-                    <nhs-col>
-                        <p id="confirmCompany">Company: {{formData['company']}}</p>
-                    </nhs-col>
-                </nhs-row>
-
-                <nhs-row>
-                    <nhs-col>
-                        <p id="confirmVisiting">Visiting: {{formData['visiting']}}</p>
-                    </nhs-col>
-                </nhs-row>
-
-                <nhs-row>
-                    <nhs-col :span="50">
-                        <nhs-button name="dialog-confirm-button" :disabled="disableBtn" @click="sendSigninRequest()">
-                            Confirm
-                        </nhs-button>
-                    </nhs-col>
-                    <nhs-col :span="50">
-                        <nhs-button color="secondary" name="dialog-cancel-button" :disabled="disableBtn" @click="confirmDialog = false">
-                            Cancel
-                        </nhs-button>
-                    </nhs-col>
-                </nhs-row>
-            </nhs-care-card>
-        </div>
+        <confirm-dialog
+            v-show="confirmDialog" v-model="formData"
+            @close-dialog="confirmDialog = false"
+            @confirm-details="sendSigninRequest()"
+        ></confirm-dialog>
     </nhs-main>
 </template>
 
@@ -79,11 +50,13 @@
     import RouteHelper from '@/mixins/route-helper.js'
     import NotificationHelper from '@/mixins/notification-helper.js'
     import FailureTracker from '@/mixins/failure-tracker.js'
+    import ConfirmDialog from '@/components/signin/ConfirmDialog.vue'
 
     export default {
         components: {
             FormItem,
-            FormButton
+            FormButton,
+            ConfirmDialog
         },
         mixins: [RouteHelper, NotificationHelper, FailureTracker],
         data() {
@@ -174,20 +147,6 @@
 </script>
 
 <style scoped>
-    .modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        width: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        margin: 0;
-        padding: 0;
-        padding-left: 25%;
-        padding-top: 100px;
-        z-index: 10;
-    }
-
     .confirmDialog {
         width: 50vw;
     }

@@ -1,8 +1,8 @@
 <template>
-    <nhs-main>
+    <nhs-main class="main-container">
         <nhs-row>
             <nhs-col>
-                <nhs-heading size="xl">Sign Out</nhs-heading>
+                <nhs-heading size="l">Sign Out</nhs-heading>
             </nhs-col>
         </nhs-row>
         <nhs-row v-if="qron">
@@ -116,5 +116,9 @@
 <style scoped>
     .qrContainer {
         text-align: center;
+    }
+
+    .main-container {
+        height: calc(100vh - 172px);
     }
 </style>
