@@ -117,8 +117,4 @@
     .qrContainer {
         text-align: center;
     }
-
-    .main-container {
-        height: calc(100vh - 172px);
-    }
 </style>

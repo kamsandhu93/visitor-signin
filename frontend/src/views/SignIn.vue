@@ -145,9 +145,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .main-container {
-        height: calc(100vh - 172px);
-    }
-</style>

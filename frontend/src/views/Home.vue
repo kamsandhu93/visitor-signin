@@ -26,10 +26,6 @@
 </script>
 
 <style scoped>
-    .main-container {
-        height: calc(100vh - 172px);
-    }
-
     .home-btn {
         height: 250px;
         width: 100%;
