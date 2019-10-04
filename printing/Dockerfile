@@ -19,14 +19,14 @@ RUN apt-get -qq update \
  iproute2 \
  fonts-liberation \
  libffi-dev \
+ libcairo2 \
+ libpango-1.0-0 \
+ libpangocairo-1.0-0 \
+ libgdk-pixbuf2.0-0 \
+ shared-mime-info \
  #install python packages
  && pip3 install -qr $WORK_DIR/requirements.txt \
- #remove build dependencies and purge cache
- && apt-get -qq purge -y --auto-remove \
- gcc \
- libcups2-dev \
- python3-dev \
- libffi-dev \
+ # purge cache
  && rm -rf /var/lib/apt/lists/* \
  #make working directories
  && mkdir /home/log \
