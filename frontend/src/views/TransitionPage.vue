@@ -1,5 +1,5 @@
 <template>
-    <nhs-main>
+    <nhs-main class="main-container">
         <nhs-row v-if="$route.query.transitionType == 'signout'">
             <nhs-col>
                 <nhs-heading id="name" size="xl">{{ $route.query.name }} sign out success</nhs-heading>
@@ -28,7 +28,9 @@
         mixins: [FailureTracker, RouteHelper],
         mounted() {
             setTimeout(() => {
-                this.changeRoute('home')
+                if (this.$route.name === 'transition') {
+                    this.changeRoute('home')
+                }
             }, 5000)
         }
     }

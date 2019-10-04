@@ -1,5 +1,5 @@
 <template>
-    <nhs-main>
+    <nhs-main class="main-container">
         <nhs-row>
             <nhs-col>
                 <nhs-heading>Please wait while your pass prints...</nhs-heading>

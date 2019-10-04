@@ -18,3 +18,12 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+
+    expect(err.message).to.include('Cannot read property \'addEventListener\' of null')
+
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+})

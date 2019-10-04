@@ -8,12 +8,12 @@ describe('Routing Tests', () => {
 
     it('Check /signin is set to SignIn page', () => {
         cy.visit('/#/signin')
-        cy.contains('h1', 'Sign In')
+        cy.contains('h2', 'Sign In')
     })
 
     it('Check /signout is set to SignOut page', () => {
         cy.visit('/#/signout')
-        cy.contains('h1', 'Sign Out')
+        cy.contains('h2', 'Sign Out')
     })
 
     it('Check navigation buttons on three main pages', () => {
@@ -21,13 +21,13 @@ describe('Routing Tests', () => {
         cy.contains('h1', 'Visitor Registration')
         cy.url().should('eq', `${Cypress.config().baseUrl}#/`)
         cy.clickButton('signin-button')
-        cy.contains('h1', 'Sign In')
+        cy.contains('h2', 'Sign In')
         cy.url().should('eq', `${Cypress.config().baseUrl}#/signin`)
         cy.clickButton('cancel-button')
         cy.contains('h1', 'Visitor Registration')
         cy.url().should('eq', `${Cypress.config().baseUrl}#/`)
         cy.clickButton('signout-button')
-        cy.contains('h1', 'Sign Out')
+        cy.contains('h2', 'Sign Out')
         cy.url().should('eq', `${Cypress.config().baseUrl}#/signout`)
         cy.clickButton('cancel-button')
         cy.contains('h1', 'Visitor Registration')

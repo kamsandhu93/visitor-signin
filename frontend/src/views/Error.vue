@@ -1,5 +1,5 @@
 <template>
-    <nhs-main>
+    <nhs-main class="main-container">
         <nhs-row>
             <nhs-col>
                 <nhs-heading size="xl">The Service is currently unavailable</nhs-heading>

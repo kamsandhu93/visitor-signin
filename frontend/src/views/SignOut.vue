@@ -1,8 +1,8 @@
 <template>
-    <nhs-main>
+    <nhs-main class="main-container">
         <nhs-row>
             <nhs-col>
-                <nhs-heading size="xl">Sign Out</nhs-heading>
+                <nhs-heading size="l">Sign Out</nhs-heading>
             </nhs-col>
         </nhs-row>
         <nhs-row v-if="qron">
@@ -16,7 +16,7 @@
                     id="passId" name="passId" :maxlength="6"
                     label="Pass ID" :rules="rules['passId']"
                     v-model.trim="formData['passId']"
-                    ref="passId"
+                    ref="passId" @keydown:enter="submitForm()"
                 ></form-item>
 
                 <form-button @submitForm="submitForm()" @resetForm="resetForm()" :disabled="disableBtn"></form-button>
@@ -45,12 +45,12 @@
         data () {
             return {
                 formData: {
-                    passId: ""
+                    passId: ''
                 },
                 rules: {
                     passId: [
-                        (v) => !!v.match(/^[0-9]{5}[a-z]$/) || 'Pass ID has format: 00000a',
-                        (v) => !!v || 'Please input Pass ID'
+                        (v) => !!v || 'Please input Pass ID',
+                        (v) => this.validatePassId(v) || 'Pass ID has format: 00000a'
                     ]
                 },
                 qrVideoOptions: {
@@ -62,12 +62,12 @@
         },
         methods: {
             submitQR(decodedQr) {
-                this.formData["passId"] = decodedQr
+                this.formData['passId'] = decodedQr
                 this.readerPaused = true
                 this.submitForm()
             },
             submitForm() {
-                if (!this.$refs.passId.validate()) {
+                if (this.$refs.passId.validate()) {
                     this.sendSignoutRequest()
                 }
             },
@@ -89,15 +89,26 @@
                         this.notifyError(`PassID: ${this.formData['passId']} has already signed out`)
                     }
                     else {
-                        this.notifyError("An error occured when signing out - please try again. If problem persists, please inform the receptionist.")
+                        this.notifyError('An error occured when signing out - please try again. If problem persists, please inform the receptionist.')
                     }
                 })
             },
             resetForm() {
-                for (var field in this.formData) {
-                    this.formData[field] = ""
+                for (var key in this.$refs) {
+                    this.$refs[key].reset()
+                }
+            },
+            validatePassId(passId) {
+                if (passId.length < 6) {
+                    return !!passId.match(/^[0-9]+$/)
+                }
+                else {
+                    return !!passId.match(/^[0-9]{5}[a-z]$/)
                 }
             }
+        },
+        mounted() {
+            this.$refs.passId.focus()
         }
     }
 </script>

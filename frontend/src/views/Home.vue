@@ -1,5 +1,5 @@
 <template>
-    <nhs-main>
+    <nhs-main class="main-container">
         <nhs-row>
             <nhs-col>
                 <nhs-heading size="xl">Visitor Registration</nhs-heading>
@@ -7,10 +7,10 @@
         </nhs-row>
         <nhs-row>
             <nhs-col :span="50">
-                <nhs-button @click="changeRoute('signin')" name="signin-button"><b>Sign In</b></nhs-button>
+                <nhs-button @click="changeRoute('signin')" name="signin-button" class="home-btn"><b>Sign In</b></nhs-button>
             </nhs-col>
             <nhs-col :span="50">
-                <nhs-button color="secondary" @click="changeRoute('signout')" name="signout-button"><b>Sign Out</b></nhs-button>
+                <nhs-button color="secondary" @click="changeRoute('signout')" name="signout-button" class="home-btn"><b>Sign Out</b></nhs-button>
             </nhs-col>
         </nhs-row>
     </nhs-main>
@@ -24,3 +24,11 @@
         mixins: [RouteHelper, FailureTracker]
     }
 </script>
+
+<style scoped>
+    .home-btn {
+        height: 250px;
+        width: 100%;
+        font-size: 40pt;
+    }
+</style>

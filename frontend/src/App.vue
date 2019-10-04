@@ -44,4 +44,8 @@
     .notification.notification-title{
         font-size: 14pt;
     }
+
+    .main-container {
+        min-height: calc(100vh - 172px);
+    }
 </style>

@@ -1,42 +1,15 @@
 <template>
-    <el-row type="flex" justify="center" :gutter="20" class="row">
-        <el-col :span="5" class="label">
-            <b>{{ label }}</b>
-        </el-col>
-        <el-col :span="11" class="body">
-            {{ text }}
-        </el-col>
-    </el-row>
+    <nhs-row>
+        <nhs-col>
+            <p :id="id">
+                <slot></slot>
+            </p>
+        </nhs-col>
+    </nhs-row>
 </template>
 
 <script>
     export default {
-        props: ["label", "body"],
-        data() {
-            return {
-                text: this.body
-            }
-        },
-        watch: {
-            body(val) {
-                this.text = val
-            }
-        }
+        props: [ 'id' ]
     }
 </script>
-
-<style scoped>
-    .label {
-        text-align: right;
-        font-size: 16pt;
-    }
-
-    .body {
-        text-align: left;
-        font-size: 16pt;
-    }
-
-    .row {
-        margin: 15px;
-    }
-</style>
