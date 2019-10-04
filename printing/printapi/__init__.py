@@ -1,27 +1,14 @@
-import logging
 from flask import Flask
 from flask_cors import CORS
-from flask.logging import default_handler
-from logging.handlers import RotatingFileHandler
+
+from shared.logger import init_logging
+from shared.exception_handlers import register_generic_excpetion_handler, register_validation_exception_handler
 
 app = Flask(__name__)
 CORS(app)
 app.config.from_pyfile("config.cfg")
+
+init_logging(app, 'Print Service')
 from printapi.handlers import status_handler, print_handler
-
-app.logger.removeHandler(default_handler)
-
-log_path = app.config["LOG_PATH"]
-log_format = "%(asctime)s | Print Service | %(levelname)s | %(message)s"
-formatter = logging.Formatter(log_format)
-
-
-file_handler = RotatingFileHandler(log_path, maxBytes=5242880, backupCount=5)
-file_handler.setFormatter(formatter)
-app.logger.addHandler(file_handler)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-app.logger.addHandler(console_handler)
-
-app.logger.setLevel(logging.DEBUG)
+register_generic_excpetion_handler(app)
+register_validation_exception_handler(app)

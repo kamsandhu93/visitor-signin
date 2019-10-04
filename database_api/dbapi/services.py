@@ -1,6 +1,4 @@
-import requests
-
-from dbapi import app, data_access, exceptions
+from dbapi import data_access
 
 
 def login(request_body):
@@ -20,7 +18,7 @@ def logout(request_body):
     pass_id = request_body["passId"]
     time_out = data_access.get_logout_time(pass_id)
     if time_out[0] is not None:
-        raise exceptions.AlreadyLoggedOutException
+        raise AlreadyLoggedOutException
 
     data_access.log_visitor_out(pass_id)
     full_name = data_access.get_visitor_full_name(pass_id)
@@ -44,3 +42,7 @@ def generate_pass_id():
     data_access.update_last_pass_id(pass_id)
 
     return pass_id
+
+
+class AlreadyLoggedOutException(Exception):
+    pass

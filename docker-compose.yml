@@ -3,7 +3,8 @@ services:
     database-api:
         restart: unless-stopped
         build:
-            context: ./database_api/
+            context: .
+            dockerfile: ./database_api/Dockerfile
         environment:
             - HOST=0.0.0.0
             - PORT=5000
@@ -13,7 +14,6 @@ services:
         volumes:
             - ./production/database:/home/database
             - ./production/log:/home/log
-            - ./database_api:/home/databaseapi
     database-admin:
         restart: unless-stopped
         build:
@@ -29,7 +29,8 @@ services:
     print:
         restart: unless-stopped
         build:
-            context: './printing'
+            context: .
+            dockerfile: ./printing/Dockerfile
         environment:
             - HOST=0.0.0.0
             - PORT=5002
@@ -37,7 +38,6 @@ services:
             - 5002:5002
         volumes:
             - ./production/log:/home/log
-            - ./printing:/home/printservice
     frontend:
         restart: unless-stopped
         build:

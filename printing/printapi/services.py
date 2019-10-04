@@ -2,12 +2,11 @@ from weasyprint import HTML
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-import subprocess
 import qrcode
 import cups
 import time
 
-from printapi import app, exceptions
+from printapi import app
 
 
 def print_pass(pass_data):
@@ -68,4 +67,8 @@ def send_job_to_printer():
         time.sleep(0.5)
         counter += 1
         if counter >= 20:
-            raise exceptions.UnableToPrintException("Print failed for user name={0} printid with passId={1}".format(name, pass_id))
+            raise UnableToPrintException("Print failed for user name={0} printid with passId={1}".format(name, pass_id))
+
+
+class UnableToPrintException(Exception):
+    pass
